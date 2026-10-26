@@ -26,6 +26,9 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: false
+marked:
+  # Preserve LaTeX groups such as {{a_i}} instead of treating them as templates.
+  disableNunjucks: true
 highlight:
   enable: true
   line_number: false

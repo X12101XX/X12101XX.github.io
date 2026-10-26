@@ -14,7 +14,7 @@
 
 ## 本地使用
 
-需要 Node.js 22 或更高的受支持版本。
+需要 Node.js 22.12 或更高的受支持版本。
 
 ```sh
 npm ci
@@ -56,6 +56,35 @@ tags:
 - 文件名最好用英文短横线，例如 `how-i-read-a-codebase.md`，这样文章地址更干净。
 
 正文第一段会作为导语；在摘要之后加一行 `<!-- more -->`，列表页就会在这里截断。
+
+### LaTeX 公式与 Lean 4
+
+公式使用 KaTeX 在构建时渲染，无需额外 front matter。支持行内 `$...$` 和独立成行的 `$$...$$`，也可以紧邻中文：
+
+```markdown
+对于$n \in \mathbb{N}$，有$n + 0 = n$。
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
+```
+
+代码围栏标注 `lean4` 或 `lean` 即可启用 Lean 4 高亮：
+
+````markdown
+```lean4
+def zeros (n : Nat) : Vector Int n := Vector.replicate n 0
+
+theorem add_zero (n : Nat) : n + 0 = n := by
+  simp
+```
+````
+
+行内代码、代码块里的 `$` 不会被解析为公式；普通正文中的美元符号可以写成 `\$`。支持的公式命令见 [KaTeX 文档](https://katex.org/docs/supported)。公式样式和字体由站点本地提供，不依赖 CDN。
+
+执行 `npm test` 可检查公式渲染、代码保护、Lean 4 高亮和公式资源。
+
+为保留公式中的连续花括号，Markdown 默认关闭 Nunjucks 模板解析；如果某篇文章需要 Hexo 的 `{% ... %}` 标签插件，可以在该文章的 front matter 设置 `disableNunjucks: false`。
 
 ### 修改、删除
 

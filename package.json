@@ -5,7 +5,8 @@
   "scripts": {
     "build": "hexo clean && hexo generate",
     "server": "hexo server",
-    "clean": "hexo clean"
+    "clean": "hexo clean",
+    "test": "node --test test/*.test.cjs"
   },
   "keywords": [],
   "author": "X12101XX",
@@ -23,11 +24,15 @@
     "hexo-renderer-marked": "7.0.1",
     "hexo-renderer-pug": "3.0.0",
     "hexo-renderer-stylus": "3.0.1",
-    "hexo-server": "3.0.0"
+    "hexo-server": "3.0.0",
+    "highlight.js": "11.12.0",
+    "highlightjs-lean4": "0.3.2",
+    "katex": "0.18.10",
+    "marked-katex-extension": "5.1.13"
   },
   "private": true,
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.12.0"
   },
   "hexo": {
     "version": "8.1.2"

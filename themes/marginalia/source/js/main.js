@@ -350,6 +350,8 @@
     json: 'JSON',
     md: 'Markdown',
     markdown: 'Markdown',
+    lean: 'Lean 4',
+    lean4: 'Lean 4',
     py: 'Python',
     python: 'Python',
     rs: 'Rust',
@@ -362,7 +364,7 @@
     plain: 'Text'
   };
 
-  doc.querySelectorAll('.post-content figure.highlight').forEach((figure) => {
+  doc.querySelectorAll('.post-content figure.highlight, .markdown-body figure.highlight').forEach((figure) => {
     const code = figure.querySelector('td.code pre') || figure.querySelector('pre');
     if (!code) return;
     const languageClass = Array.from(figure.classList).find((name) => !['highlight', 'plain'].includes(name));
