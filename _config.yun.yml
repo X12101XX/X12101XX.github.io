@@ -43,3 +43,6 @@ creative_commons:
   post: false
 footer:
   since: 2026
+# 点击烟花使用 anime.js 3 的 API，固定兼容版本。
+vendors:
+  anime: animejs@3.2.2/lib/anime.min.js
