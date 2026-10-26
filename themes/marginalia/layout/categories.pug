@@ -6,7 +6,6 @@ block content
     .shell
       header.page-head
         p.eyebrow
-          +icon('spark', 11)
           span Categories
           span.eyebrow-cn 分类
         h1.page-title
@@ -35,8 +34,6 @@ block content
               span Open category
               +icon('arrow-right', 14)
         a.category-card.category-card--index(href=url_for('/archives/'))
-          span.category-card-mark
-            +icon('spark', 22)
           h2.category-card-title The full index
           p Every note, in the order it was written.
           span.category-card-link
@@ -44,6 +41,5 @@ block content
             +icon('arrow-right', 14)
       if !categories.length
         .empty-state
-          p.empty-state-mark ✳
           h2 Nothing filed yet.
           p Categories will appear as notes accumulate.

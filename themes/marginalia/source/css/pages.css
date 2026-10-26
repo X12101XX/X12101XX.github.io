@@ -58,7 +58,7 @@
 }
 
 .archive-item:hover .archive-item-title {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .archive-item-read {
@@ -80,7 +80,7 @@
 }
 
 .archive-item:hover .archive-item-arrow {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .archive-item:hover .archive-item-arrow svg {
@@ -113,7 +113,7 @@
 }
 
 .category-card:hover {
-  border-color: rgba(217, 119, 87, 0.45);
+  border-color: rgba(155, 127, 199, 0.45);
   transform: translateY(-2px);
   box-shadow: var(--shadow-soft);
 }
@@ -142,7 +142,7 @@
 }
 
 .category-card-title a:hover {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .category-card-count {
@@ -178,7 +178,7 @@
 }
 
 .category-card-list a:hover {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .category-card-list time {
@@ -201,7 +201,7 @@
   align-items: center;
   gap: 6px;
   margin-top: 20px;
-  color: var(--clay);
+  color: var(--accent);
   font-family: var(--mono);
   font-size: 8.5px;
   letter-spacing: 0.12em;
@@ -226,11 +226,6 @@
   background: var(--paper-2);
   transform: none;
   box-shadow: none;
-}
-
-.category-card-mark {
-  margin-bottom: 18px;
-  color: var(--clay);
 }
 
 .category-card--index .category-card-title {
@@ -276,8 +271,8 @@
 }
 
 .tag-pill:hover {
-  color: var(--clay);
-  border-color: rgba(217, 119, 87, 0.45);
+  color: var(--accent);
+  border-color: rgba(155, 127, 199, 0.45);
   background: var(--paper-2);
   transform: translateY(-2px);
 }
@@ -338,7 +333,7 @@
 .about-content.markdown-body > p:first-of-type::first-letter {
   float: left;
   padding: 0.06em 0.1em 0 0;
-  color: var(--clay);
+  color: var(--accent);
   font-size: 3em;
   line-height: 0.82;
 }
@@ -346,7 +341,7 @@
 .about-quote {
   margin: 46px 0 0;
   padding: 22px 26px;
-  border-left: 2px solid var(--clay);
+  border-left: 2px solid var(--accent);
   border-radius: 0 var(--radius) var(--radius) 0;
   background: var(--paper-2);
 }
@@ -410,7 +405,7 @@
 
 .about-role {
   margin: 3px 0 0;
-  color: var(--clay);
+  color: var(--accent);
   font-family: var(--mono);
   font-size: 8.5px;
   letter-spacing: 0.12em;
@@ -453,7 +448,7 @@ a.about-fact-value {
 }
 
 a.about-fact-value:hover {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .about-card-link {
@@ -461,7 +456,7 @@ a.about-fact-value:hover {
   align-items: center;
   gap: 7px;
   margin-top: 20px;
-  color: var(--clay);
+  color: var(--accent);
   font-family: var(--mono);
   font-size: 8.5px;
   letter-spacing: 0.12em;
@@ -478,7 +473,7 @@ a.about-fact-value:hover {
 
 .about-card-kicker {
   margin: 0 0 8px;
-  color: var(--clay);
+  color: var(--accent);
   font-family: var(--mono);
   font-size: 8px;
   letter-spacing: 0.14em;
@@ -520,7 +515,7 @@ a.about-fact-value:hover {
 }
 
 .friend-card:hover {
-  border-color: rgba(217, 119, 87, 0.45);
+  border-color: rgba(155, 127, 199, 0.45);
   transform: translateY(-2px);
   box-shadow: var(--shadow-soft);
 }
@@ -536,7 +531,7 @@ a.about-fact-value:hover {
   border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--paper-3);
-  color: var(--clay);
+  color: var(--accent);
   font-family: var(--serif);
   font-size: 16px;
 }
@@ -582,7 +577,7 @@ a.about-fact-value:hover {
 }
 
 .friend-card:hover .friend-name {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .friend-top .icon {
@@ -592,7 +587,7 @@ a.about-fact-value:hover {
 }
 
 .friend-card:hover .friend-top .icon {
-  color: var(--clay);
+  color: var(--accent);
   transform: translate(2px, -2px);
 }
 
@@ -625,7 +620,7 @@ a.about-fact-value:hover {
 }
 
 .friend-card:hover .friend-index {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .friend-invite {
@@ -672,22 +667,6 @@ a.about-fact-value:hover {
   background: var(--paper-2);
   box-shadow: 0 1px 0 rgba(31, 30, 29, 0.02);
   overflow: hidden;
-}
-
-.friend-site-card::after {
-  content: '✳';
-  position: absolute;
-  top: 14px;
-  right: 20px;
-  color: rgba(217, 119, 87, 0.16);
-  font-family: var(--serif);
-  font-size: 42px;
-  line-height: 1;
-}
-
-.friend-site-mark {
-  margin-bottom: 14px;
-  color: var(--clay);
 }
 
 .friend-site-kicker {

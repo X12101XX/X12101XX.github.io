@@ -23,8 +23,6 @@ block content
           if page.excerpt
             p.post-lede= post_excerpt(page, 260)
           .post-byline
-            span.byline-mark
-              +icon('spark', 11)
             span Written by #{theme.author.name || config.author}
             span.byline-rule
             if page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')

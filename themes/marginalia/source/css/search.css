@@ -163,7 +163,7 @@ html.search-open {
 .search-result-meta {
   display: block;
   margin-top: 3px;
-  color: var(--clay);
+  color: var(--accent);
   font-family: var(--mono);
   font-size: 8px;
   letter-spacing: 0.1em;
@@ -181,9 +181,9 @@ html.search-open {
 .search-result mark {
   padding: 0 2px;
   border-radius: 2px;
-  background: var(--clay-soft);
-  color: var(--clay-deep);
-  box-shadow: 0 0 0 1px rgba(217, 119, 87, 0.08);
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  box-shadow: 0 0 0 1px rgba(155, 127, 199, 0.08);
 }
 
 .search-empty {

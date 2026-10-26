@@ -7,7 +7,6 @@ block content
     .shell
       header.page-head.friends-head
         p.eyebrow
-          +icon('spark', 11)
           span Friends
           span.eyebrow-cn 友情链接
         h1.page-title
@@ -37,13 +36,11 @@ block content
                 span.friend-index(aria-hidden='true')= '0' + (index + 1)
       else
         .empty-state
-          p.empty-state-mark ✳
           h2 The shelf is waiting.
           p Kindred corners will gather here.
       section.friend-invite
         .friend-invite-copy
           p.eyebrow
-            +icon('spark', 11)
             span Open invitation
             span.eyebrow-cn 欢迎交换友链
           h2 Good company is worth keeping.
@@ -53,8 +50,6 @@ block content
               span Say hello
               +icon('arrow', 15)
         .friend-site-card
-          .friend-site-mark
-            +icon('spark', 22)
           p.friend-site-kicker A small card for your shelf
           dl.friend-site-facts
             div

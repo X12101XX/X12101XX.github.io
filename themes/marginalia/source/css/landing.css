@@ -21,7 +21,7 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 42% 34% at 50% 31%, rgba(217, 119, 87, 0.11), transparent 72%),
+    radial-gradient(ellipse 42% 34% at 50% 31%, rgba(155, 127, 199, 0.11), transparent 72%),
     radial-gradient(ellipse 70% 58% at 50% 45%, rgba(255, 254, 250, 0.72), transparent 76%);
 }
 
@@ -51,20 +51,20 @@
   mask-image: radial-gradient(ellipse 72% 70% at 50% 40%, #000 16%, transparent 82%);
 }
 
-.landing-bloom {
+.landing-word {
   position: absolute;
   z-index: 0;
-  top: 44%;
+  top: 45%;
   left: 50%;
-  color: rgba(217, 119, 87, 0.045);
-  transform: translate(-50%, -50%) rotate(5deg);
+  color: rgba(155, 127, 199, 0.065);
+  font-family: var(--serif);
+  font-size: min(46vw, 520px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.8;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-}
-
-.landing-bloom .icon {
-  width: min(60vw, 640px);
-  height: auto;
-  stroke-width: 0.18;
+  user-select: none;
 }
 
 .landing-rail {
@@ -109,9 +109,8 @@
 .landing-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   margin: 0;
-  padding: 6px 13px 6px 11px;
+  padding: 6px 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: rgba(255, 253, 249, 0.58);
@@ -124,10 +123,6 @@
   animation: rise 0.8s 0.05s var(--ease) both;
 }
 
-.landing-kicker .icon {
-  color: var(--clay);
-  animation: twinkle 5s ease-in-out infinite;
-}
 
 .landing-avatar-wrap {
   position: relative;
@@ -141,7 +136,7 @@
   content: '';
   position: absolute;
   inset: -14px;
-  border: 1px dashed rgba(217, 119, 87, 0.26);
+  border: 1px dashed rgba(155, 127, 199, 0.26);
   border-radius: 50%;
   animation: orbit 140s linear infinite;
 }
@@ -172,22 +167,6 @@
   box-shadow: 0 22px 52px rgba(74, 55, 32, 0.15);
 }
 
-.landing-avatar-star {
-  position: absolute;
-  z-index: 2;
-  right: -5px;
-  top: 5px;
-  display: grid;
-  place-items: center;
-  width: 27px;
-  height: 27px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--paper-2);
-  color: var(--clay);
-  box-shadow: 0 4px 10px rgba(74, 55, 32, 0.08);
-}
-
 .landing-name {
   margin: 0 0 11px;
   color: var(--muted);
@@ -213,7 +192,7 @@
 }
 
 .landing-title em {
-  color: var(--clay);
+  color: var(--accent);
   font-style: italic;
   font-weight: 350;
 }
@@ -283,7 +262,7 @@
   border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--paper-2);
-  color: var(--clay);
+  color: var(--accent);
   transition: border-color 0.25s, background 0.25s;
 }
 
@@ -320,12 +299,12 @@
 
 .landing-door:hover .landing-door-en,
 .landing-door:hover > .icon {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 .landing-door:hover .landing-door-mark {
-  border-color: rgba(217, 119, 87, 0.4);
-  background: var(--clay-soft);
+  border-color: rgba(155, 127, 199, 0.4);
+  background: var(--accent-soft);
 }
 
 .landing-door:hover > .icon {
@@ -373,8 +352,8 @@
 }
 
 .landing-latest-title:hover {
-  color: var(--clay);
-  border-bottom-color: var(--clay);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .landing-latest-date {
@@ -411,9 +390,6 @@
   gap: 7px;
 }
 
-.landing-footer-note .icon {
-  color: var(--clay);
-}
 
 .landing-footer-links {
   display: flex;
@@ -425,7 +401,7 @@
 }
 
 .landing-footer-links a:hover {
-  color: var(--clay);
+  color: var(--accent);
 }
 
 /* ---------- 404 ---------- */
@@ -485,7 +461,7 @@
 }
 
 .error-title em {
-  color: var(--clay);
+  color: var(--accent);
   font-style: italic;
   font-weight: 350;
 }
@@ -524,5 +500,5 @@
 }
 
 .error-links a:hover {
-  color: var(--clay);
+  color: var(--accent);
 }

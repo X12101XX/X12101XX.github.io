@@ -156,8 +156,8 @@
     top: 43%;
   }
 
-  .landing-bloom .icon {
-    width: 90vw;
+  .landing-word {
+    font-size: min(86vw, 460px);
   }
 
   .landing-main {
@@ -165,7 +165,7 @@
   }
 
   .landing-kicker {
-    padding: 5px 11px 5px 9px;
+    padding: 5px 12px;
     font-size: 8px;
     letter-spacing: 0.13em;
   }
@@ -178,12 +178,6 @@
 
   .landing-avatar-wrap::before {
     inset: -12px;
-  }
-
-  .landing-avatar-star {
-    width: 24px;
-    height: 24px;
-    right: -4px;
   }
 
   .landing-name {

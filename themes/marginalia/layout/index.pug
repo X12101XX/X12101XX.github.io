@@ -10,7 +10,6 @@ block content
     .shell
       header.page-head.journal-head
         p.eyebrow
-          +icon('spark', 11)
           span= theme.journal.kicker
           span.eyebrow-cn= theme.journal.kicker_cn
         h1.page-title
@@ -34,7 +33,6 @@ block content
             +icon('arrow-right', 15)
       else
         .empty-state
-          p.empty-state-mark ✳
           h2 Nothing filed yet.
           p The first note is being written. Come back soon.
           a.btn.btn--ghost(href=url_for('/'))

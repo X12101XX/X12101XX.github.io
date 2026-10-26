@@ -4,8 +4,6 @@ include icons
 header.site-header(class=landing ? 'site-header--landing' : '', id='site-header')
   .shell.header-inner
     a.brand(href=url_for('/'), aria-label=config.title)
-      span.brand-mark
-        +icon('spark', 17)
       span.brand-text= theme.author.name || 'X12101XX'
     nav.site-nav(aria-label='Primary')
       each item in menu

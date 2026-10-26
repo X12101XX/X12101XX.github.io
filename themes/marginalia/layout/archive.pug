@@ -17,7 +17,6 @@ block content
     .shell
       header.page-head.archive-head
         p.eyebrow
-          +icon('spark', 11)
           span Archive
           span.eyebrow-cn 归档
         h1.page-title
@@ -43,7 +42,6 @@ block content
         include _partial/pagination
       else
         .empty-state
-          p.empty-state-mark ✳
           h2 The archive is still empty.
           p A page or two will find its way here.
           a.btn.btn--ghost(href=url_for('/'))

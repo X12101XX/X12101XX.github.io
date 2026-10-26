@@ -12,20 +12,15 @@ block content
   - var titlePieces = titleText.split(' & ')
   .landing
     .landing-bg(aria-hidden='true')
-    .landing-bloom(aria-hidden='true')
-      +icon('spark', 560)
+    span.landing-word(aria-hidden='true') &
     span.landing-rail.landing-rail--left(aria-hidden='true') Code · Tools · Quiet things
     span.landing-rail.landing-rail--right(aria-hidden='true') Read slowly · #{since === now ? now : since + '–' + now}
     main#main.landing-main
       .landing-inner
-        p.landing-kicker
-          +icon('spark', 11)
-          span= landing.kicker || 'A notebook in progress'
+        p.landing-kicker= landing.kicker || 'A notebook in progress'
         .landing-avatar-wrap
           a.landing-avatar(href=url_for('/about/'), aria-label='About ' + (theme.author.name || 'me'))
             img(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='112', height='112')
-          span.landing-avatar-star
-            +icon('spark', 12)
         p.landing-name= landing.name || theme.author.name || config.author
         h1.landing-title
           if titlePieces.length > 1
@@ -65,9 +60,7 @@ block content
     footer.landing-footer
       .shell.landing-footer-inner
         p © #{since === now ? now : since + '–' + now} #{theme.author.name || config.author}
-        p.landing-footer-note
-          +icon('spark', 10)
-          span= theme.footer.note || 'Notes in progress'
+        p.landing-footer-note= theme.footer.note || 'Notes in progress'
         nav.landing-footer-links(aria-label='Footer')
           a(href=url_for('/about/')) About
           a(href=url_for('/atom.xml')) RSS
