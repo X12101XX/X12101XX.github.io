@@ -71,6 +71,8 @@ head:
   js:
     base:
     - /js/light-mode.js
+    defer:
+    - /js/gentle-motion.js
 search:
   bg_image: ''
   dark_bg_image: ''
