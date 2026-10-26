@@ -1,26 +1,17 @@
-# Yun 主题：云朵横幅、侧栏导航与自动深浅色。
-mode: auto
+# 固定浅色；暖白与浅紫配色。
+mode: light
 banner:
-  enable: true
-  title: 代码手记
-  border: true
-  cloud:
-    enable: true
-    color: white
+  enable: false
 avatar:
   enable: true
   url: https://avatars.githubusercontent.com/u/195663060?v=4
   rounded: true
 social:
-  - name: GitHub
-    link: https://github.com/X12101XX
-    icon: ri:github-line
-    color: "#6e5494"
-pages:
-  - name: 关于
-    url: /about/
-    icon: ri:user-line
-    color: "#0078E7"
+- name: GitHub
+  link: https://github.com/X12101XX
+  icon: ri:github-line
+  color: '#786B8F'
+pages: false
 menu:
   custom:
     title: 关于
@@ -29,6 +20,14 @@ menu:
 font:
   cdn:
     enable: false
+  serif:
+    family: '''Iowan Old Style'', ''Palatino Linotype'', ''Songti SC'', ''Noto Serif
+      SC'', STSong, serif'
+    weight: 500
+  sans_serif:
+    family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft
+      YaHei', sans-serif
+    weight: 400
 local_search:
   enable: true
   trigger: auto
@@ -43,6 +42,35 @@ creative_commons:
   post: false
 footer:
   since: 2026
-# 点击烟花使用 anime.js 3 的 API，固定兼容版本。
+  icon:
+    name: ri:cloud-line
+    animated: false
+    color: '#8B79B5'
 vendors:
   anime: animejs@3.2.2/lib/anime.min.js
+bg_image:
+  enable: false
+fireworks:
+  enable: false
+scrollreveal:
+  enable: false
+sidebar:
+  bg_image: ''
+  dark_bg_image: ''
+  tagcloud:
+    enable: false
+colors:
+  primary: '#8B79B5'
+  bg: '#FAF9F6'
+  selection_bg: '#E8DEF5'
+  tag_start_color: '#786B8F'
+  tag_end_color: '#786B8F'
+head:
+  css:
+  - /css/lavender.css
+  js:
+    base:
+    - /js/light-mode.js
+search:
+  bg_image: ''
+  dark_bg_image: ''
