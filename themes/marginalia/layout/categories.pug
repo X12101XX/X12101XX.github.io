@@ -1,0 +1,49 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var categories = site.categories.toArray().sort(function (a, b) { return b.length - a.length; })
+  main#main.site-main.categories-page
+    .shell
+      header.page-head
+        p.eyebrow
+          +icon('spark', 11)
+          span Categories
+          span.eyebrow-cn 分类
+        h1.page-title
+          span= theme.categories.heading_before + ' '
+          em= theme.categories.heading_em
+        p.page-lede= theme.categories.lede
+        .page-head-meta
+          span #{categories.length} #{categories.length === 1 ? 'category' : 'categories'}
+          a.page-head-link(href=url_for('/tags/'))
+            span Browse tags
+            +icon('arrow', 13)
+      .category-grid
+        each category in categories
+          section.category-card
+            header.category-card-head
+              h2.category-card-title
+                a(href=url_for(category.path))= category.name
+              span.category-card-count #{category.length} #{category.length === 1 ? 'note' : 'notes'}
+            ul.category-card-list
+              each post in category.posts.toArray().slice(0, 3)
+                li
+                  a(href=url_for(post.path))
+                    time(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM.YY')
+                    span= post.title
+            a.category-card-link(href=url_for(category.path))
+              span Open category
+              +icon('arrow-right', 14)
+        a.category-card.category-card--index(href=url_for('/archives/'))
+          span.category-card-mark
+            +icon('spark', 22)
+          h2.category-card-title The full index
+          p Every note, in the order it was written.
+          span.category-card-link
+            span Browse the archive
+            +icon('arrow-right', 14)
+      if !categories.length
+        .empty-state
+          p.empty-state-mark ✳
+          h2 Nothing filed yet.
+          p Categories will appear as notes accumulate.

@@ -1,0 +1,44 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
+  main#main.site-main.about-page
+    .shell.about-shell
+      header.about-head
+        p.eyebrow
+          +icon('spark', 11)
+          span About
+          span.eyebrow-cn 关于
+        h1.page-title
+          span= theme.about.heading_before + ' '
+          em= theme.about.heading_em
+        p.page-lede= page.description || theme.landing.lede
+      .about-grid
+        .about-main
+          article.about-content.markdown-body!= page.content
+          blockquote.about-quote
+            p “写下来，是为了把一个问题真正想清楚。”
+            cite — a note to self
+        aside.about-aside
+          .about-card
+            img.about-avatar(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='88', height='88', loading='lazy')
+            p.about-name= theme.author.name || config.author
+            p.about-role= theme.landing.title
+            .about-facts
+              .about-fact
+                span.about-fact-label Since
+                span.about-fact-value= since
+              .about-fact
+                span.about-fact-label Writing
+                span.about-fact-value Code & understanding
+              .about-fact
+                span.about-fact-label Elsewhere
+                a.about-fact-value(href=theme.author.github, target='_blank', rel='noopener noreferrer')
+                  span GitHub
+                  +icon('arrow', 12)
+            a.about-card-link(href=url_for('/posts/'))
+              span Read the journal
+              +icon('arrow-right', 14)
+          .about-card.about-card--quiet
+            p.about-card-kicker Colophon
+            p Set in Newsreader and Songti. Written on warm paper, in quiet ink.

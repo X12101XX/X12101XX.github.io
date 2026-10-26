@@ -1,8 +1,9 @@
 title: X12101XX 的代码手记
-subtitle: 记录问题，也记录理解的过程。
-description: 关于代码、工具与学习的个人笔记。
+subtitle: Code & Quiet Things
+description: 关于代码、工具与理解的个人手记。Notes on code, tools, and the slow work of understanding.
 author: X12101XX
 language: zh-CN
+meta_generator: false
 timezone: Asia/Shanghai
 url: https://x12101xx.github.io
 root: /
@@ -32,15 +33,19 @@ highlight:
 prismjs:
   enable: false
 index_generator:
-  path: ''
-  per_page: 10
+  path: posts
+  per_page: 8
   order_by: -date
-per_page: 10
+per_page: 8
 pagination_dir: page
-theme: yun
+theme: marginalia
 include:
   - .nojekyll
 search:
   path: search.xml
   field: post
   content: true
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20

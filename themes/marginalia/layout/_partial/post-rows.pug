@@ -1,0 +1,28 @@
+include icons
+.post-list
+  each post, index in posts
+    - var tags = post.tags ? post.tags.toArray().slice(0, 2) : []
+    - var categories = post.categories ? post.categories.toArray() : []
+    - var number = String((startIndex || 0) + index + 1).padStart(2, '0')
+    article.post-row(class=featured && index === 0 ? 'post-row--featured' : '')
+      .post-row-side
+        span.post-row-number= number
+        time.post-row-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY.MM.DD')
+      .post-row-main
+        if featured && index === 0
+          span.post-row-flag Latest note
+        h2.post-row-title
+          a(href=url_for(post.path))= post.title
+        if post_excerpt(post, 175)
+          p.post-row-excerpt= post_excerpt(post, 175)
+        .post-row-meta
+          if categories.length
+            span.post-row-category= categories[0].name
+            span.dot ·
+          span #{reading_time(post.content)} min read
+          if tags.length
+            span.dot ·
+            each tag in tags
+              a.chip(href=url_for(tag.path))= tag.name
+      a.post-row-arrow(href=url_for(post.path), aria-label='Read ' + post.title)
+        +icon('arrow', 20)

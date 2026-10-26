@@ -1,0 +1,16 @@
+include icons
+- var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
+- var now = new Date().getFullYear()
+- var years = since === now ? String(now) : since + '–' + now
+footer.site-footer
+  .shell.footer-inner
+    p.footer-copy © #{years} #{theme.author.name || config.author}
+    p.footer-note
+      +icon('spark', 10)
+      span= theme.footer.note || 'Notes in progress'
+    nav.footer-links(aria-label='Footer')
+      if theme.author && theme.author.github
+        a(href=theme.author.github, target='_blank', rel='noopener noreferrer') GitHub
+      a(href=url_for('/posts/')) Journal
+      a(href=url_for('/atom.xml')) RSS
+      a(href='#top') Top ↑

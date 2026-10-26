@@ -1,0 +1,87 @@
+# Marginalia — a quiet, paper-coloured theme for Hexo.
+# Site-specific settings live in _config.marginalia.yml at the project root.
+
+toc:
+  enable: true
+  min_depth: 2
+  max_depth: 3
+
+search:
+  enable: true
+  path: /search.xml
+
+reading:
+  speed: 400
+
+footer:
+  since: 2026
+  note: Notes in progress
+
+author:
+  name: X12101XX
+  avatar: /images/avatar.jpg
+  github: https://github.com/X12101XX
+
+menu:
+  - name: Journal
+    path: /posts/
+  - name: Archive
+    path: /archives/
+  - name: Friends
+    path: /friends/
+  - name: About
+    path: /about/
+
+social:
+  - name: GitHub
+    icon: github
+    url: https://github.com/X12101XX
+  - name: RSS
+    icon: rss
+    url: /atom.xml
+
+landing:
+  kicker: A notebook in progress
+  name: X12101XX
+  title: Code & Quiet Things
+  lede: Notes on code, tools, and the slow work of understanding.
+  welcome: 欢迎来到我的个人博客。
+  primary:
+    label: The Journal
+    cn: 博客文章
+    path: /posts/
+  secondary:
+    label: Friends
+    cn: 友情链接
+    path: /friends/
+
+journal:
+  kicker: The Journal
+  kicker_cn: 手记
+  heading_before: Notes, kept in
+  heading_em: longhand.
+  lede: Code, tools, and the slow work of understanding. A place to keep the questions that took a while to answer.
+
+archive:
+  heading_before: Everything,
+  heading_em: in its season.
+  lede: Every note, filed in the order it was written.
+
+categories:
+  heading_before: Filed under
+  heading_em: a few ideas.
+  lede: The subjects this notebook keeps returning to.
+
+tags:
+  heading_before: Threads that
+  heading_em: run through.
+  lede: Small words that tie one note to another.
+
+friends:
+  heading_before: Kindred corners,
+  heading_em: kept close.
+  lede: A short shelf of kindred corners on the web — people who make the internet feel a little more human.
+
+about:
+  heading_before: A small notebook,
+  heading_em: kept in the open.

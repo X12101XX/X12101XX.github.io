@@ -1,0 +1,21 @@
+include icons
+- var landing = page.layout === 'landing'
+- var menu = theme.menu || []
+header.site-header(class=landing ? 'site-header--landing' : '', id='site-header')
+  .shell.header-inner
+    a.brand(href=url_for('/'), aria-label=config.title)
+      span.brand-mark
+        +icon('spark', 17)
+      span.brand-text= theme.author.name || 'X12101XX'
+    nav.site-nav(aria-label='Primary')
+      each item in menu
+        - var active = is_active_nav(item.path, page.path)
+        a(href=url_for(item.path), class=active ? 'is-active' : '', aria-current=active ? 'page' : false)= item.name
+    .header-tools
+      button.search-trigger(type='button', data-search-open, aria-label='Search the notebook', aria-haspopup='dialog')
+        +icon('search', 15)
+        span.search-trigger-label Search
+        kbd.search-trigger-key /
+      button.menu-toggle(type='button', data-menu-toggle, aria-controls='mobile-menu', aria-expanded='false', aria-label='Open menu')
+        span.menu-toggle-line
+        span.menu-toggle-line

@@ -1,0 +1,28 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var posts = page.posts.toArray()
+  - var startIndex = (page.current - 1) * config.per_page
+  - var title = page.category || page.title.replace(/^Category:\s*/i, '')
+  main#main.site-main.taxonomy-page
+    .shell
+      header.page-head.taxonomy-head
+        a.back-link(href=url_for('/categories/'))
+          +icon('arrow-left', 13)
+          span All categories
+        p.eyebrow
+          +icon('spark', 11)
+          span Category
+          span.eyebrow-cn 分类
+        h1.page-title= title
+        p.page-lede Notes gathered under this subject.
+      if posts.length
+        include _partial/post-rows
+        include _partial/pagination
+      else
+        .empty-state
+          p.empty-state-mark ✳
+          h2 No notes here yet.
+          a.btn.btn--ghost(href=url_for('/categories/'))
+            span Browse categories
+            +icon('arrow-right', 15)

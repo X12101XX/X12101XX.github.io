@@ -1,0 +1,42 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var posts = page.posts.toArray()
+  - var total = site.posts.length
+  - var startIndex = (page.current - 1) * config.per_page
+  - var latest = site.posts.toArray()[0]
+  - var featured = page.current === 1
+  main#main.site-main.journal-page
+    .shell
+      header.page-head.journal-head
+        p.eyebrow
+          +icon('spark', 11)
+          span= theme.journal.kicker
+          span.eyebrow-cn= theme.journal.kicker_cn
+        h1.page-title
+          span= theme.journal.heading_before + ' '
+          em= theme.journal.heading_em
+        p.page-lede= theme.journal.lede
+        .page-head-meta
+          span #{total} #{total === 1 ? 'entry' : 'entries'}
+          if latest
+            span Updated #{date(latest.date, 'YYYY.MM.DD')}
+          a.page-head-link(href=url_for('/archives/'))
+            span Browse the archive
+            +icon('arrow', 13)
+      if posts.length
+        include _partial/post-rows
+        include _partial/pagination
+        .journal-tail
+          p.journal-tail-note The shelf is still growing. Every note begins as a question.
+          a.journal-tail-link(href=url_for('/archives/'))
+            span View the full index
+            +icon('arrow-right', 15)
+      else
+        .empty-state
+          p.empty-state-mark ✳
+          h2 Nothing filed yet.
+          p The first note is being written. Come back soon.
+          a.btn.btn--ghost(href=url_for('/'))
+            span Return home
+            +icon('arrow-right', 15)

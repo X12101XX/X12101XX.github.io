@@ -1,0 +1,28 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var posts = page.posts.toArray()
+  - var startIndex = (page.current - 1) * config.per_page
+  - var title = page.tag || page.title.replace(/^Tag:\s*/i, '')
+  main#main.site-main.taxonomy-page
+    .shell
+      header.page-head.taxonomy-head
+        a.back-link(href=url_for('/tags/'))
+          +icon('arrow-left', 13)
+          span All tags
+        p.eyebrow
+          +icon('spark', 11)
+          span Tag
+          span.eyebrow-cn 标签
+        h1.page-title= title
+        p.page-lede Notes tied together by a single thread.
+      if posts.length
+        include _partial/post-rows
+        include _partial/pagination
+      else
+        .empty-state
+          p.empty-state-mark ✳
+          h2 No notes here yet.
+          a.btn.btn--ghost(href=url_for('/tags/'))
+            span Browse tags
+            +icon('arrow-right', 15)

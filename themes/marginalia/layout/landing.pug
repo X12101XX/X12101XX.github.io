@@ -1,0 +1,73 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var socials = theme.social || []
+  - var latest = site.posts.toArray()[0]
+  - var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
+  - var now = new Date().getFullYear()
+  - var landing = theme.landing || {}
+  - var primary = landing.primary || { label: 'The Journal', cn: '博客文章', path: '/posts/' }
+  - var secondary = landing.secondary || { label: 'Friends', cn: '友情链接', path: '/friends/' }
+  - var titleText = landing.title || 'Code & Quiet Things'
+  - var titlePieces = titleText.split(' & ')
+  .landing
+    .landing-bg(aria-hidden='true')
+    .landing-bloom(aria-hidden='true')
+      +icon('spark', 560)
+    span.landing-rail.landing-rail--left(aria-hidden='true') Code · Tools · Quiet things
+    span.landing-rail.landing-rail--right(aria-hidden='true') Read slowly · #{since === now ? now : since + '–' + now}
+    main#main.landing-main
+      .landing-inner
+        p.landing-kicker
+          +icon('spark', 11)
+          span= landing.kicker || 'A notebook in progress'
+        .landing-avatar-wrap
+          a.landing-avatar(href=url_for('/about/'), aria-label='About ' + (theme.author.name || 'me'))
+            img(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='112', height='112')
+          span.landing-avatar-star
+            +icon('spark', 12)
+        p.landing-name= landing.name || theme.author.name || config.author
+        h1.landing-title
+          if titlePieces.length > 1
+            | #{titlePieces[0]} 
+            em &
+            |  #{titlePieces.slice(1).join(' & ')}
+          else
+            = titleText
+        p.landing-lede= landing.lede || config.description
+        if landing.welcome
+          p.landing-welcome= landing.welcome
+        .landing-socials
+          each item in socials
+            a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
+              +icon(item.icon, 17)
+        nav.landing-doors(aria-label='Start here')
+          a.landing-door(href=url_for(primary.path))
+            span.landing-door-mark
+              +icon('book', 18)
+            span.landing-door-text
+              span.landing-door-en= primary.label
+              span.landing-door-cn= primary.cn || '博客文章'
+            +icon('arrow', 15)
+          span.landing-door-rule(aria-hidden='true')
+          a.landing-door(href=url_for(secondary.path))
+            span.landing-door-mark
+              +icon('link', 18)
+            span.landing-door-text
+              span.landing-door-en= secondary.label
+              span.landing-door-cn= secondary.cn || '友情链接'
+            +icon('arrow', 15)
+        if latest
+          .landing-latest
+            span.landing-latest-label Latest note
+            a.landing-latest-title(href=url_for(latest.path))= latest.title
+            time.landing-latest-date(datetime=date(latest.date, 'YYYY-MM-DD'))= date(latest.date, 'YYYY.MM.DD')
+    footer.landing-footer
+      .shell.landing-footer-inner
+        p © #{since === now ? now : since + '–' + now} #{theme.author.name || config.author}
+        p.landing-footer-note
+          +icon('spark', 10)
+          span= theme.footer.note || 'Notes in progress'
+        nav.landing-footer-links(aria-label='Footer')
+          a(href=url_for('/about/')) About
+          a(href=url_for('/atom.xml')) RSS

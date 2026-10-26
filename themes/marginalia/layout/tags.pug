@@ -1,0 +1,36 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var tags = site.tags.toArray().sort(function (a, b) { return b.length - a.length || a.name.localeCompare(b.name); })
+  main#main.site-main.tags-page
+    .shell
+      header.page-head
+        p.eyebrow
+          +icon('spark', 11)
+          span Tags
+          span.eyebrow-cn 标签
+        h1.page-title
+          span= theme.tags.heading_before + ' '
+          em= theme.tags.heading_em
+        p.page-lede= theme.tags.lede
+        .page-head-meta
+          span #{tags.length} #{tags.length === 1 ? 'tag' : 'tags'}
+          a.page-head-link(href=url_for('/categories/'))
+            span Browse categories
+            +icon('arrow', 13)
+      if tags.length
+        .tag-cloud
+          each tag in tags
+            a.tag-pill(href=url_for(tag.path))
+              span.tag-pill-name= tag.name
+              sup.tag-pill-count= tag.length
+        .tags-foot
+          p Every tag is a thread. Pull one and see what it holds.
+          a.journal-tail-link(href=url_for('/archives/'))
+            span The full index
+            +icon('arrow-right', 15)
+      else
+        .empty-state
+          p.empty-state-mark ✳
+          h2 No threads yet.
+          p Tags will gather as the notebook grows.

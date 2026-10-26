@@ -1,0 +1,20 @@
+include icons
+if page.total > 1
+  nav.pagination(aria-label='Pagination')
+    if page.prev
+      a.pagination-step(href=url_for(page.prev_link))
+        +icon('arrow-left', 14)
+        span Newer
+    else
+      span.pagination-step.is-disabled
+        +icon('arrow-left', 14)
+        span Newer
+    p.pagination-count Page #{page.current} of #{page.total}
+    if page.next
+      a.pagination-step(href=url_for(page.next_link))
+        span Older
+        +icon('arrow-right', 14)
+    else
+      span.pagination-step.is-disabled
+        span Older
+        +icon('arrow-right', 14)

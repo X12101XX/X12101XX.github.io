@@ -1,0 +1,20 @@
+include icons
+- var menu = theme.menu || []
+- var socials = theme.social || []
+.mobile-menu(id='mobile-menu', hidden)
+  .mobile-menu-inner
+    nav.mobile-nav(aria-label='Mobile')
+      each item, index in menu
+        - var mobileActive = is_active_nav(item.path, page.path)
+        a(href=url_for(item.path), class=mobileActive ? 'is-active' : '', data-menu-close)
+          span.mobile-nav-index= '0' + (index + 1)
+          span.mobile-nav-name= item.name
+          +icon('arrow', 18)
+    .mobile-menu-foot
+      .mobile-socials
+        each item in socials
+          a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
+            +icon(item.icon, 16)
+      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='Search the notebook')
+        +icon('search', 15)
+        span Search the notebook

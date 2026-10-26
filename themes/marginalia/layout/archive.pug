@@ -1,0 +1,51 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var posts = page.posts.toArray()
+  -
+    var groups = [];
+    posts.forEach(function (post) {
+      var year = date(post.date, 'YYYY');
+      var group = groups.find(function (item) { return item.year === year; });
+      if (!group) {
+        group = { year: year, posts: [] };
+        groups.push(group);
+      }
+      group.posts.push(post);
+    });
+  main#main.site-main.archive-page
+    .shell
+      header.page-head.archive-head
+        p.eyebrow
+          +icon('spark', 11)
+          span Archive
+          span.eyebrow-cn 归档
+        h1.page-title
+          span= theme.archive.heading_before + ' '
+          em= theme.archive.heading_em
+        p.page-lede= theme.archive.lede
+        .page-head-meta
+          span #{site.posts.length} #{site.posts.length === 1 ? 'note' : 'notes'}
+          span Since #{theme.footer.since || 2026}
+      if groups.length
+        .archive
+          each group in groups
+            section.archive-year
+              h2.archive-year-label= group.year
+              .archive-year-list
+                each post in group.posts
+                  a.archive-item(href=url_for(post.path))
+                    time.archive-item-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM.DD')
+                    span.archive-item-title= post.title
+                    span.archive-item-read #{reading_time(post.content)} min
+                    span.archive-item-arrow
+                      +icon('arrow', 16)
+        include _partial/pagination
+      else
+        .empty-state
+          p.empty-state-mark ✳
+          h2 The archive is still empty.
+          p A page or two will find its way here.
+          a.btn.btn--ghost(href=url_for('/'))
+            span Return home
+            +icon('arrow-right', 15)

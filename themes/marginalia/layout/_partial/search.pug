@@ -1,0 +1,24 @@
+include icons
+.search-overlay(id='search-overlay', hidden, data-index=url_for(theme.search.path || '/search.xml'))
+  .search-backdrop(data-search-close)
+  .search-panel(role='dialog', aria-modal='true', aria-labelledby='search-label')
+    .search-bar
+      +icon('search', 19)
+      label.sr-only(id='search-label') Search the notebook
+      input#search-input(type='search', placeholder='Search the notebook…', autocomplete='off', spellcheck='false', aria-controls='search-results')
+      button.search-close(type='button', data-search-close, aria-label='Close search')
+        +icon('close', 17)
+    .search-body
+      p.search-status(id='search-status') Type to search notes and essays.
+      ul.search-results(id='search-results')
+    footer.search-foot
+      span
+        kbd ↑
+        kbd ↓
+        | navigate
+      span
+        kbd ↵
+        | open
+      span.search-foot-note
+        kbd esc
+        | close

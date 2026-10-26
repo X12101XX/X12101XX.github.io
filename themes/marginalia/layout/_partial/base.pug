@@ -1,0 +1,14 @@
+- var layoutName = page.layout || (is_post() ? 'post' : (is_home() ? 'index' : (is_archive() ? 'archive' : (is_tag() ? 'tag' : (is_category() ? 'category' : 'page')))))
+doctype html
+html(lang='zh-CN')
+  head
+    include head
+  body(id='top', class='page-' + layoutName)
+    a.skip-link(href='#main') Skip to content
+    include header
+    include mobile-menu.pug
+    block content
+    if layoutName !== 'landing'
+      include footer
+    include search
+    script(src=url_for('/js/main.js'), defer)

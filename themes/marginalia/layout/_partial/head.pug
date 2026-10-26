@@ -1,0 +1,43 @@
+- var sectionTitle = page.title
+- if (page.layout === 'index' || (!page.layout && is_home())) sectionTitle = 'Journal'
+- if (page.layout === 'archive' || is_archive()) sectionTitle = 'Archive'
+- if (page.layout === 'categories') sectionTitle = 'Categories'
+- if (page.layout === 'tags') sectionTitle = 'Tags'
+- var docTitle = page.layout === 'landing' ? (config.title + (config.subtitle ? ' — ' + config.subtitle : '')) : (sectionTitle ? sectionTitle + ' · ' + config.title : config.title)
+- var rawDescription = page.description || page.excerpt || config.description || theme.landing.lede || ''
+- var description = strip_html(rawDescription).replace(/\s+/g, ' ').trim()
+- var canonicalPath = page.path === 'index.html' ? '/' : url_for(page.path)
+- var canonical = config.url.replace(/\/$/, '') + canonicalPath
+- var shareImage = config.url.replace(/\/$/, '') + url_for(theme.author.avatar || '/images/avatar.jpg')
+meta(charset='utf-8')
+meta(name='viewport', content='width=device-width, initial-scale=1')
+meta(name='color-scheme', content='light')
+meta(name='theme-color', content='#faf9f5')
+title= docTitle
+meta(name='description', content=description)
+meta(name='author', content=theme.author.name || config.author)
+link(rel='canonical', href=canonical)
+link(rel='icon', href=url_for('/favicon.svg'), type='image/svg+xml')
+link(rel='apple-touch-icon', href=url_for(theme.author.avatar || '/images/avatar.jpg'))
+link(rel='alternate', type='application/atom+xml', title=config.title, href=url_for('/atom.xml'))
+link(rel='preload', href=url_for('/fonts/newsreader-normal.woff2'), as='font', type='font/woff2', crossorigin='anonymous')
+link(rel='preload', href=url_for('/fonts/newsreader-italic.woff2'), as='font', type='font/woff2', crossorigin='anonymous')
+link(rel='stylesheet', href=url_for('/css/base.css'))
+link(rel='stylesheet', href=url_for('/css/landing.css'))
+link(rel='stylesheet', href=url_for('/css/article.css'))
+link(rel='stylesheet', href=url_for('/css/pages.css'))
+link(rel='stylesheet', href=url_for('/css/search.css'))
+link(rel='stylesheet', href=url_for('/css/responsive.css'))
+meta(property='og:type', content=page.layout === 'post' ? 'article' : 'website')
+meta(property='og:title', content=docTitle)
+meta(property='og:description', content=description)
+meta(property='og:url', content=canonical)
+meta(property='og:site_name', content=config.title)
+meta(property='og:image', content=shareImage)
+meta(property='og:locale', content='zh_CN')
+meta(name='twitter:card', content='summary')
+meta(name='twitter:title', content=docTitle)
+meta(name='twitter:description', content=description)
+meta(name='twitter:image', content=shareImage)
+style.
+  html { background: #faf9f5; }

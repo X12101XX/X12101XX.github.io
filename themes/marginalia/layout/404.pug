@@ -1,0 +1,28 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  main#main.site-main.error-page
+    .error-bg(aria-hidden='true')
+    .shell.error-shell
+      p.eyebrow
+        +icon('spark', 11)
+        span 404
+        span.eyebrow-cn 迷失
+      p.error-code(aria-hidden='true') 404
+      h1.error-title
+        span This page has
+        em wandered off.
+      p.error-lede Perhaps it was moved, renamed, or never written. The notebook is still here, though.
+      .error-actions
+        a.btn.btn--primary(href=url_for('/'))
+          span Return home
+          +icon('arrow-right', 15)
+        a.btn.btn--ghost(href=url_for('/archives/'))
+          span Browse the archive
+          +icon('arrow', 14)
+      .error-links
+        a(href=url_for('/posts/')) The journal
+        span ·
+        a(href=url_for('/friends/')) Friends
+        span ·
+        a(href=url_for('/about/')) About

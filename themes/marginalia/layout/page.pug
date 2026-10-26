@@ -1,0 +1,13 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  main#main.site-main
+    .shell.narrow-shell
+      header.page-head
+        p.eyebrow
+          +icon('spark', 11)
+          span= page.title
+        h1.page-title= page.title
+        if page.description
+          p.page-lede= page.description
+      article.page-content.markdown-body!= page.content

@@ -1,0 +1,69 @@
+extends _partial/base.pug
+include _partial/icons
+block content
+  - var categories = page.categories ? page.categories.toArray() : []
+  - var tags = page.tags ? page.tags.toArray() : []
+  - var tocHtml = toc(page.content, { list_number: false, min_depth: theme.toc.min_depth, max_depth: theme.toc.max_depth })
+  .reading-progress(aria-hidden='true')
+  main#main.site-main.post-page
+    .shell.post-shell
+      .post-frame
+        header.post-head
+          .post-kicker
+            each category, index in categories
+              a.post-kicker-link(href=url_for(category.path))= category.name
+              if index < categories.length - 1
+                span.dot ·
+            if categories.length
+              span.dot ·
+            time(datetime=date(page.date, 'YYYY-MM-DD'))= date(page.date, 'YYYY.MM.DD')
+            span.dot ·
+            span #{reading_time(page.content)} min read
+          h1.post-title= page.title
+          if page.excerpt
+            p.post-lede= post_excerpt(page, 260)
+          .post-byline
+            span.byline-mark
+              +icon('spark', 11)
+            span Written by #{theme.author.name || config.author}
+            span.byline-rule
+            if page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')
+              span Updated #{date(page.updated, 'YYYY.MM.DD')}
+            else
+              span Filed #{date(page.date, 'YYYY')}
+        article.post-content.markdown-body!= page.content
+        if tocHtml
+          aside.post-aside(aria-label='On this page')
+            p.post-aside-label On this page
+            != tocHtml
+        footer.post-end
+          .post-filed
+            if categories.length
+              .post-filed-group
+                span.post-filed-label Filed under
+                each category in categories
+                  a.chip.chip--solid(href=url_for(category.path))= category.name
+            if tags.length
+              .post-filed-group
+                span.post-filed-label Tagged
+                each tag in tags
+                  a.chip(href=url_for(tag.path))= tag.name
+          if page.prev || page.next
+            nav.post-nav(aria-label='More notes')
+              if page.prev
+                a.post-nav-link.post-nav-link--prev(href=url_for(page.prev.path))
+                  span.post-nav-label
+                    +icon('arrow-left', 12)
+                    span Previous note
+                  span.post-nav-title= page.prev.title
+              else
+                span.post-nav-link.is-empty
+              if page.next
+                a.post-nav-link.post-nav-link--next(href=url_for(page.next.path))
+                  span.post-nav-label
+                    span Next note
+                    +icon('arrow-right', 12)
+                  span.post-nav-title= page.next.title
+          a.post-return(href=url_for('/posts/'))
+            +icon('arrow-left', 14)
+            span Back to the journal

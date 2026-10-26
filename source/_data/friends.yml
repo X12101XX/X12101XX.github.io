@@ -1,0 +1,21 @@
+# A few corners of the web this notebook likes to visit.
+# Replace these with your own friends; avatar can be left empty for a monogram.
+- name: 云游君的小站
+  url: https://www.yunyoujun.cn/
+  avatar: /images/friends/yunyoujun.jpg
+  description: Design, code, and small things worth remembering. 希望能成为一个有趣的人。
+
+- name: Overreacted
+  url: https://overreacted.io/
+  avatar: /images/friends/dan.jpg
+  description: Dan Abramov on the web, interfaces, and the craft of making things make sense.
+
+- name: The Marginalian
+  url: https://www.themarginalian.org/
+  avatar: ''
+  description: Maria Popova on art, science, and the search for meaning.
+
+- name: Aeon
+  url: https://aeon.co/
+  avatar: ''
+  description: Essays on philosophy, science, and the long questions of being human.
