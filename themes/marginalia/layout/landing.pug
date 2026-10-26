@@ -6,7 +6,7 @@ block content
   - var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
   - var now = new Date().getFullYear()
   - var landing = theme.landing || {}
-  - var primary = landing.primary || { label: 'The Journal', cn: '博客文章', path: '/posts/' }
+  - var primary = landing.primary || { label: 'Notes', cn: '博客文章', path: '/posts/' }
   - var secondary = landing.secondary || { label: 'Friends', cn: '友情链接', path: '/friends/' }
   - var titleText = landing.title || 'Code & Quiet Things'
   - var titlePieces = titleText.split(' & ')
@@ -17,7 +17,6 @@ block content
     span.landing-rail.landing-rail--right(aria-hidden='true') Read slowly · #{since === now ? now : since + '–' + now}
     main#main.landing-main
       .landing-inner
-        p.landing-kicker= landing.kicker || 'A notebook in progress'
         .landing-avatar-wrap
           a.landing-avatar(href=url_for('/about/'), aria-label='About ' + (theme.author.name || 'me'))
             img(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='112', height='112')
@@ -29,9 +28,6 @@ block content
             |  #{titlePieces.slice(1).join(' & ')}
           else
             = titleText
-        p.landing-lede= landing.lede || config.description
-        if landing.welcome
-          p.landing-welcome= landing.welcome
         .landing-socials
           each item in socials
             a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)

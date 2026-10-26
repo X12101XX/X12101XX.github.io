@@ -11,7 +11,7 @@ block content
         h1.page-title
           span= theme.about.heading_before + ' '
           em= theme.about.heading_em
-        p.page-lede= page.description || theme.landing.lede
+        p.page-lede= page.description || config.description
       .about-grid
         .about-main
           article.about-content.markdown-body!= page.content
@@ -36,7 +36,7 @@ block content
                   span GitHub
                   +icon('arrow', 12)
             a.about-card-link(href=url_for('/posts/'))
-              span Read the journal
+              span Read the notes
               +icon('arrow-right', 14)
           .about-card.about-card--quiet
             p.about-card-kicker Colophon

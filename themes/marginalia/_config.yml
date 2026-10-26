@@ -23,7 +23,7 @@ author:
   github: https://github.com/X12101XX
 
 menu:
-  - name: Journal
+  - name: Notes
     path: /posts/
   - name: Archive
     path: /archives/
@@ -41,13 +41,10 @@ social:
     url: /atom.xml
 
 landing:
-  kicker: A notebook in progress
   name: X12101XX
   title: Code & Quiet Things
-  lede: Notes on code, tools, and the slow work of understanding.
-  welcome: 欢迎来到我的个人博客。
   primary:
-    label: The Journal
+    label: Notes
     cn: 博客文章
     path: /posts/
   secondary:
@@ -56,11 +53,10 @@ landing:
     path: /friends/
 
 journal:
-  kicker: The Journal
-  kicker_cn: 手记
+  kicker: Notes
+  kicker_cn: 笔记
   heading_before: Notes, kept in
   heading_em: longhand.
-  lede: Code, tools, and the slow work of understanding. A place to keep the questions that took a while to answer.
 
 archive:
   heading_before: Everything,
@@ -70,7 +66,7 @@ archive:
 categories:
   heading_before: Filed under
   heading_em: a few ideas.
-  lede: The subjects this notebook keeps returning to.
+  lede: The subjects this site keeps returning to.
 
 tags:
   heading_before: Threads that
@@ -80,8 +76,7 @@ tags:
 friends:
   heading_before: Kindred corners,
   heading_em: kept close.
-  lede: A short shelf of kindred corners on the web — people who make the internet feel a little more human.
 
 about:
-  heading_before: A small notebook,
+  heading_before: A quiet place,
   heading_em: kept in the open.

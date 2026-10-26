@@ -29,14 +29,14 @@
 .post-row-number {
   color: var(--accent);
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: 0.1em;
 }
 
 .post-row-date {
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.07em;
 }
 
@@ -47,7 +47,7 @@
   margin-bottom: 10px;
   color: var(--accent);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -63,7 +63,7 @@
   max-width: 760px;
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(26px, 2.8vw, 34px);
+  font-size: clamp(28px, 3vw, 36px);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.2;
@@ -87,7 +87,7 @@
   max-width: 660px;
   margin: 12px 0 0;
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 14.5px;
   line-height: 1.8;
 }
 
@@ -99,7 +99,7 @@
   margin-top: 16px;
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
@@ -117,7 +117,7 @@
   border-radius: 999px;
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;
@@ -169,7 +169,7 @@
   margin: 0;
   color: var(--muted);
   font-family: var(--serif);
-  font-size: 14px;
+  font-size: 15px;
   font-style: italic;
 }
 
@@ -179,7 +179,7 @@
   gap: 7px;
   color: var(--accent);
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -202,7 +202,7 @@
   margin-top: 34px;
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -275,7 +275,7 @@
   gap: 9px;
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.11em;
   text-transform: uppercase;
 }
@@ -294,7 +294,7 @@
   margin: 22px 0 0;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: clamp(40px, 6vw, 64px);
+  font-size: clamp(42px, 6vw, 66px);
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1.07;
@@ -306,7 +306,7 @@
   margin: 22px 0 0;
   color: var(--muted);
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.75;
 }
 
@@ -320,7 +320,7 @@
   border-top: 1px solid var(--line-soft);
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -336,7 +336,7 @@
   min-width: 0;
   color: var(--ink-soft);
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 19px;
   letter-spacing: 0.006em;
   line-height: 2;
 }
@@ -347,7 +347,7 @@
 
 .post-content > p:first-of-type {
   color: var(--ink);
-  font-size: 19px;
+  font-size: 20px;
 }
 
 .post-content > p:first-of-type::first-letter {
@@ -480,7 +480,7 @@
   margin-top: 9px;
   color: var(--faint);
   font-family: var(--sans);
-  font-size: 11px;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -489,7 +489,7 @@
   margin: 2em 0;
   border-collapse: collapse;
   font-family: var(--sans);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -585,7 +585,7 @@
 .code-lang {
   color: #b7ac9d;
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -600,7 +600,7 @@
   background: transparent;
   color: #c8beb0;
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: color 0.2s, border-color 0.2s, background 0.2s;
@@ -691,7 +691,7 @@
   margin: 0 0 14px;
   color: var(--accent);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -721,7 +721,7 @@
   border-left: 2px solid transparent;
   color: var(--muted);
   font-family: var(--sans);
-  font-size: 11.5px;
+  font-size: 12.5px;
   line-height: 1.55;
   transition: color 0.2s, border-color 0.2s;
 }
@@ -739,7 +739,7 @@
 .post-aside .toc .toc-child a {
   padding-left: 25px;
   color: var(--faint);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* ---------- post end ---------- */
@@ -768,7 +768,7 @@
   margin-right: 4px;
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -808,7 +808,7 @@
   gap: 6px;
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -820,7 +820,7 @@
 .post-nav-title {
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.35;
 }
 
@@ -835,7 +835,7 @@
   margin-top: 32px;
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: color 0.2s;
@@ -850,7 +850,7 @@
 .markdown-body {
   color: var(--ink-soft);
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 18px;
   letter-spacing: 0.006em;
   line-height: 1.95;
 }

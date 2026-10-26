@@ -10,10 +10,9 @@ header.site-header(class=landing ? 'site-header--landing' : '', id='site-header'
         - var active = is_active_nav(item.path, page.path)
         a(href=url_for(item.path), class=active ? 'is-active' : '', aria-current=active ? 'page' : false)= item.name
     .header-tools
-      button.search-trigger(type='button', data-search-open, aria-label='Search the notebook', aria-haspopup='dialog')
+      button.search-trigger(type='button', data-search-open, aria-label='Search notes', aria-haspopup='dialog')
         +icon('search', 15)
         span.search-trigger-label Search
-        kbd.search-trigger-key /
       button.menu-toggle(type='button', data-menu-toggle, aria-controls='mobile-menu', aria-expanded='false', aria-label='Open menu')
         span.menu-toggle-line
         span.menu-toggle-line

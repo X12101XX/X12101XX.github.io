@@ -15,6 +15,6 @@ include icons
         each item in socials
           a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
             +icon(item.icon, 16)
-      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='Search the notebook')
+      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='Search notes')
         +icon('search', 15)
-        span Search the notebook
+        span Search notes

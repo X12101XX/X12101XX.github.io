@@ -72,7 +72,7 @@ html.search-open {
   background: transparent;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .search-bar input::placeholder {
@@ -115,7 +115,7 @@ html.search-open {
   padding: 14px 22px 6px;
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -148,7 +148,7 @@ html.search-open {
 .search-result-title {
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.35;
 }
 
@@ -156,7 +156,7 @@ html.search-open {
   flex: none;
   color: var(--faint);
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 9.5px;
   letter-spacing: 0.06em;
 }
 
@@ -165,7 +165,7 @@ html.search-open {
   margin-top: 3px;
   color: var(--accent);
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -174,7 +174,7 @@ html.search-open {
   display: block;
   margin-top: 6px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 1.6;
 }
 
@@ -190,37 +190,8 @@ html.search-open {
   padding: 44px 24px;
   color: var(--muted);
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 16px;
   text-align: center;
-}
-
-.search-foot {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 11px 22px;
-  border-top: 1px solid var(--line);
-  color: var(--faint);
-  font-family: var(--mono);
-  font-size: 8px;
-  letter-spacing: 0.05em;
-}
-
-.search-foot span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.search-foot-note {
-  margin-left: auto;
-}
-
-.search-foot kbd {
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  font-size: 8px;
 }
 
 .search-overlay.is-loading .search-status::after {

@@ -1,10 +1,10 @@
 - var sectionTitle = page.title
-- if (page.layout === 'index' || (!page.layout && is_home())) sectionTitle = 'Journal'
+- if (page.layout === 'index' || (!page.layout && is_home())) sectionTitle = 'Notes'
 - if (page.layout === 'archive' || is_archive()) sectionTitle = 'Archive'
 - if (page.layout === 'categories') sectionTitle = 'Categories'
 - if (page.layout === 'tags') sectionTitle = 'Tags'
 - var docTitle = page.layout === 'landing' ? (config.title + (config.subtitle ? ' — ' + config.subtitle : '')) : (sectionTitle ? sectionTitle + ' · ' + config.title : config.title)
-- var rawDescription = page.description || page.excerpt || config.description || theme.landing.lede || ''
+- var rawDescription = page.description || page.excerpt || config.description || ''
 - var description = strip_html(rawDescription).replace(/\s+/g, ' ').trim()
 - var canonicalPath = page.path === 'index.html' ? '/' : url_for(page.path)
 - var canonical = config.url.replace(/\/$/, '') + canonicalPath

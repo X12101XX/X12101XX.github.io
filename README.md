@@ -1,6 +1,6 @@
-# X12101XX 的代码手记
+# X12101XX 的代码笔记
 
-一册关于代码、工具与理解的个人手记。使用 [Hexo](https://hexo.io/) 8 构建，搭配自建的 **Marginalia** 主题，部署在 GitHub Pages。
+一个关于代码、工具与理解的个人笔记。使用 [Hexo](https://hexo.io/) 8 构建，搭配自建的 **Marginalia** 主题，部署在 GitHub Pages。
 
 主题以暖象牙纸色、淡紫色强调与文学化的衬线排版为主：大面积留白、细线分隔、克制的动效。首页是一张安静的入口页，文章与友链像两扇门，站在同一张纸上。
 
@@ -25,18 +25,23 @@ npm run server
 
 也可以执行 `npm run build` 只生成静态文件，输出目录为 `public/`。
 
-## 发布文章
+## 文章管理
+
+文章就是一个 Markdown 文件，统一放在 `source/_posts/`。网站没有数据库，每次构建都会读取这里的文件，自动生成 `/posts/` 列表与文章页面。
+
+### 新建文章
 
 ```sh
-npx hexo new post "文章标题"
+npx hexo new post "How I Read a Codebase"
 ```
 
-编辑 `source/_posts/` 中的新 Markdown 文件。首页 `/` 是入口页，文章列表位于 `/posts/`。
+然后在 `source/_posts/` 里找到新文件并编辑。开头保留或修改这段 front matter：
 
 ```yaml
 ---
-title: 文章标题
+title: How I Read a Codebase
 date: 2026-10-26 12:00:00
+description: 一句话摘要，用于文章导语与搜索。
 categories:
   - 学习笔记
 tags:
@@ -44,7 +49,39 @@ tags:
 ---
 ```
 
-正文第一段会作为文章页的导语；`<!-- more -->` 之前的内容适合写一段简短摘要。提交并推送到 `main` 分支后会自动构建、部署，也可以直接在 GitHub 网页上编辑 Markdown。
+- `title`：文章标题。
+- `date`：发布时间。日期在未来的文章不会提前公开。
+- `description`：可选，用作页面摘要与分享描述。
+- `categories` / `tags`：分类与标签，可留空。
+- 文件名最好用英文短横线，例如 `how-i-read-a-codebase.md`，这样文章地址更干净。
+
+正文第一段会作为导语；在摘要之后加一行 `<!-- more -->`，列表页就会在这里截断。
+
+### 修改、删除
+
+- 修改：直接编辑 `source/_posts/` 里对应的 `.md` 文件。
+- 删除：删除该文件即可，列表和文章页会在下次构建后一起消失。
+- 文章图片：放到 `source/images/`，正文中用 `![说明](/images/图片名.jpg)` 引用。
+
+### 草稿与预览
+
+```sh
+npx hexo new draft "还没写完的文章"
+npx hexo server --draft   # 本地预览草稿
+npx hexo publish post "还没写完的文章"  # 发布草稿
+```
+
+草稿放在 `source/_drafts/`，不会被线上构建读取。写完后再发布。
+
+### 发布上线
+
+```sh
+git add .
+git commit -m "Add a new note"
+git push
+```
+
+推送到 `main` 后，GitHub Actions 会自动构建并部署。也可以完全在 GitHub 网页上管理：进入仓库的 `source/_posts/`，新建 / 编辑 / 删除 Markdown 文件并提交，等待 Actions 完成即可。首页开始页的「LATEST NOTE」会自动显示最新一篇文章。
 
 ## 个性化
 
@@ -55,7 +92,7 @@ tags:
 - `source/index.md`、`source/about/index.md`、`source/friends/index.md`：入口页、关于页和友链页。
 - `source/images/avatar.jpg`：首页与关于页头像。
 
-页脚只保留版权、站点状态和 GitHub / Journal / RSS / 返回顶部，不显示 Hexo 版本或主题信息。
+页脚只保留版权、站点状态和 GitHub / Notes / RSS / 返回顶部，不显示 Hexo 版本或主题信息。
 
 ## 搜索与订阅
 
