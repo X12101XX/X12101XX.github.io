@@ -1,6 +1,6 @@
 # X12101XX 的代码手记
 
-使用 Hexo 和[Welkin 主题](https://github.com/ZenithSeraph/hexo-theme-welkin)构建，部署至 GitHub Pages。
+使用 Hexo 和[Yun 主题](https://github.com/YunYouJun/hexo-theme-yun)构建，部署至 GitHub Pages。
 
 ## 首次上线
 
@@ -16,7 +16,6 @@
 
 ```sh
 npm ci
-npm ci --prefix themes/welkin --omit=dev
 npm run server
 ```
 
@@ -48,8 +47,7 @@ tags:
 
 - `_config.yml`：站点标题、简介、作者、域名。
 - `source/about/index.md`：关于页面。
-- `themes/welkin/source/assets/welkin/style.css`：配色与样式。
-- 主题提供玻璃档案首页、纸页阅读、深色阅读、搜索、目录、分类、标签与归档。
-- `_config.welkin.yml`：主题级配置；上游来源与改动见 `THEME.md`。
+- 主题提供云朵横幅、侧栏导航、深浅色切换、文章目录、分类、标签、归档与本地搜索。
+- `_config.yun.yml`：主题级配置；上游来源与改动见 `THEME.md`。
 
 日期在未来的文章不会提前公开。草稿放入 `source/_drafts/`。

@@ -37,6 +37,10 @@ index_generator:
   order_by: -date
 per_page: 10
 pagination_dir: page
-theme: welkin
+theme: yun
 include:
   - .nojekyll
+search:
+  path: search.xml
+  field: post
+  content: true

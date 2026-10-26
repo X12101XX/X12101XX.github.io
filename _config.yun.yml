@@ -1,0 +1,45 @@
+# Yun 主题：云朵横幅、侧栏导航与自动深浅色。
+mode: auto
+banner:
+  enable: true
+  title: 代码手记
+  border: true
+  cloud:
+    enable: true
+    color: white
+avatar:
+  enable: true
+  url: https://avatars.githubusercontent.com/u/195663060?v=4
+  rounded: true
+social:
+  - name: GitHub
+    link: https://github.com/X12101XX
+    icon: ri:github-line
+    color: "#6e5494"
+pages:
+  - name: 关于
+    url: /about/
+    icon: ri:user-line
+    color: "#0078E7"
+menu:
+  custom:
+    title: 关于
+    path: /about/
+    icon: ri:user-line
+font:
+  cdn:
+    enable: false
+local_search:
+  enable: true
+  trigger: auto
+  preload: false
+say:
+  enable: false
+reward:
+  enable: false
+comment:
+  enable: false
+creative_commons:
+  post: false
+footer:
+  since: 2026

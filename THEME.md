@@ -1,9 +1,7 @@
 # 主题来源
 
-主题：[Welkin](https://github.com/ZenithSeraph/hexo-theme-welkin)
+[Yun](https://github.com/YunYouJun/hexo-theme-yun)，作者 YunYouJun。
 
-上游版本：a56180411e6e3c41225eec535c594325da0d9db5
+安装版本：`hexo-theme-yun@1.10.11`，通过 npm 安装并以 package-lock.json 锁定版本。
 
-主题源码随项目一同保存，不依赖 Git 子模块。MIT 许可证与第三方版权声明保留在 `themes/welkin/`。
-
-本项目修改：主导航增加标签与关于页面入口。其余视觉、玻璃档案首页和阅读界面沿用 Welkin。
+主题设置集中于 `_config.yun.yml`，包括云朵横幅、头像、GitHub 链接、关于页面入口、自动深浅色与本地文章搜索。上游模板与版权信息保持原样。
