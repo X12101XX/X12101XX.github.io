@@ -1,16 +1,15 @@
 - var layoutName = page.layout || (is_post() ? 'post' : (is_home() ? 'index' : (is_archive() ? 'archive' : (is_tag() ? 'tag' : (is_category() ? 'category' : 'page')))))
+- var assetVersion = date(new Date(), 'YYYYMMDDHHmm')
 doctype html
 html(lang='zh-CN')
   head
     include head
   body(id='top', class='page-' + layoutName)
     .page-veil(aria-hidden='true')
-      .page-veil__dots
-      .page-veil__dots.page-veil__dots--signal
     a.skip-link(href='#main') Skip to content
     include header
     include mobile-menu.pug
     block content
     include footer
     include search
-    script(src=url_for('/js/main.js'), defer)
+    script(src=url_for('/js/main.js') + '?v=' + assetVersion, defer)

@@ -690,31 +690,11 @@ html.is-leaving {
   position: fixed;
   inset: 0;
   z-index: 300;
-  overflow: hidden;
   background: var(--bg);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.12s linear, visibility 0.12s linear;
-}
-
-.page-veil__dots {
-  position: absolute;
-  inset: -30%;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.95) 2.4px, transparent 2.9px);
-  background-position: center;
-  background-size: 48px 48px;
-  opacity: 0;
-  transform: scale(0.3);
-  transform-origin: center;
-  will-change: transform, opacity;
-}
-
-.page-veil__dots--signal {
-  background-image: radial-gradient(circle, rgba(177, 92, 255, 0.9) 2.8px, transparent 3.4px);
-  background-size: 72px 72px;
-  opacity: 0;
-  transform: scale(0.6) translateX(-10px);
+  transition: opacity 0.18s linear, visibility 0.18s linear;
 }
 
 html.is-leaving .page-veil,
@@ -724,82 +704,12 @@ html.is-transitioning .page-veil {
   pointer-events: auto;
 }
 
-html.is-leaving .page-veil__dots {
-  animation: veil-out 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-html.is-leaving .page-veil__dots--signal {
-  animation: veil-out-signal 0.46s steps(5, end) both;
-}
-
 html.is-entering .page-veil {
-  animation: veil-enter-bg 0.68s linear both;
+  animation: veil-fade 0.26s linear both;
 }
 
-html.is-entering .page-veil__dots {
-  animation: veil-in 0.56s cubic-bezier(0.3, 0.1, 0.2, 1) both;
-}
-
-html.is-entering .page-veil__dots--signal {
-  animation: veil-in-signal 0.62s steps(6, end) both;
-}
-
-@keyframes veil-out {
+@keyframes veil-fade {
   0% {
-    opacity: 0;
-    transform: scale(0.25);
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.85;
-    transform: scale(1.55);
-  }
-}
-
-@keyframes veil-out-signal {
-  0% {
-    opacity: 0;
-    transform: scale(0.5) translateX(-14px);
-  }
-  30% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 0.4;
-    transform: scale(1.4) translateX(14px);
-  }
-}
-
-@keyframes veil-in {
-  0% {
-    opacity: 0.85;
-    transform: scale(1.55);
-  }
-  55% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.12);
-  }
-}
-
-@keyframes veil-in-signal {
-  0% {
-    opacity: 0.4;
-    transform: scale(1.4) translateX(14px);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.4) translateX(-14px);
-  }
-}
-
-@keyframes veil-enter-bg {
-  0%,
-  60% {
     opacity: 1;
   }
   100% {

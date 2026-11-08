@@ -20,13 +20,13 @@
     root.classList.add('is-leaving');
     window.setTimeout(() => {
       window.location.href = url;
-    }, 430);
+    }, 190);
   };
 
   if (root.classList.contains('is-entering')) {
     window.setTimeout(() => {
       root.classList.remove('is-transitioning', 'is-entering');
-    }, 760);
+    }, 320);
   }
 
   /* ---------------- mobile menu ---------------- */
