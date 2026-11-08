@@ -108,14 +108,12 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper-2);
-  box-shadow: none;
-  transition: border-color 0.25s, transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition: border-color 0.25s, transform 0.3s var(--ease);
 }
 
 .category-card:hover {
   border-color: rgba(168, 85, 247, 0.5);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
 }
 
 .category-card-head {
@@ -225,7 +223,6 @@
 .category-card--index:hover {
   background: var(--paper-2);
   transform: none;
-  box-shadow: none;
 }
 
 .category-card--index .category-card-title {
@@ -500,14 +497,12 @@ a.about-fact-value:hover {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper-2);
-  box-shadow: none;
-  transition: border-color 0.25s, transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition: border-color 0.25s, transform 0.3s var(--ease);
 }
 
 .friend-card:hover {
   border-color: rgba(168, 85, 247, 0.5);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
 }
 
 .friend-avatar {
@@ -655,7 +650,6 @@ a.about-fact-value:hover {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper-2);
-  box-shadow: none;
   overflow: hidden;
 }
 
