@@ -81,6 +81,7 @@ themes/marginalia/
 - 代码块：根据 `figure.highlight` 的语言类名生成标签与复制按钮，复制成功后短暂反馈。
 - 阅读进度：只在文章页显示，按文章实际高度计算。
 - 目录：用 `IntersectionObserver` 高亮当前章节。
+- 页面切换：拦截站内链接，退场时白色点阵放大、入场时缩小；紫色点阵层做轻微 glitch 偏移；`prefers-reduced-motion` 下直接跳转。
 - 动效尊重 `prefers-reduced-motion`。
 
 ## 搜索

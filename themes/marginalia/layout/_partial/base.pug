@@ -4,6 +4,9 @@ html(lang='zh-CN')
   head
     include head
   body(id='top', class='page-' + layoutName)
+    .page-veil(aria-hidden='true')
+      .page-veil__dots
+      .page-veil__dots.page-veil__dots--signal
     a.skip-link(href='#main') Skip to content
     include header
     include mobile-menu.pug

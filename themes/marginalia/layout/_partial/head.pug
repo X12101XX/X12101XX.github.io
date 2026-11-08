@@ -43,3 +43,15 @@ meta(name='twitter:description', content=description)
 meta(name='twitter:image', content=shareImage)
 style.
   html { background: #000000; color-scheme: dark; }
+script.
+  (function () {
+    try {
+      var key = 'page-transition';
+      if (sessionStorage.getItem(key) === '1') {
+        sessionStorage.removeItem(key);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('is-transitioning', 'is-entering');
+        }
+      }
+    } catch (error) {}
+  })();

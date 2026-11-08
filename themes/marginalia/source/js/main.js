@@ -4,6 +4,30 @@
   const doc = document;
   const root = doc.documentElement;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const pageVeil = doc.querySelector('.page-veil');
+  let navigating = false;
+
+  const navigate = (url) => {
+    if (navigating) return;
+    if (!pageVeil || reducedMotion.matches) {
+      window.location.href = url;
+      return;
+    }
+    navigating = true;
+    try {
+      sessionStorage.setItem('page-transition', '1');
+    } catch (error) {}
+    root.classList.add('is-leaving');
+    window.setTimeout(() => {
+      window.location.href = url;
+    }, 430);
+  };
+
+  if (root.classList.contains('is-entering')) {
+    window.setTimeout(() => {
+      root.classList.remove('is-transitioning', 'is-entering');
+    }, 760);
+  }
 
   /* ---------------- mobile menu ---------------- */
 
@@ -312,7 +336,7 @@
         const chosen = items[activeResult >= 0 ? activeResult : 0];
         if (chosen) {
           event.preventDefault();
-          window.location.href = chosen.href;
+          navigate(chosen.href);
         }
       }
       return;
@@ -467,5 +491,37 @@
     const markBroken = () => image.classList.add('is-broken');
     image.addEventListener('error', markBroken);
     if (image.complete && image.naturalWidth === 0) markBroken();
+  });
+
+  /* ---------------- page transitions ---------------- */
+
+  doc.addEventListener('click', (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const target = event.target instanceof Element ? event.target.closest('a') : null;
+    if (!target) return;
+    if (target.target && target.target !== '_self') return;
+    if (target.hasAttribute('download')) return;
+    const href = target.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+    let url;
+    try {
+      url = new URL(target.href, window.location.href);
+    } catch (error) {
+      return;
+    }
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+    if (/\.(?:xml|json|txt|pdf|zip|png|jpe?g|webp|svg|gif|mp4|mp3|m4a|wav|woff2?)$/i.test(url.pathname)) return;
+    event.preventDefault();
+    navigate(url.href);
+  });
+
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    navigating = false;
+    root.classList.remove('is-leaving', 'is-transitioning', 'is-entering');
+    try {
+      sessionStorage.removeItem('page-transition');
+    } catch (error) {}
   });
 })();
