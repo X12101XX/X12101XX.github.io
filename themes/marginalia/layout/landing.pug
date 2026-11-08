@@ -6,57 +6,66 @@ block content
   - var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
   - var now = new Date().getFullYear()
   - var landing = theme.landing || {}
-  - var primary = landing.primary || { label: 'Notes', cn: '博客文章', path: '/posts/' }
-  - var secondary = landing.secondary || { label: 'Friends', cn: '友情链接', path: '/friends/' }
-  - var titleText = landing.title || 'Code & Quiet Things'
-  - var titlePieces = titleText.split(' & ')
-  .landing
-    .landing-bg(aria-hidden='true')
-    span.landing-word(aria-hidden='true') &
-    span.landing-rail.landing-rail--left(aria-hidden='true') Code · Tools · Quiet things
-    span.landing-rail.landing-rail--right(aria-hidden='true') Read slowly · #{since === now ? now : since + '–' + now}
-    main#main.landing-main
-      .landing-inner
-        .landing-avatar-wrap
-          a.landing-avatar(href=url_for('/about/'), aria-label='About ' + (theme.author.name || 'me'))
-            img(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='112', height='112')
-        p.landing-name= landing.name || theme.author.name || config.author
-        h1.landing-title
-          if titlePieces.length > 1
-            | #{titlePieces[0]} 
-            em &
-            |  #{titlePieces.slice(1).join(' & ')}
-          else
-            = titleText
-        .landing-socials
+  - var primary = landing.primary || { label: 'Notes', path: '/posts/' }
+  - var secondary = landing.secondary || { label: 'Friends', path: '/friends/' }
+  - var titleText = landing.title || config.subtitle || 'Code & Quiet Things'
+  - var noteCount = String(site.posts.length).padStart(2, '0')
+  - var lit = ['0-0', '0-4', '1-1', '1-3', '2-2', '3-1', '3-3', '4-0', '4-4']
+  .home
+    .shell.home-hero
+      .home-copy
+        p.home-kicker.mono Personal index — #{now}
+        h1.home-title= titleText
+        p.home-lede= config.description
+        .home-actions
+          a.btn.btn--solid(href=url_for(primary.path))
+            span= primary.label
+            +icon('arrow', 14)
+          a.btn.btn--line(href=url_for(secondary.path))
+            span= secondary.label
+            +icon('arrow', 14)
+        nav.home-socials(aria-label='Elsewhere')
           each item in socials
-            a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
-              +icon(item.icon, 17)
-        nav.landing-doors(aria-label='Start here')
-          a.landing-door(href=url_for(primary.path))
-            span.landing-door-mark
-              +icon('book', 18)
-            span.landing-door-text
-              span.landing-door-en= primary.label
-              span.landing-door-cn= primary.cn || '博客文章'
-            +icon('arrow', 15)
-          span.landing-door-rule(aria-hidden='true')
-          a.landing-door(href=url_for(secondary.path))
-            span.landing-door-mark
-              +icon('link', 18)
-            span.landing-door-text
-              span.landing-door-en= secondary.label
-              span.landing-door-cn= secondary.cn || '友情链接'
-            +icon('arrow', 15)
-        if latest
-          .landing-latest
-            span.landing-latest-label Latest note
-            a.landing-latest-title(href=url_for(latest.path))= latest.title
-            time.landing-latest-date(datetime=date(latest.date, 'YYYY-MM-DD'))= date(latest.date, 'YYYY.MM.DD')
-    footer.landing-footer
-      .shell.landing-footer-inner
-        p © #{since === now ? now : since + '–' + now} #{theme.author.name || config.author}
-        p.landing-footer-note= theme.footer.note || 'Notes in progress'
-        nav.landing-footer-links(aria-label='Footer')
-          a(href=url_for('/about/')) About
-          a(href=url_for('/atom.xml')) RSS
+            a(href=url_for(item.url), target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
+              span= item.name
+              +icon('arrow', 13)
+      aside.home-panel
+        .glyph(aria-hidden='true')
+          each r in [0, 1, 2, 3, 4]
+            each c in [0, 1, 2, 3, 4]
+              - var cell = r + '-' + c
+              span(class=(r === 2 && c === 2 ? 'is-signal' : (lit.indexOf(cell) !== -1 ? 'is-on' : '')))
+        .home-panel-head
+          span.mono Glyph
+          span.dot-num 01
+        dl.home-facts
+          div
+            dt.mono Notes
+            dd.dot-num= noteCount
+          div
+            dt.mono Updated
+            dd.dot-num= latest ? date(latest.date, 'YYYY.MM.DD') : '—'
+          div
+            dt.mono Since
+            dd.dot-num= since
+    if latest
+      section.home-latest(aria-label='Latest note')
+        .shell.home-latest-inner
+          span.home-latest-label.mono Latest note
+          a.home-latest-title(href=url_for(latest.path))= latest.title
+          time.home-latest-date.dot-num(datetime=date(latest.date, 'YYYY-MM-DD'))= date(latest.date, 'YYYY.MM.DD')
+          +icon('arrow', 18)
+    nav.home-index(aria-label='Sections')
+      .shell.home-index-inner
+        a(href=url_for('/posts/'))
+          span.dot-num 01
+          span Notes
+        a(href=url_for('/archives/'))
+          span.dot-num 02
+          span Archive
+        a(href=url_for('/friends/'))
+          span.dot-num 03
+          span Friends
+        a(href=url_for('/about/'))
+          span.dot-num 04
+          span About

@@ -23,7 +23,9 @@ block content
             header.category-card-head
               h2.category-card-title
                 a(href=url_for(category.path))= category.name
-              span.category-card-count #{category.length} #{category.length === 1 ? 'note' : 'notes'}
+              span.category-card-count
+                span.dot-num= String(category.length).padStart(2, '0')
+                |  #{category.length === 1 ? 'note' : 'notes'}
             ul.category-card-list
               each post in category.posts.toArray().slice(0, 3)
                 li

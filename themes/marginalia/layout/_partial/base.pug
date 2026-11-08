@@ -8,7 +8,6 @@ html(lang='zh-CN')
     include header
     include mobile-menu.pug
     block content
-    if layoutName !== 'landing'
-      include footer
+    include footer
     include search
     script(src=url_for('/js/main.js'), defer)

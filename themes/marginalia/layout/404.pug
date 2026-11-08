@@ -2,7 +2,6 @@ extends _partial/base.pug
 include _partial/icons
 block content
   main#main.site-main.error-page
-    .error-bg(aria-hidden='true')
     .shell.error-shell
       p.eyebrow
         span 404
@@ -13,10 +12,10 @@ block content
         em wandered off.
       p.error-lede Perhaps it was moved, renamed, or never written. The site is still here, though.
       .error-actions
-        a.btn.btn--primary(href=url_for('/'))
+        a.btn.btn--solid(href=url_for('/'))
           span Return home
           +icon('arrow-right', 15)
-        a.btn.btn--ghost(href=url_for('/archives/'))
+        a.btn.btn--line(href=url_for('/archives/'))
           span Browse the archive
           +icon('arrow', 14)
       .error-links

@@ -10,7 +10,7 @@ block content
     .shell
       header.page-head.journal-head
         p.eyebrow
-          span= theme.journal.kicker
+          span Index / #{theme.journal.kicker}
           span.eyebrow-cn= theme.journal.kicker_cn
         h1.page-title
           span= theme.journal.heading_before + ' '
@@ -34,6 +34,6 @@ block content
         .empty-state
           h2 Nothing filed yet.
           p The first note is being written. Come back soon.
-          a.btn.btn--ghost(href=url_for('/'))
+          a.btn.btn--line(href=url_for('/'))
             span Return home
             +icon('arrow-right', 15)

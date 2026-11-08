@@ -20,7 +20,7 @@ block content
             cite — a note to self
         aside.about-aside
           .about-card
-            img.about-avatar(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='88', height='88', loading='lazy')
+            img.about-avatar(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='240', height='240', loading='lazy')
             p.about-name= theme.author.name || config.author
             p.about-role= theme.landing.title
             .about-facts
@@ -40,4 +40,4 @@ block content
               +icon('arrow-right', 14)
           .about-card.about-card--quiet
             p.about-card-kicker Colophon
-            p Set in Space Grotesk and PingFang. White ink on black, one purple.
+            p Set in Archivo, Doto and IBM Plex Mono. White on black, one purple.

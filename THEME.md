@@ -1,18 +1,18 @@
 # Marginalia
 
-`themes/marginalia` 是为这个网站写的原创 Hexo 主题，不是上游主题的 fork。名字取意于书页边缘的批注：不抢正文，只把该说的话轻轻放在旁边。
+`themes/marginalia` 是为这个网站写的原创 Hexo 主题，不是上游主题的 fork。名字取意于书页边缘的批注，版式则采用 Nothing 的工业点阵与网格系统。
 
-设计方向来自纯黑底、白色文字、单一紫色强调与细线分隔，再收进一点工程与编辑的气息：大面积留白、宽字距的小号标签、几何 grotesk 标题、克制的圆角与尽量少的装饰。品牌与页眉以纯文字呈现，不使用图形标志；交互也保持安静，只在需要的时候出现。
+设计方向来自 Nothing 的工业点阵与八列网格：纯黑底、白色字、单一紫色信号；Archivo 承担标题与正文，Doto 只用于字标和数字，IBM Plex Mono 承担标签与代码。严格页边距、1px 细线、零圆角、零阴影、零渐变；标题与正文使用句子式大小写，只有字标使用大写。
 
 ## 页面的样子
 
-- **入口 `/`**：一张几乎落满整屏的开始页。淡淡的点阵网格、紫色柔光与放大的「&」文字水印之后，是头像、名字、站点标题、双语短句、社交链接，以及“Notes / 博客文章”和“Friends / 友情链接”两扇入口；最近一篇文章安静地留在下方。
-- **文章 `/posts/`**：按时间排列的文章列表，首篇带 “Latest note” 标记，附分类、标签与阅读时间。
-- **文章 `/posts/:title/`**：阅读进度条、导语、目录、代码语言标签与复制按钮、上下篇导航。
-- **归档 / 分类 / 标签**：同样的页面骨架，用大号年份、编号与细分隔线组织信息。
-- **友链 `/friends/`**：友链名片、站点名片与邀请区；头像加载失败时自动显示文字标记。入口页与主菜单都能直接抵达。
-- **关于 `/about/`**：正文与侧栏名片、站点说明并排。
-- **404**：以描边大字和点阵网格构成的失页提示。
+- **入口 `/`**：一块黑色索引。点阵字标、放大的标签标题、5×5 点阵字形、最新笔记与四条入口；没有头像、没有渐变、没有水印。
+- **文章 `/posts/`**：按时间排列的索引行；点阵编号、日期、标题、摘要与方形标签，全部落在 1px 细线上。
+- **文章 `/posts/:title/`**：点阵章节编号的阅读版式；Archivo 标题、单栏正文、右侧目录、等宽代码栏与上下篇索引。
+- **归档 / 分类 / 标签**：大号点阵年份、方形分类卡与方角标签，用编号与细线组织信息。
+- **友链 `/friends/`**：方形头像、1px 名片与交换友链的说明。
+- **关于 `/about/`**：头像、站点说明与规格表并排；章节标题带点阵编号。
+- **404**：超大点阵 404 与硬边按钮。
 
 ## 文件结构
 
@@ -46,7 +46,7 @@ themes/marginalia/
 └── source/
     ├── css/                 # base / landing / article / pages / search / responsive
     ├── js/main.js           # 菜单、搜索、复制、进度、目录
-    └── fonts/               # Space Grotesk 变量字体与 OFL 许可证
+    └── fonts/               # Archivo / Doto / IBM Plex Mono 与 OFL 许可证
 ```
 
 站点级设置写在根目录的 `_config.marginalia.yml`，会覆盖主题 `_config.yml` 中的同名配置。Hexo 会把两份配置合并后交给模板。
@@ -56,21 +56,21 @@ themes/marginalia/
 颜色与字体集中在 `source/css/base.css` 的 `:root`：
 
 ```css
---paper: #000000;       /* 黑底 */
---ink: #f5f5f7;         /* 白字 */
---muted: #a1a1aa;       /* 次级文字 */
---accent: #a855f7;      /* 唯一强调色 */
---accent-deep: #c084fc;
---accent-soft: rgba(168, 85, 247, 0.14);
---radius: 12px;         /* 卡片与入口的圆角 */
---sans: 'Space Grotesk', 'PingFang SC', ...;
---display: var(--sans);
---mono: 'SFMono-Regular', 'Cascadia Code', ...;
+--bg: #000000;           /* 黑底 */
+--ink: #ffffff;          /* 白字 */
+--muted: #b1b3b3;        /* 次级文字 */
+--faint: #7e8080;        /* 微文字 */
+--purple: #b15cff;       /* 唯一信号色 */
+--line: rgba(255, 255, 255, 0.2);
+--margin: clamp(20px, 2.3vw, 40px);  /* 2.3% 页边距 */
+--sans: 'Archivo', 'PingFang SC', ...;
+--dot: 'Doto', 'IBM Plex Mono', monospace;
+--mono: 'IBM Plex Mono', 'SFMono-Regular', ...;
 ```
 
-英文字体使用自托管的 [Space Grotesk](https://github.com/floriankarsten/space-grotesk) 变量字体，中文回退到苹方 / 微软雅黑 / 思源黑体系列。Space Grotesk 以 SIL Open Font License 1.1 授权，许可证随字体放在同一目录。
+英文字体使用自托管的 [Archivo](https://fonts.google.com/specimen/Archivo) 变量字体，数字与字标使用 [Doto](https://fonts.google.com/specimen/Doto)，标签与代码使用 [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)；中文回退到苹方 / 微软雅黑 / Noto Sans SC。三套字体均以 SIL Open Font License 1.1 授权，许可证随字体放在同一目录。
 
-页面宽度、行高、字距和间距都尽量用 `rem` 或相对单位，在 1240px、960px、768px 与 560px 附近调整布局。桌面端的文章目录在 1240px 以上出现，短屏幕与移动端自动收起。
+页面使用八列网格，页边距为画布宽度的 2.3%；820px 以下收成单列。桌面端的文章目录在 1100px 以上出现，短屏幕与移动端自动收起。
 
 ## 交互
 
@@ -98,9 +98,11 @@ search:
 
 ## 定制建议
 
-- 换颜色：只改 `base.css` 顶部的变量，优先保持黑底、白字、单一紫色三层关系。
-- 换首页文案：改 `_config.marginalia.yml` 的 `landing` 与各页面 `heading_before` / `heading_em`；入口两扇门可分别设置英文 `label` 与中文 `cn`。
+- 换颜色：只改 `base.css` 顶部的变量，优先保持黑底、白字、单一紫色信号三层关系。
+- 换字体：改 `base.css` 的 `@font-face` 与 `--sans` / `--dot` / `--mono`；Doto 只用于字标和数字，不要放进正文。
+- 换首页文案：改 `_config.marginalia.yml` 的 `landing` 与各页面 `heading_before` / `heading_em`；首页主按钮使用 `primary`。
 - 换菜单：改 `menu`；社交图标名称需在 `layout/_partial/icons.pug` 中存在。
 - 换友链：改 `source/_data/friends.yml`，`avatar` 可为空。
 - 改页脚：`_config.marginalia.yml` 的 `footer.since` / `footer.note`；请保留“不显示 Hexo 与主题版本”的原则。
 - 新增页面布局：在 `layout/` 中创建同名 `.pug`，并在 Markdown front matter 里指定 `layout`。
+- 不要加圆角、阴影或渐变；网格、1px 细线和单一紫色信号是这个主题的约束，不是可选项。
