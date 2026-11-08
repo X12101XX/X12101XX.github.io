@@ -305,15 +305,11 @@
 
   .post-content {
     font-size: 17.5px;
-    line-height: 1.95;
+    line-height: 1.8;
   }
 
   .post-content > p:first-of-type {
     font-size: 18.5px;
-  }
-
-  .post-content > p:first-of-type::first-letter {
-    font-size: 2.5em;
   }
 
   .post-content h2 {
@@ -600,6 +596,10 @@
 
   .landing-title {
     font-size: clamp(42px, 13vw, 56px);
+  }
+
+  .landing-word {
+    display: none;
   }
 
   .landing-socials {

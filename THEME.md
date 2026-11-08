@@ -2,17 +2,17 @@
 
 `themes/marginalia` 是为这个网站写的原创 Hexo 主题，不是上游主题的 fork。名字取意于书页边缘的批注：不抢正文，只把该说的话轻轻放在旁边。
 
-设计方向来自暖象牙纸色、淡紫色强调、细线分隔与文学化的衬线排版，再收进一点编辑设计与阅读的气息：大面积留白、宽字距的小号标签、衬线标题、柔软的圆角与尽量少的装饰。品牌与页眉以纯文字呈现，不使用图形标志；交互也保持安静，只在需要的时候出现。
+设计方向来自纯黑底、白色文字、单一紫色强调与细线分隔，再收进一点工程与编辑的气息：大面积留白、宽字距的小号标签、几何 grotesk 标题、克制的圆角与尽量少的装饰。品牌与页眉以纯文字呈现，不使用图形标志；交互也保持安静，只在需要的时候出现。
 
 ## 页面的样子
 
-- **入口 `/`**：一张几乎落满整屏的开始页。淡淡的稿纸网格、柔光与放大的「&」文字水印之后，是头像、名字、站点标题、双语短句、社交链接，以及“Notes / 博客文章”和“Friends / 友情链接”两扇入口；最近一篇文章安静地留在下方。
+- **入口 `/`**：一张几乎落满整屏的开始页。淡淡的点阵网格、紫色柔光与放大的「&」文字水印之后，是头像、名字、站点标题、双语短句、社交链接，以及“Notes / 博客文章”和“Friends / 友情链接”两扇入口；最近一篇文章安静地留在下方。
 - **文章 `/posts/`**：按时间排列的文章列表，首篇带 “Latest note” 标记，附分类、标签与阅读时间。
-- **文章 `/posts/:title/`**：阅读进度条、导语、首字下沉、目录、代码语言标签与复制按钮、上下篇导航。
+- **文章 `/posts/:title/`**：阅读进度条、导语、目录、代码语言标签与复制按钮、上下篇导航。
 - **归档 / 分类 / 标签**：同样的页面骨架，用大号年份、编号与细分隔线组织信息。
 - **友链 `/friends/`**：友链名片、站点名片与邀请区；头像加载失败时自动显示文字标记。入口页与主菜单都能直接抵达。
 - **关于 `/about/`**：正文与侧栏名片、站点说明并排。
-- **404**：以描边大字和纸张网格构成的失页提示。
+- **404**：以描边大字和点阵网格构成的失页提示。
 
 ## 文件结构
 
@@ -46,7 +46,7 @@ themes/marginalia/
 └── source/
     ├── css/                 # base / landing / article / pages / search / responsive
     ├── js/main.js           # 菜单、搜索、复制、进度、目录
-    └── fonts/               # Newsreader 变量字体与 OFL 许可证
+    └── fonts/               # Space Grotesk 变量字体与 OFL 许可证
 ```
 
 站点级设置写在根目录的 `_config.marginalia.yml`，会覆盖主题 `_config.yml` 中的同名配置。Hexo 会把两份配置合并后交给模板。
@@ -56,19 +56,19 @@ themes/marginalia/
 颜色与字体集中在 `source/css/base.css` 的 `:root`：
 
 ```css
---paper: #faf9f5;     /* 暖象牙纸 */
---ink: #1f1e1d;       /* 墨色 */
---muted: #6e685e;     /* 次级文字 */
---accent: #9b7fc7;    /* 淡紫色强调 */
---accent-deep: #7b5fa6;
---accent-soft: #f0eaf8;
---radius: 16px;       /* 卡片与入口的圆角 */
---serif: 'Newsreader', 'Songti SC', 'Noto Serif CJK SC', ...;
---sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', ...;
+--paper: #000000;       /* 黑底 */
+--ink: #f5f5f7;         /* 白字 */
+--muted: #a1a1aa;       /* 次级文字 */
+--accent: #a855f7;      /* 唯一强调色 */
+--accent-deep: #c084fc;
+--accent-soft: rgba(168, 85, 247, 0.14);
+--radius: 12px;         /* 卡片与入口的圆角 */
+--sans: 'Space Grotesk', 'PingFang SC', ...;
+--display: var(--sans);
 --mono: 'SFMono-Regular', 'Cascadia Code', ...;
 ```
 
-英文字体使用自托管的 [Newsreader](https://github.com/productiontype/Newsreader) 变量字体，中文回退到宋体 / 思源宋体系列。Newsreader 以 SIL Open Font License 1.1 授权，许可证随字体放在同一目录。
+英文字体使用自托管的 [Space Grotesk](https://github.com/floriankarsten/space-grotesk) 变量字体，中文回退到苹方 / 微软雅黑 / 思源黑体系列。Space Grotesk 以 SIL Open Font License 1.1 授权，许可证随字体放在同一目录。
 
 页面宽度、行高、字距和间距都尽量用 `rem` 或相对单位，在 1240px、960px、768px 与 560px 附近调整布局。桌面端的文章目录在 1240px 以上出现，短屏幕与移动端自动收起。
 
@@ -98,7 +98,7 @@ search:
 
 ## 定制建议
 
-- 换颜色：只改 `base.css` 顶部的变量，优先保持纸色、墨色、淡紫色三层关系。
+- 换颜色：只改 `base.css` 顶部的变量，优先保持黑底、白字、单一紫色三层关系。
 - 换首页文案：改 `_config.marginalia.yml` 的 `landing` 与各页面 `heading_before` / `heading_em`；入口两扇门可分别设置英文 `label` 与中文 `cn`。
 - 换菜单：改 `menu`；社交图标名称需在 `layout/_partial/icons.pug` 中存在。
 - 换友链：改 `source/_data/friends.yml`，`avatar` 可为空。

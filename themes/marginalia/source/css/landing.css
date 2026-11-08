@@ -21,8 +21,8 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 42% 34% at 50% 31%, rgba(155, 127, 199, 0.11), transparent 72%),
-    radial-gradient(ellipse 70% 58% at 50% 45%, rgba(255, 254, 250, 0.72), transparent 76%);
+    radial-gradient(ellipse 42% 34% at 50% 31%, rgba(168, 85, 247, 0.16), transparent 72%),
+    radial-gradient(ellipse 70% 58% at 50% 45%, rgba(255, 255, 255, 0.035), transparent 76%);
 }
 
 .landing::after {
@@ -33,7 +33,7 @@
   left: 50%;
   width: min(720px, 66vw);
   aspect-ratio: 1;
-  border: 1px solid rgba(31, 30, 29, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -43,10 +43,8 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image:
-    linear-gradient(to right, rgba(31, 30, 29, 0.042) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(31, 30, 29, 0.042) 1px, transparent 1px);
-  background-size: 88px 88px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.2px);
+  background-size: 28px 28px;
   -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 40%, #000 16%, transparent 82%);
   mask-image: radial-gradient(ellipse 72% 70% at 50% 40%, #000 16%, transparent 82%);
 }
@@ -56,10 +54,9 @@
   z-index: 0;
   top: 45%;
   left: 50%;
-  color: rgba(155, 127, 199, 0.065);
-  font-family: var(--serif);
+  color: rgba(168, 85, 247, 0.07);
+  font-family: var(--display);
   font-size: min(46vw, 520px);
-  font-style: italic;
   font-weight: 300;
   line-height: 0.8;
   transform: translate(-50%, -50%);
@@ -71,7 +68,7 @@
   position: absolute;
   z-index: 1;
   top: 50%;
-  color: rgba(31, 30, 29, 0.3);
+  color: rgba(255, 255, 255, 0.35);
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.26em;
@@ -118,7 +115,7 @@
   content: '';
   position: absolute;
   inset: -14px;
-  border: 1px dashed rgba(155, 127, 199, 0.26);
+  border: 1px dashed rgba(168, 85, 247, 0.3);
   border-radius: 50%;
   animation: orbit 140s linear infinite;
 }
@@ -133,7 +130,7 @@
   border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--paper-2);
-  box-shadow: 0 18px 44px rgba(74, 55, 32, 0.11);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
   transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 
@@ -146,7 +143,7 @@
 
 .landing-avatar:hover {
   transform: scale(1.025);
-  box-shadow: 0 22px 52px rgba(74, 55, 32, 0.15);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.7);
 }
 
 .landing-name {
@@ -164,19 +161,18 @@
   max-width: 760px;
   margin: 0 auto;
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: clamp(50px, 7.2vw, 78px);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.038em;
-  line-height: 1.01;
+  line-height: 1.05;
   text-wrap: balance;
   animation: rise 0.9s 0.24s var(--ease) both;
 }
 
 .landing-title em {
   color: var(--accent);
-  font-style: italic;
-  font-weight: 350;
+  font-weight: 500;
 }
 
 .landing-socials {
@@ -199,8 +195,8 @@
   margin-top: 31px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 253, 249, 0.68);
-  box-shadow: 0 1px 2px rgba(52, 45, 34, 0.03), 0 18px 40px rgba(52, 45, 34, 0.055);
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: none;
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   overflow: hidden;
@@ -239,7 +235,7 @@
 
 .landing-door-en {
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 18px;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -267,7 +263,7 @@
 }
 
 .landing-door:hover .landing-door-mark {
-  border-color: rgba(155, 127, 199, 0.4);
+  border-color: rgba(168, 85, 247, 0.5);
   background: var(--accent-soft);
 }
 
@@ -306,7 +302,7 @@
   max-width: 300px;
   overflow: hidden;
   color: var(--ink-soft);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 15.5px;
   line-height: 1.5;
   text-overflow: ellipsis;
@@ -381,10 +377,8 @@
 .error-bg {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(31, 30, 29, 0.038) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(31, 30, 29, 0.038) 1px, transparent 1px);
-  background-size: 88px 88px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px);
+  background-size: 28px 28px;
   -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000 10%, transparent 78%);
   mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000 10%, transparent 78%);
   pointer-events: none;
@@ -402,19 +396,19 @@
 .error-code {
   margin: 0 0 -14px;
   color: transparent;
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: clamp(120px, 24vw, 250px);
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 0.8;
-  -webkit-text-stroke: 1px rgba(31, 30, 29, 0.15);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.18);
 }
 
 .error-title {
   margin: 0;
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: clamp(40px, 6vw, 64px);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.035em;
   line-height: 1.08;
   text-wrap: balance;
@@ -426,8 +420,7 @@
 
 .error-title em {
   color: var(--accent);
-  font-style: italic;
-  font-weight: 350;
+  font-weight: 500;
 }
 
 .error-lede {

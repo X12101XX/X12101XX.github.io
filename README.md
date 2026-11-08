@@ -2,7 +2,7 @@
 
 一个关于代码、工具与理解的个人笔记。使用 [Hexo](https://hexo.io/) 8 构建，搭配自建的 **Marginalia** 主题，部署在 GitHub Pages。
 
-主题以暖象牙纸色、淡紫色强调与文学化的衬线排版为主：大面积留白、细线分隔、克制的动效。首页是一张安静的入口页，文章与友链像两扇门，站在同一张纸上。
+主题以纯黑底、白色文字与单一紫色强调为主：大面积留白、细线分隔、克制的动效。首页是一张安静的入口页，文章与友链像两扇门，开在同一块黑底上。
 
 ## 首次上线
 
@@ -135,4 +135,4 @@ git push
 
 日期在未来的文章不会提前公开。草稿放入 `source/_drafts/`。
 
-字体 Newsreader 以 SIL Open Font License 1.1 授权分发，许可证见 `themes/marginalia/source/fonts/OFL.txt`。
+字体 Space Grotesk 以 SIL Open Font License 1.1 授权分发，许可证见 `themes/marginalia/source/fonts/OFL.txt`。

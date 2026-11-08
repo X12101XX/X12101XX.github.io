@@ -17,7 +17,7 @@ html.search-open {
 .search-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(31, 30, 29, 0.36);
+  background: rgba(0, 0, 0, 0.72);
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
   opacity: 0;
@@ -34,8 +34,8 @@ html.search-open {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--paper);
-  box-shadow: 0 34px 90px rgba(31, 25, 14, 0.26);
+  background: var(--paper-2);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.8);
   opacity: 0;
   transform: translateY(-10px) scale(0.99);
   transition: opacity 0.28s var(--ease), transform 0.32s var(--ease);
@@ -71,7 +71,7 @@ html.search-open {
   outline: 0;
   background: transparent;
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 22px;
 }
 
@@ -147,7 +147,7 @@ html.search-open {
 
 .search-result-title {
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 20px;
   line-height: 1.35;
 }
@@ -183,13 +183,13 @@ html.search-open {
   border-radius: 2px;
   background: var(--accent-soft);
   color: var(--accent-deep);
-  box-shadow: 0 0 0 1px rgba(155, 127, 199, 0.08);
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.15);
 }
 
 .search-empty {
   padding: 44px 24px;
   color: var(--muted);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 16px;
   text-align: center;
 }

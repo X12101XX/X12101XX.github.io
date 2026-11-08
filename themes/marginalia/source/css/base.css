@@ -1,50 +1,40 @@
 /* =========================================================
-   Marginalia — warm ivory, quiet ink, lavender.
+   Marginalia — black field, white ink, one purple.
    Base: fonts, tokens, reset, chrome, motion.
    ========================================================= */
 
 @font-face {
-  font-family: 'Newsreader';
+  font-family: 'Space Grotesk';
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 300 700;
   font-display: swap;
-  src: url('../fonts/newsreader-normal.woff2') format('woff2');
-  font-optical-sizing: auto;
-}
-
-@font-face {
-  font-family: 'Newsreader';
-  font-style: italic;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url('../fonts/newsreader-italic.woff2') format('woff2');
-  font-optical-sizing: auto;
+  src: url('../fonts/space-grotesk.woff2') format('woff2');
 }
 
 :root {
-  --paper: #faf9f5;
-  --paper-2: #fffdf9;
-  --paper-3: #f3f0e8;
-  --paper-4: #ebe7dc;
-  --ink: #1f1e1d;
-  --ink-soft: #403c35;
-  --muted: #6e685e;
-  --faint: #9b9487;
-  --line: #e8e3d9;
-  --line-soft: #f0ece4;
-  --line-strong: #d6d0c2;
-  --accent: #9b7fc7;
-  --accent-deep: #7b5fa6;
-  --accent-soft: #f0eaf8;
-  --gold: #a78954;
-  --serif: 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Songti SC', 'Noto Serif CJK SC', 'Noto Serif SC', 'Source Han Serif SC', STSong, SimSun, serif;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  color-scheme: dark;
+  --paper: #000000;
+  --paper-2: #0b0b0c;
+  --paper-3: #121214;
+  --paper-4: #1a1a1d;
+  --ink: #f5f5f7;
+  --ink-soft: #d4d4d8;
+  --muted: #a1a1aa;
+  --faint: #85858f;
+  --line: rgba(255, 255, 255, 0.12);
+  --line-soft: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --accent: #a855f7;
+  --accent-deep: #c084fc;
+  --accent-soft: rgba(168, 85, 247, 0.14);
+  --sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', Arial, sans-serif;
+  --display: var(--sans);
   --mono: 'SFMono-Regular', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --shell: 1120px;
-  --radius: 16px;
-  --shadow-soft: 0 1px 2px rgba(52, 45, 34, 0.03), 0 16px 40px rgba(52, 45, 34, 0.06);
-  --shadow-lift: 0 2px 4px rgba(52, 45, 34, 0.04), 0 22px 50px rgba(52, 45, 34, 0.1);
+  --radius: 12px;
+  --shadow-soft: none;
+  --shadow-lift: none;
 }
 
 *,
@@ -77,20 +67,9 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-}
-
 ::selection {
-  background: var(--accent-soft);
-  color: var(--ink);
+  background: var(--accent);
+  color: #000000;
 }
 
 :focus-visible {
@@ -102,6 +81,11 @@ body::after {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+em,
+i {
+  font-style: normal;
 }
 
 img,
@@ -187,7 +171,7 @@ button {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(250, 249, 245, 0.84);
+  background: rgba(0, 0, 0, 0.72);
   -webkit-backdrop-filter: blur(18px) saturate(1.04);
   backdrop-filter: blur(18px) saturate(1.04);
   border-bottom: 1px solid transparent;
@@ -196,7 +180,7 @@ button {
 
 .site-header.is-scrolled {
   border-bottom-color: var(--line);
-  background: rgba(250, 249, 245, 0.93);
+  background: rgba(0, 0, 0, 0.92);
 }
 
 .site-header--landing {
@@ -298,7 +282,7 @@ button {
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 9px;
-  background: rgba(255, 253, 249, 0.52);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--muted);
   font-size: 12.5px;
   letter-spacing: 0.01em;
@@ -410,8 +394,9 @@ button {
 }
 
 .mobile-nav-name {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 38px;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.025em;
 }
@@ -440,7 +425,7 @@ button {
   height: 40px;
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: rgba(255, 253, 249, 0.58);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--muted);
   transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.25s var(--ease);
 }
@@ -486,20 +471,20 @@ button {
 .btn--primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fffaf4;
-  box-shadow: 0 10px 24px rgba(155, 127, 199, 0.2);
+  color: #000000;
+  box-shadow: 0 10px 24px rgba(168, 85, 247, 0.28);
 }
 
 .btn--primary:hover {
   background: var(--accent-deep);
   border-color: var(--accent-deep);
-  box-shadow: 0 14px 30px rgba(123, 95, 166, 0.24);
+  box-shadow: 0 14px 30px rgba(192, 132, 252, 0.3);
   transform: translateY(-1px);
 }
 
 .btn--ghost {
   border-color: var(--line);
-  background: rgba(255, 253, 249, 0.42);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--ink);
 }
 
@@ -539,25 +524,24 @@ button {
   max-width: 940px;
   margin: 0;
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: clamp(48px, 6vw, 78px);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.035em;
-  line-height: 1.02;
+  line-height: 1.05;
   text-wrap: balance;
 }
 
 .page-title em {
   color: var(--accent);
-  font-style: italic;
-  font-weight: 350;
+  font-weight: 500;
 }
 
 .page-lede {
   max-width: 640px;
   margin: 22px 0 0;
   color: var(--muted);
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: clamp(18px, 1.5vw, 20px);
   line-height: 1.75;
 }
@@ -663,9 +647,9 @@ button {
 
 .empty-state h2 {
   margin: 0;
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 34px;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 
