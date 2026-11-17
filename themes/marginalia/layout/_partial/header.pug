@@ -1,29 +1,23 @@
 include icons
 - var menu = theme.menu || []
-- var since = (theme.footer && theme.footer.since) || 2026
 header.site-header(id='site-header')
   .shell.header-inner
     a.brand(href=url_for('/'), aria-label=config.title)
       span.brand-mark(aria-hidden='true')
       span.brand-text= (theme.author && theme.author.name) || 'X12101XX'
-      span.brand-sub.mono VOL.#{since}
     nav.site-nav(aria-label='主导航')
-      each item, index in menu
+      each item in menu
         - var active = is_active_nav(item.path, page.path)
-        - var navIndex = String(index + 1).padStart(2, '0')
-        a(href=url_for(item.path), class=active ? 'is-active' : '', aria-current=active ? 'page' : false)
-          span.nav-num.mono= navIndex
-          span.nav-label= item.name
+        a(href=url_for(item.path), class=active ? 'is-active' : '', aria-current=active ? 'page' : false)= item.name
     .header-tools
       button.search-trigger(type='button', data-search-open, aria-label='检索文章', aria-haspopup='dialog')
         +icon('search', 15)
         span.search-trigger-label 检索
-        kbd.search-kbd(aria-hidden='true') ⌘K
-      button.theme-toggle(type='button', data-theme-toggle, aria-label='切换纸本与暗房配色', title='切换 纸本 / 暗房 模式')
+      button.theme-toggle(type='button', data-theme-toggle, aria-label='切换素笺与暮墨配色', title='切换 素笺 / 暮墨')
         +icon('moon', 15)
         +icon('sun', 15)
-        span.theme-toggle-text.theme-label-dark 暗房
-        span.theme-toggle-text.theme-label-light 纸本
+        span.theme-toggle-text.theme-label-dark 暮墨
+        span.theme-toggle-text.theme-label-light 素笺
       button.menu-toggle(type='button', data-menu-toggle, aria-controls='mobile-menu', aria-expanded='false', aria-label='打开导航菜单')
         span.menu-toggle-line
         span.menu-toggle-line

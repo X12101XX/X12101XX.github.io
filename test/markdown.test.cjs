@@ -296,8 +296,8 @@ test('typora/marginalia.css and scripts/typora-helper.cjs exist with expected st
   const typoraCssPath = path.join(ROOT_DIR, 'typora', 'marginalia.css');
   assert.ok(fs.existsSync(typoraCssPath), 'Missing typora/marginalia.css');
   const typoraCss = fs.readFileSync(typoraCssPath, 'utf8');
-  assert.match(typoraCss, /--bg-color:\s*#FFFFFF/);
-  assert.match(typoraCss, /--accent:\s*#FF0000/);
+  assert.match(typoraCss, /--bg-color:\s*#F7F4EE/);
+  assert.match(typoraCss, /--accent:\s*#C8161D/);
   assert.match(typoraCss, /#write\s*\{/);
   assert.match(typoraCss, /#write h2::before/);
   assert.match(typoraCss, /\.md-Alert|\.md-alert/);

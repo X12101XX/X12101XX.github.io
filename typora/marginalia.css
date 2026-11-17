@@ -1,72 +1,71 @@
 /* =========================================================
-   X12101XX — Typora Companion Theme (Swiss × Windows 8 Metro)
-   Matches https://x12101xx.github.io/ (#FFFFFF / #000000 / #FF0000).
+   X12101XX — Typora Companion Theme (Poetic Ink-Wash)
+   Matches https://x12101xx.github.io/ (Xuan Paper #F7F4EE).
    Install with: npm run typora:theme
    Enable in Typora: Themes -> Marginalia
    ========================================================= */
 
-@include-when-export url(https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap);
-
 :root {
   color-scheme: light;
 
-  /* Pure White, Pure Black, Blazing Signal Red (matches website default) */
-  --bg: #FFFFFF;
-  --bg-elevated: #F3F3F3;
-  --surface: #EAEAEA;
-  --surface-2: #DCDCDC;
-  --ink: #000000;
-  --ink-2: #111111;
-  --muted: #4D4D4D;
-  --faint: #7A7A7A;
-  --line: rgba(0, 0, 0, 0.24);
-  --line-soft: rgba(0, 0, 0, 0.12);
-  --line-strong: #000000;
-  --accent: #FF0000;
-  --accent-ink: #FFFFFF;
-  --accent-soft: rgba(255, 0, 0, 0.10);
+  /* Xuan paper & Sumi ink palette with restrained cinnabar seal accent */
+  --bg: #F7F4EE;
+  --bg-elevated: #EFECE4;
+  --surface: #E7E2D8;
+  --surface-2: #DDD7CB;
+  --ink: #1C1B19;
+  --ink-2: #2E2C29;
+  --muted: #6E6A63;
+  --faint: #9E998F;
+  --line: rgba(28, 27, 25, 0.12);
+  --line-soft: rgba(28, 27, 25, 0.06);
+  --line-strong: rgba(28, 27, 25, 0.28);
+  --accent: #C8161D;
+  --accent-ink: #FAF8F5;
+  --accent-soft: rgba(200, 22, 29, 0.08);
 
   /* Callout semantic tones */
-  --tip-color: #166534;
-  --warn-color: #B45309;
-  --caution-color: #FF0000;
+  --tip-color: #4A6353;
+  --warn-color: #8A653A;
+  --caution-color: #9E3B33;
 
-  /* Code surface & syntax palette */
-  --code-bg: #F3F3F3;
-  --code-ink: #000000;
-  --code-kw: #D90000;
-  --code-str: #0F5132;
-  --code-type: #0044CC;
-  --code-num: #B45309;
-  --code-fn: #000000;
-  --code-cmt: #666666;
+  /* Subdued mineral-ink code highlighting */
+  --code-bg: #F1EDE4;
+  --code-ink: #2C2A27;
+  --code-kw: #8C2D28;
+  --code-str: #4A6353;
+  --code-type: #3E5463;
+  --code-num: #7A583B;
+  --code-fn: #1C1B19;
+  --code-cmt: #948F84;
 
-  /* Swiss typography stacks */
-  --sans: 'Archivo', 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif;
+  /* Literary Serif & Monospace stacks */
+  --serif: 'Songti SC', 'STSong', 'Noto Serif CJK SC', 'Noto Serif SC', 'Source Han Serif SC', 'Source Han Serif CN', 'SimSun', 'Georgia', serif;
+  --sans: 'Archivo', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   --mono: 'IBM Plex Mono', 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
 
   /* Typora core variables */
-  --bg-color: #FFFFFF;
-  --text-color: #111111;
-  --md-char-color: #FF0000;
-  --meta-content-color: #4D4D4D;
-  --select-text-bg-color: rgba(255, 0, 0, 0.18);
-  --select-text-font-color: #000000;
-  --primary-color: #FF0000;
-  --primary-btn-border-color: #000000;
-  --primary-btn-text-color: #FFFFFF;
-  --side-bar-bg-color: #F3F3F3;
-  --control-text-color: #111111;
-  --control-text-hover-color: #000000;
-  --window-border: 1px solid rgba(0, 0, 0, 0.24);
-  --active-file-bg-color: #000000;
-  --active-file-text-color: #FFFFFF;
-  --active-file-border-color: #FF0000;
-  --focus-ring-color: rgba(255, 0, 0, 0.35);
-  --item-hover-bg-color: #EAEAEA;
-  --item-hover-text-color: #000000;
-  --search-select-bg-color: #FF0000;
-  --search-select-text-color: #FFFFFF;
+  --bg-color: #F7F4EE;
+  --text-color: #2E2C29;
+  --md-char-color: #9E998F;
+  --meta-content-color: #6E6A63;
+  --select-text-bg-color: rgba(200, 22, 29, 0.12);
+  --select-text-font-color: #1C1B19;
+  --primary-color: #C8161D;
+  --primary-btn-border-color: rgba(28, 27, 25, 0.28);
+  --primary-btn-text-color: #FAF8F5;
+  --side-bar-bg-color: #EFECE4;
+  --control-text-color: #2E2C29;
+  --control-text-hover-color: #1C1B19;
+  --window-border: 1px solid rgba(28, 27, 25, 0.12);
+  --active-file-bg-color: #E7E2D8;
+  --active-file-text-color: #1C1B19;
+  --active-file-border-color: #C8161D;
+  --focus-ring-color: rgba(200, 22, 29, 0.25);
+  --item-hover-bg-color: #E7E2D8;
+  --item-hover-text-color: #1C1B19;
+  --search-select-bg-color: #C8161D;
+  --search-select-text-color: #FAF8F5;
   --monospace: var(--mono);
   --mermaid-theme: default;
 }
@@ -75,42 +74,40 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  border-radius: 0;
 }
 
 html,
 body {
   background-color: var(--bg);
   color: var(--text-color);
-  font-family: var(--sans);
-  font-size: 20px;
-  line-height: 1.82;
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #typora-source {
   font-family: var(--mono);
-  font-size: 16px;
+  font-size: 15.5px;
   line-height: 1.78;
 }
 
 #write {
-  max-width: 820px;
+  max-width: 780px;
   margin: 0 auto;
-  padding: 56px 40px 140px;
-  font-family: var(--sans);
+  padding: 64px 48px 140px;
+  font-family: var(--serif);
   font-size: 20px;
-  line-height: 1.82;
+  line-height: 1.98;
   color: var(--ink-2);
-  counter-reset: section;
 }
 
 #write > *:first-child {
   margin-top: 0;
 }
 
-/* ---------- headings & Swiss section counters ---------- */
+/* ---------- headings ---------- */
 
 #write h1,
 #write h2,
@@ -118,47 +115,33 @@ body {
 #write h4,
 #write h5,
 #write h6 {
-  font-family: var(--sans);
+  font-family: var(--serif);
   color: var(--ink);
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.18;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  line-height: 1.32;
   scroll-margin-top: 40px;
 }
 
 #write h1 {
-  font-size: 42px;
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.25;
   margin: 0 0 28px;
   padding-bottom: 18px;
-  border-bottom: 2px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 #write h2 {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin: 56px 0 20px;
-  padding-top: 20px;
-  padding-bottom: 10px;
-  border-top: 2px solid var(--line-strong);
-  border-bottom: 1px solid var(--line);
-  font-size: 30px;
-  counter-increment: section;
+  margin: 52px 0 20px;
+  font-size: 28px;
 }
 
 #write h2::before {
-  content: counter(section, decimal-leading-zero);
-  flex: none;
-  padding: 3px 9px;
-  background: var(--accent);
-  color: #FFFFFF;
-  font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  content: '·';
+  margin-right: 10px;
+  color: var(--accent);
+  font-weight: 700;
 }
 
 #write blockquote h2,
@@ -220,30 +203,29 @@ body {
 
 #write a {
   color: var(--ink);
-  font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  transition: color 0.14s ease, background-color 0.14s ease;
+  transition: color 0.14s ease, text-decoration-color 0.14s ease;
 }
 
 #write a:hover {
   color: var(--accent);
-  background: var(--accent-soft);
+  text-decoration-color: var(--accent);
 }
 
 #write mark {
   background: var(--accent-soft);
   color: var(--ink);
-  padding: 2px 6px;
-  border-bottom: 2px solid var(--accent);
+  padding: 2px 5px;
+  border-bottom: 1px solid var(--accent);
 }
 
 #write del,
 #write s {
   color: var(--faint);
-  text-decoration-thickness: 1.5px;
+  text-decoration-thickness: 1px;
 }
 
 #write kbd {
@@ -256,14 +238,15 @@ body {
   color: var(--ink);
   background: var(--bg-elevated);
   border: 1px solid var(--line-strong);
-  box-shadow: 0 2px 0 var(--line-strong);
+  border-radius: 2px;
   vertical-align: 1px;
 }
 
 #write hr {
-  height: 2px;
+  width: 56px;
+  height: 1px;
   border: 0;
-  margin: 48px 0;
+  margin: 52px auto;
   background: var(--line-strong);
 }
 
@@ -271,25 +254,25 @@ body {
 
 #write pre.md-meta-block {
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.72;
   color: var(--muted);
   background: var(--bg-elevated);
-  border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--accent);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--line-strong);
+  border-radius: 2px;
   padding: 16px 20px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   white-space: pre-wrap;
 }
 
 /* ---------- blockquotes & GFM / Typora callouts ---------- */
 
 #write blockquote {
-  margin: 28px 0;
-  padding: 18px 22px;
-  border-left: 4px solid var(--line-strong);
-  background: var(--bg-elevated);
-  color: var(--ink-2);
+  margin: 32px 0;
+  padding: 2px 0 2px 22px;
+  border-left: 2px solid var(--line-strong);
+  color: var(--muted);
 }
 
 #write blockquote p {
@@ -313,8 +296,9 @@ body {
 #write .md-Alert {
   margin: 28px 0;
   padding: 18px 22px;
-  border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--line-strong);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--line-strong);
+  border-radius: 2px;
   background: var(--bg-elevated);
 }
 
@@ -462,17 +446,17 @@ body {
   padding: 18px 20px;
   background: var(--code-bg);
   color: var(--code-ink);
-  border: 1px solid var(--line-strong);
-  border-top: 3px solid var(--line-strong);
+  border: 1px solid var(--line);
+  border-radius: 2px;
   font-family: var(--mono);
-  font-size: 15.5px;
-  line-height: 1.68;
+  font-size: 15px;
+  line-height: 1.72;
 }
 
 #write .md-fences .CodeMirror {
   font-family: var(--mono);
-  font-size: 15.5px;
-  line-height: 1.68;
+  font-size: 15px;
+  line-height: 1.72;
   background: transparent;
   color: var(--code-ink);
 }
@@ -502,7 +486,7 @@ body {
 .CodeMirror-selected,
 .CodeMirror-focused .CodeMirror-selected,
 .cm-s-inner div.CodeMirror-selected {
-  background: rgba(255, 0, 0, 0.16);
+  background: rgba(200, 22, 29, 0.14);
 }
 
 /* CodeMirror syntax palette: Swiss Gallery Paper high-contrast tokens */
@@ -590,14 +574,11 @@ body {
 /* ---------- footnotes ---------- */
 
 #write sup.md-footnote {
-  padding: 1px 6px;
+  padding: 0 4px;
   margin-left: 2px;
   font-family: var(--mono);
   font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid rgba(255, 0, 0, 0.45);
+  color: var(--muted);
 }
 
 #write .md-footnote > a {
@@ -803,7 +784,7 @@ header,
 .file-list-item.active {
   background: var(--active-file-bg-color);
   color: var(--ink);
-  border-left: 3px solid var(--accent);
+  border-left: 2px solid var(--accent);
 }
 
 .file-list-item:hover,
@@ -814,7 +795,7 @@ header,
 
 .file-tree-node.active > .file-node-background {
   background: var(--active-file-bg-color);
-  border-left: 3px solid var(--accent);
+  border-left: 2px solid var(--accent);
 }
 
 .context-menu,
