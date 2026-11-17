@@ -866,4 +866,622 @@
       sessionStorage.removeItem('page-transition');
     } catch (error) {}
   });
+
+  /* ---------------- Swiss Kinetic Homepage Engine ---------------- */
+
+  const kineticCanvas = doc.getElementById('swiss-kinetic-canvas');
+  const marqueeRoot = doc.querySelector('[data-swiss-marquee]');
+  const scrambleEls = doc.querySelectorAll('[data-scramble]');
+  const liveTelemetryEl = doc.querySelector('[data-live-telemetry]');
+  const finePointer = window.matchMedia('(pointer: fine)');
+
+  if (!reducedMotion.matches && (kineticCanvas || marqueeRoot || scrambleEls.length || liveTelemetryEl)) {
+    /* 1. Formal-Symbol Glyph Decoder */
+    const GLYPHS = 'ΠΣλ∀⊢≡0123456789/#';
+    const triggerScramble = (el) => {
+      const target = el.dataset.scrambleText || el.textContent;
+      if (!target) return;
+      el.dataset.scrambleText = target;
+      if (el.dataset.scrambling === '1') return;
+      el.dataset.scrambling = '1';
+
+      const len = target.length;
+      let frame = 0;
+      const totalFrames = Math.max(14, Math.min(28, len * 2));
+
+      const step = () => {
+        frame += 1;
+        const progress = frame / totalFrames;
+        const locked = Math.floor(progress * len);
+        let out = '';
+        for (let i = 0; i < len; i++) {
+          const ch = target[i];
+          if (i < locked || ch === ' ' || ch === '/' || ch === '·' || ch === '●') {
+            out += ch;
+          } else {
+            out += GLYPHS[(Math.random() * GLYPHS.length) | 0];
+          }
+        }
+        el.textContent = out;
+        if (frame < totalFrames) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target;
+          el.dataset.scrambling = '0';
+        }
+      };
+      requestAnimationFrame(step);
+    };
+
+    if (scrambleEls.length) {
+      scrambleEls.forEach((el) => {
+        el.dataset.scrambleText = el.textContent;
+        const host = el.closest('.stat-card, .home-index-card, .home-latest-inner') || el;
+        host.addEventListener('mouseenter', () => triggerScramble(el));
+      });
+
+      if ('IntersectionObserver' in window) {
+        const scrambleIo = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              triggerScramble(entry.target);
+              scrambleIo.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.25 }
+        );
+        scrambleEls.forEach((el) => scrambleIo.observe(el));
+      } else {
+        scrambleEls.forEach(triggerScramble);
+      }
+    }
+
+    /* 2. Magnetic Home CTA Buttons & Live Telemetry */
+    let pointerNormX = 0.5;
+    let pointerNormY = 0.5;
+    let telemetryTicking = false;
+    let lastTelemetryStr = '';
+
+    const updateTelemetry = () => {
+      telemetryTicking = false;
+      if (!liveTelemetryEl) return;
+      const scrollable = Math.max(1, doc.documentElement.scrollHeight - window.innerHeight);
+      const scrollPct = Math.min(100, Math.max(0, Math.round((window.scrollY / scrollable) * 100)));
+      const next =
+        'XY ' +
+        pointerNormX.toFixed(2) +
+        ', ' +
+        pointerNormY.toFixed(2) +
+        ' · SCROLL ' +
+        String(scrollPct).padStart(2, '0') +
+        '%';
+      if (next !== lastTelemetryStr) {
+        lastTelemetryStr = next;
+        liveTelemetryEl.textContent = next;
+      }
+    };
+
+    const scheduleTelemetry = () => {
+      if (!liveTelemetryEl || telemetryTicking) return;
+      telemetryTicking = true;
+      requestAnimationFrame(updateTelemetry);
+    };
+
+    if (liveTelemetryEl) {
+      if (finePointer.matches) {
+        window.addEventListener(
+          'pointermove',
+          (event) => {
+            pointerNormX = Math.min(1, Math.max(0, event.clientX / Math.max(1, window.innerWidth)));
+            pointerNormY = Math.min(1, Math.max(0, event.clientY / Math.max(1, window.innerHeight)));
+            scheduleTelemetry();
+          },
+          { passive: true }
+        );
+      }
+      window.addEventListener('scroll', scheduleTelemetry, { passive: true });
+      updateTelemetry();
+    }
+
+    if (finePointer.matches) {
+      doc.querySelectorAll('.home .btn').forEach((btn) => {
+        btn.addEventListener('pointermove', (event) => {
+          const rect = btn.getBoundingClientRect();
+          const dx = Math.max(-9, Math.min(9, (event.clientX - (rect.left + rect.width / 2)) * 0.22));
+          const dy = Math.max(-6, Math.min(6, (event.clientY - (rect.top + rect.height / 2)) * 0.28));
+          btn.style.setProperty('--mx', dx.toFixed(1) + 'px');
+          btn.style.setProperty('--my', dy.toFixed(1) + 'px');
+        });
+        btn.addEventListener('pointerleave', () => {
+          btn.style.setProperty('--mx', '0px');
+          btn.style.setProperty('--my', '0px');
+        });
+      });
+    }
+
+    /* 3. Scroll-Velocity Kinetic Marquee */
+    if (marqueeRoot) {
+      const track = marqueeRoot.querySelector('.swiss-marquee-track');
+      const firstGroup = marqueeRoot.querySelector('.swiss-marquee-group');
+      if (track && firstGroup) {
+        let groupWidth = firstGroup.getBoundingClientRect().width || 1;
+        let marqueeOffset = 0;
+        let scrollVel = 0;
+        let lastScrollY = window.scrollY;
+        let marqueeInView = true;
+        let marqueeRaf = 0;
+
+        const measureMarquee = () => {
+          groupWidth = firstGroup.getBoundingClientRect().width || 1;
+        };
+
+        window.addEventListener('resize', measureMarquee, { passive: true });
+        window.addEventListener(
+          'scroll',
+          () => {
+            const dy = window.scrollY - lastScrollY;
+            lastScrollY = window.scrollY;
+            scrollVel = Math.max(-18, Math.min(18, scrollVel + dy * 0.22));
+          },
+          { passive: true }
+        );
+
+        const tickMarquee = () => {
+          if (!marqueeInView) {
+            marqueeRaf = 0;
+            return;
+          }
+          scrollVel *= 0.9;
+          marqueeOffset = (marqueeOffset + 0.55 + scrollVel) % groupWidth;
+          if (marqueeOffset < 0) marqueeOffset += groupWidth;
+          track.style.transform = 'translate3d(' + (-marqueeOffset).toFixed(2) + 'px, 0, 0)';
+          marqueeRaf = requestAnimationFrame(tickMarquee);
+        };
+
+        const startMarquee = () => {
+          if (!marqueeRaf && marqueeInView) marqueeRaf = requestAnimationFrame(tickMarquee);
+        };
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            (entries) => {
+              marqueeInView = entries[0].isIntersecting;
+              if (marqueeInView) {
+                measureMarquee();
+                startMarquee();
+              }
+            },
+            { threshold: 0.01 }
+          ).observe(marqueeRoot);
+        }
+        startMarquee();
+      }
+    }
+
+    /* 4. 3-Mode 60fps Generative Constructivist Canvas */
+    if (kineticCanvas) {
+      const ctx = kineticCanvas.getContext('2d');
+      const stage = kineticCanvas.closest('.swiss-poster-stage') || kineticCanvas.parentElement;
+      const modeButtons = doc.querySelectorAll('[data-kinetic-mode]');
+      const coordsEl = doc.querySelector('[data-kinetic-coords]');
+      const modeTelemetryEl = doc.querySelector('[data-kinetic-telemetry]');
+
+      if (ctx && stage) {
+        let mode = 0;
+        let stageW = 520;
+        let stageH = 520;
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let px = 0.618;
+        let py = 0.382;
+        let vx = 0;
+        let vy = 0;
+        let tx = 0.618;
+        let ty = 0.382;
+        let hovering = false;
+        let rotImpulse = 0;
+        let inView = true;
+        let rafId = 0;
+        let frameCount = 0;
+        let startTime = performance.now();
+        let lastCoordText = '';
+        const waves = [];
+
+        let paletteTheme = '';
+        let palette = {
+          bg: '#ECE8DF',
+          ink: '#111111',
+          muted: '#57554F',
+          line: 'rgba(17, 17, 17, 0.22)',
+          lineSoft: 'rgba(17, 17, 17, 0.11)',
+          accent: '#E02B20',
+          inkSoft: 'rgba(17, 17, 17, 0.28)'
+        };
+
+        const syncPalette = () => {
+          const current = root.dataset.theme === 'dark' ? 'dark' : 'light';
+          if (current === paletteTheme) return;
+          paletteTheme = current;
+          const styles = getComputedStyle(root);
+          const pick = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
+          palette = {
+            bg: pick('--bg-elevated', current === 'dark' ? '#161614' : '#ECE8DF'),
+            ink: pick('--ink', current === 'dark' ? '#F2EFE9' : '#111111'),
+            muted: pick('--muted', current === 'dark' ? '#9E9A91' : '#57554F'),
+            line: pick('--line', current === 'dark' ? 'rgba(242, 239, 233, 0.2)' : 'rgba(17, 17, 17, 0.22)'),
+            lineSoft: pick('--line-soft', current === 'dark' ? 'rgba(242, 239, 233, 0.1)' : 'rgba(17, 17, 17, 0.11)'),
+            accent: pick('--accent', current === 'dark' ? '#FF3B30' : '#E02B20'),
+            inkSoft: current === 'dark' ? 'rgba(242, 239, 233, 0.3)' : 'rgba(17, 17, 17, 0.28)'
+          };
+        };
+
+        const resizeCanvas = () => {
+          const rect = stage.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+          stageW = rect.width;
+          stageH = rect.height;
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          kineticCanvas.width = Math.round(stageW * dpr);
+          kineticCanvas.height = Math.round(stageH * dpr);
+        };
+
+        if ('ResizeObserver' in window) {
+          new ResizeObserver(resizeCanvas).observe(stage);
+        } else {
+          window.addEventListener('resize', resizeCanvas, { passive: true });
+        }
+        resizeCanvas();
+
+        const emitWave = (nx, ny) => {
+          waves.push({ x: nx, y: ny, r: 0.02, alpha: 1 });
+          if (waves.length > 6) waves.shift();
+          rotImpulse = Math.min(1.6, rotImpulse + 0.55);
+        };
+
+        stage.addEventListener('pointerenter', () => {
+          hovering = true;
+        });
+
+        stage.addEventListener('pointermove', (event) => {
+          const rect = stage.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+          hovering = true;
+          tx = Math.min(0.95, Math.max(0.05, (event.clientX - rect.left) / rect.width));
+          ty = Math.min(0.95, Math.max(0.05, (event.clientY - rect.top) / rect.height));
+        });
+
+        stage.addEventListener('pointerleave', () => {
+          hovering = false;
+        });
+
+        stage.addEventListener('click', (event) => {
+          const rect = stage.getBoundingClientRect();
+          const nx = rect.width ? (event.clientX - rect.left) / rect.width : 0.5;
+          const ny = rect.height ? (event.clientY - rect.top) / rect.height : 0.5;
+          emitWave(nx, ny);
+        });
+
+        const modeLabels = ['MODE 01 · RESONANCE', 'MODE 02 · VECTOR FIELD', 'MODE 03 · TESSERACT 4D'];
+        modeButtons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const nextMode = Number.parseInt(btn.dataset.kineticMode || '0', 10) || 0;
+            mode = Math.max(0, Math.min(2, nextMode));
+            modeButtons.forEach((item) => {
+              const active = item === btn;
+              item.classList.toggle('is-active', active);
+              item.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+            if (modeTelemetryEl) modeTelemetryEl.textContent = modeLabels[mode] || modeLabels[0];
+            emitWave(px, py);
+          });
+        });
+
+        /* Precompute 4D tesseract vertices and edges once */
+        const tVerts = [];
+        for (let i = 0; i < 16; i++) {
+          tVerts.push([i & 1 ? 1 : -1, i & 2 ? 1 : -1, i & 4 ? 1 : -1, i & 8 ? 1 : -1]);
+        }
+        const tEdges = [];
+        for (let a = 0; a < 16; a++) {
+          for (let b = a + 1; b < 16; b++) {
+            const diff = a ^ b;
+            if (diff && (diff & (diff - 1)) === 0) tEdges.push([a, b]);
+          }
+        }
+        const TYPE_SYMBOLS = ['Π', 'Σ', 'λ', '∀', '⊢', '≡', '⊤', '⊥'];
+
+        const drawGridOverlay = (fx, fy, size) => {
+          ctx.strokeStyle = palette.lineSoft;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          for (let k = 1; k < 5; k++) {
+            const gx = (stageW * k) / 5;
+            const gy = (stageH * k) / 5;
+            ctx.moveTo(gx, 0);
+            ctx.lineTo(gx, stageH);
+            ctx.moveTo(0, gy);
+            ctx.lineTo(stageW, gy);
+          }
+          ctx.stroke();
+
+          ctx.strokeStyle = palette.line;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(fx, 0);
+          ctx.lineTo(fx, stageH);
+          ctx.moveTo(0, fy);
+          ctx.lineTo(stageW, fy);
+          ctx.stroke();
+
+          ctx.strokeStyle = palette.lineSoft;
+          ctx.beginPath();
+          ctx.moveTo(stageW * 0.08, stageH * 0.92);
+          ctx.lineTo(stageW * 0.92, stageH * 0.08);
+          ctx.stroke();
+
+          ctx.fillStyle = palette.muted;
+          ctx.font = '600 ' + Math.max(10, Math.round(size * 0.024)) + 'px "IBM Plex Mono", monospace';
+          ctx.fillText('Φ 1.618', 14, 24);
+          ctx.fillText('PROPORTION 1 : √2', 14, stageH - 14);
+        };
+
+        const drawModeResonance = (t, fx, fy, size, cx, cy) => {
+          const spin = t * 0.48 + rotImpulse * 1.6;
+          const dx = px - 0.5;
+          const dy = py - 0.5;
+
+          const arcs = [
+            { r: size * 0.39, w: size * 0.056, span: Math.PI * 0.62, dir: 1, col: palette.ink },
+            { r: size * 0.30, w: size * 0.026, span: Math.PI * 0.78, dir: -1.35, col: palette.ink },
+            { r: size * 0.22, w: size * 0.04, span: Math.PI * 0.56, dir: 1.75, col: palette.inkSoft },
+            { r: size * 0.15, w: size * 0.015, span: Math.PI * 0.95, dir: -2.1, col: palette.accent }
+          ];
+
+          arcs.forEach((arc, idx) => {
+            const offset = spin * arc.dir + dx * (idx + 1) * 1.1;
+            ctx.strokeStyle = arc.col;
+            ctx.lineWidth = arc.w;
+            ctx.beginPath();
+            ctx.arc(cx, cy, arc.r, offset, offset + arc.span);
+            ctx.stroke();
+          });
+
+          /* Orbiting Vermilion signal disc */
+          const orbX = cx + Math.cos(spin * 0.9 + dx * 2) * size * 0.26 + dx * size * 0.08;
+          const orbY = cy + Math.sin(spin * 0.9 + dy * 2) * size * 0.26 + dy * size * 0.08;
+
+          /* Constructivist tangent lines */
+          ctx.strokeStyle = palette.line;
+          ctx.lineWidth = 1.25;
+          ctx.beginPath();
+          ctx.moveTo(fx, fy);
+          ctx.lineTo(orbX, orbY);
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(orbX, orbY);
+          ctx.stroke();
+
+          ctx.fillStyle = palette.accent;
+          ctx.beginPath();
+          ctx.arc(orbX, orbY, size * 0.115, 0, Math.PI * 2);
+          ctx.fill();
+
+          /* Pivoting Swiss ink block */
+          const sqSize = size * 0.095;
+          ctx.save();
+          ctx.translate(fx, fy);
+          ctx.rotate(dx * 0.9 + dy * 0.9);
+          ctx.fillStyle = palette.ink;
+          ctx.fillRect(-sqSize * 0.5, -sqSize * 0.5, sqSize, sqSize);
+          ctx.fillStyle = palette.bg;
+          ctx.beginPath();
+          ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        };
+
+        const drawModeVectorField = (t, fx, fy, size) => {
+          const cols = 11;
+          const pad = size * 0.11;
+          const spanW = stageW - pad * 2;
+          const spanH = stageH - pad * 2;
+          const barLen = Math.min(spanW, spanH) / cols * 0.68;
+          const influenceR = size * 0.42;
+
+          for (let j = 0; j < cols; j++) {
+            for (let i = 0; i < cols; i++) {
+              const x = pad + (spanW * i) / (cols - 1);
+              const y = pad + (spanH * j) / (cols - 1);
+              const vxDir = fx - x;
+              const vyDir = fy - y;
+              const dist = Math.hypot(vxDir, vyDir);
+              const angle =
+                Math.atan2(vyDir, vxDir) +
+                Math.sin(t * 1.45 + i * 0.42 + j * 0.34) * 0.24 +
+                rotImpulse * 0.7;
+
+              const proximity = Math.max(0, 1 - dist / influenceR);
+              const len = barLen * (0.65 + proximity * 0.65);
+
+              ctx.save();
+              ctx.translate(x, y);
+              ctx.rotate(angle);
+              ctx.strokeStyle = proximity > 0.34 ? palette.accent : palette.ink;
+              ctx.lineWidth = proximity > 0.34 ? 3.2 : 1.7;
+              ctx.beginPath();
+              ctx.moveTo(-len * 0.5, 0);
+              ctx.lineTo(len * 0.5, 0);
+              ctx.stroke();
+              ctx.restore();
+            }
+          }
+
+          ctx.strokeStyle = palette.accent;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.arc(fx, fy, 8, 0, Math.PI * 2);
+          ctx.stroke();
+        };
+
+        const drawModeTesseract = (t, size, cx, cy) => {
+          const aXW = t * 0.62 + (px - 0.5) * 1.8 + rotImpulse * 1.2;
+          const aYZ = t * 0.41 + (py - 0.5) * 1.5;
+          const aZW = t * 0.53 + rotImpulse * 0.8;
+
+          const cosXW = Math.cos(aXW), sinXW = Math.sin(aXW);
+          const cosYZ = Math.cos(aYZ), sinYZ = Math.sin(aYZ);
+          const cosZW = Math.cos(aZW), sinZW = Math.sin(aZW);
+
+          const scale = size * 0.36;
+          const projected = new Array(16);
+
+          for (let i = 0; i < 16; i++) {
+            let x = tVerts[i][0];
+            let y = tVerts[i][1];
+            let z = tVerts[i][2];
+            let w = tVerts[i][3];
+
+            /* XW plane */
+            let nx = x * cosXW - w * sinXW;
+            let nw = x * sinXW + w * cosXW;
+            x = nx;
+            w = nw;
+
+            /* YZ plane */
+            let ny = y * cosYZ - z * sinYZ;
+            let nz = y * sinYZ + z * cosYZ;
+            y = ny;
+            z = nz;
+
+            /* ZW plane */
+            nz = z * cosZW - w * sinZW;
+            nw = z * sinZW + w * cosZW;
+            z = nz;
+            w = nw;
+
+            const wFactor = 2.55 / (2.55 - w);
+            const x3 = x * wFactor;
+            const y3 = y * wFactor;
+            const z3 = z * wFactor;
+            const pFactor = 3.1 / (3.1 - z3 * 0.45);
+
+            projected[i] = {
+              x: cx + x3 * pFactor * scale,
+              y: cy + y3 * pFactor * scale,
+              w: w,
+              z: z3
+            };
+          }
+
+          tEdges.forEach(([a, b]) => {
+            const p1 = projected[a];
+            const p2 = projected[b];
+            const isInnerBridge = (a ^ b) === 8;
+            const depthAvg = (p1.z + p2.z) * 0.5;
+            ctx.strokeStyle = isInnerBridge ? palette.accent : depthAvg > 0 ? palette.ink : palette.inkSoft;
+            ctx.lineWidth = isInnerBridge ? 2.4 : depthAvg > 0 ? 1.8 : 1.1;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          });
+
+          ctx.font = '700 ' + Math.max(11, Math.round(size * 0.026)) + 'px "IBM Plex Mono", monospace';
+          for (let i = 0; i < 16; i++) {
+            const pt = projected[i];
+            const isAcc = i >= 8;
+            ctx.fillStyle = isAcc ? palette.accent : palette.ink;
+            ctx.fillRect(pt.x - 2.5, pt.y - 2.5, 5, 5);
+            if (i % 2 === 0) {
+              const sym = TYPE_SYMBOLS[(i >> 1) % TYPE_SYMBOLS.length];
+              ctx.fillText(sym, pt.x + 7, pt.y - 5);
+            }
+          }
+        };
+
+        const renderFrame = (now) => {
+          if (!inView) {
+            rafId = 0;
+            return;
+          }
+
+          syncPalette();
+          const t = (now - startTime) * 0.001;
+          rotImpulse *= 0.94;
+
+          if (!hovering) {
+            tx = 0.5 + 0.25 * Math.sin(t * 0.72) * Math.cos(t * 0.34);
+            ty = 0.5 + 0.25 * Math.sin(t * 0.55);
+          }
+
+          vx = (vx + (tx - px) * 0.09) * 0.82;
+          vy = (vy + (ty - py) * 0.09) * 0.82;
+          px += vx;
+          py += vy;
+
+          const size = Math.min(stageW, stageH);
+          const cx = stageW * 0.5;
+          const cy = stageH * 0.5;
+          const fx = px * stageW;
+          const fy = py * stageH;
+
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.fillStyle = palette.bg;
+          ctx.fillRect(0, 0, stageW, stageH);
+
+          drawGridOverlay(fx, fy, size);
+
+          if (mode === 0) drawModeResonance(t, fx, fy, size, cx, cy);
+          else if (mode === 1) drawModeVectorField(t, fx, fy, size);
+          else drawModeTesseract(t, size, cx, cy);
+
+          /* Expanding shockwaves on click / switch */
+          for (let i = waves.length - 1; i >= 0; i--) {
+            const wv = waves[i];
+            wv.r += 0.022;
+            wv.alpha *= 0.93;
+            if (wv.alpha < 0.03 || wv.r > 1.3) {
+              waves.splice(i, 1);
+              continue;
+            }
+            ctx.save();
+            ctx.globalAlpha = wv.alpha;
+            ctx.strokeStyle = palette.accent;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(wv.x * stageW, wv.y * stageH, wv.r * size, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+
+          frameCount += 1;
+          if (frameCount === 1) stage.classList.add('is-active');
+          if (coordsEl && frameCount % 3 === 0) {
+            const nextCoords = 'XY ' + px.toFixed(2) + ' / ' + py.toFixed(2);
+            if (nextCoords !== lastCoordText) {
+              lastCoordText = nextCoords;
+              coordsEl.textContent = nextCoords;
+            }
+          }
+
+          rafId = requestAnimationFrame(renderFrame);
+        };
+
+        const startCanvas = () => {
+          if (!rafId && inView) rafId = requestAnimationFrame(renderFrame);
+        };
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            (entries) => {
+              inView = entries[0].isIntersecting;
+              if (inView) startCanvas();
+            },
+            { threshold: 0.02 }
+          ).observe(stage);
+        }
+
+        startCanvas();
+      }
+    }
+  }
 })();
