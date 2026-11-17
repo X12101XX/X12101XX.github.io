@@ -8,19 +8,28 @@
     font-size: 14px;
   }
 
+  .home-hero,
+  .post-frame,
+  .about-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 28px;
+  }
+
   .home-hero {
-    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
   }
 
   .home-copy {
-    grid-column: 1 / -1;
+    width: 100%;
     padding: 36px 0 32px;
     border-right: 0;
     border-bottom: 1px solid var(--line-strong);
   }
 
   .home-poster-col {
-    grid-column: 1 / -1;
+    width: 100%;
     padding: 28px 0;
   }
 
@@ -45,33 +54,21 @@
     border-right: 0;
   }
 
-  .post-frame {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
+  .post-toc-mobile {
+    display: block;
+    width: 100%;
   }
 
   .post-content,
-  .post-end {
-    grid-column: 1 / -1;
+  .post-end,
+  .about-main,
+  .about-aside {
+    width: 100%;
     max-width: none;
   }
 
   .post-aside {
     display: none;
-  }
-
-  .post-toc-mobile {
-    display: block;
-  }
-
-  .about-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
-  }
-
-  .about-main,
-  .about-aside {
-    grid-column: 1 / -1;
   }
 }
 
@@ -82,6 +79,13 @@
 
   .header-inner {
     grid-template-columns: 1fr auto;
+    padding-right: 0;
+  }
+
+  .brand {
+    border-right: 0;
+    padding-right: 12px;
+    min-width: 0;
   }
 
   .site-nav,
@@ -110,18 +114,36 @@
   }
 
   .home-recent-row {
-    grid-template-columns: 48px minmax(0, 1fr) 28px;
+    grid-template-columns: 44px minmax(0, 1fr) 36px;
     gap: 8px 14px;
-    padding: 22px 12px;
+    padding: 22px 8px;
   }
 
-  .recent-col-meta,
-  .recent-col-main,
+  .recent-col-num {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 18px;
+  }
+
+  .recent-col-meta {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+  }
+
+  .recent-col-main {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
   .recent-col-read {
     grid-column: 2;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+    grid-row: 3;
+    text-align: left;
+    white-space: normal;
   }
 
   .recent-col-arrow {
@@ -149,13 +171,14 @@
 
 @media (max-width: 820px) {
   .post-row {
-    grid-template-columns: minmax(0, 1fr) 36px;
+    grid-template-columns: minmax(0, 1fr) 40px;
     gap: 14px;
     padding: 26px 0;
   }
 
   .post-row-side {
     grid-column: 1 / -1;
+    grid-row: 1;
     flex-direction: row;
     align-items: baseline;
     gap: 16px;
@@ -165,10 +188,12 @@
 
   .post-row-body {
     grid-column: 1;
+    grid-row: 2;
   }
 
   .post-row-arrow {
     grid-column: 2;
+    grid-row: 2;
     align-self: start;
   }
 
@@ -186,30 +211,55 @@
   }
 
   .archive-item {
-    grid-template-columns: 78px minmax(0, 1fr) 28px;
-    gap: 8px 14px;
-    padding: 18px 10px;
+    grid-template-columns: 76px minmax(0, 1fr) 28px;
+    gap: 6px 12px;
+    padding: 18px 8px;
   }
 
-  .archive-item-cat,
+  .archive-item-date {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .archive-item-title {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .archive-item-cat {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+  }
+
   .archive-item-read {
     grid-column: 2;
+    grid-row: 3;
     justify-self: start;
   }
 
   .archive-item-arrow {
     grid-column: 3;
     grid-row: 1 / span 3;
+    align-self: center;
   }
 }
 
 @media (max-width: 640px) {
   :root {
-    --header: 62px;
+    --header: 58px;
   }
 
   body {
     font-size: 17.5px;
+  }
+
+  .site-main {
+    padding: 28px 0 64px;
+  }
+
+  .post-page {
+    padding-top: 24px;
   }
 
   .swiss-grid-guide {
@@ -223,8 +273,11 @@
   }
 
   .search-trigger,
-  .theme-toggle {
-    padding: 0 16px;
+  .theme-toggle,
+  .menu-toggle {
+    width: 52px;
+    padding: 0;
+    justify-content: center;
   }
 
   .swiss-issue-bar {
@@ -234,17 +287,44 @@
     padding: 12px 0;
   }
 
+  .home-title {
+    font-size: clamp(34px, 9.5vw, 48px);
+  }
+
+  .page-title {
+    font-size: clamp(30px, 8.2vw, 44px);
+  }
+
+  .post-title {
+    font-size: clamp(28px, 7.2vw, 38px);
+  }
+
+  .post-lede {
+    margin-top: 18px;
+    padding: 14px 16px;
+    font-size: 17.5px;
+  }
+
   .home-stats-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .stat-card {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
+    padding: 12px 10px;
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
   }
 
   .stat-card:last-child {
-    border-bottom: 0;
+    border-right: 0;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 12px;
   }
 
   .home-index-inner {
@@ -257,27 +337,69 @@
   }
 
   .post-spec-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .post-spec-cell {
-    border-right: 0;
+    padding: 10px 12px;
+    border-right: 1px solid var(--line);
+  }
+
+  .post-spec-cell:nth-child(1),
+  .post-spec-cell:nth-child(2) {
     border-bottom: 1px solid var(--line);
   }
 
-  .post-spec-cell:last-child {
+  .post-spec-cell:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .post-spec-cell:nth-child(3),
+  .post-spec-cell:nth-child(4) {
     border-bottom: 0;
+  }
+
+  .post-spec-value {
+    font-size: 14px;
   }
 
   .post-content,
   .markdown-body {
-    font-size: 18px;
+    font-size: 17.5px;
     line-height: 1.78;
   }
 
+  .post-content h2,
+  .markdown-body h2 {
+    margin-top: 40px;
+    gap: 10px;
+    font-size: 23px;
+  }
+
+  .post-content h3,
+  .markdown-body h3 {
+    margin-top: 28px;
+    font-size: 20px;
+  }
+
+  :is(.post-content, .markdown-body) .katex-display {
+    padding: 12px 14px;
+  }
+
+  .code-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+
+  .code-lang {
+    font-size: 11.5px;
+  }
+
+  :is(.post-content, .markdown-body) figure.highlight pre,
   .post-content pre {
-    padding: 18px 16px;
-    font-size: 14px;
+    padding: 16px 14px;
+    font-size: 13.5px;
   }
 
   .post-content .table-wrap table,
@@ -342,7 +464,7 @@
   }
 
   .home-title {
-    font-size: 38px;
+    font-size: 36px;
   }
 
   .home-index-inner {

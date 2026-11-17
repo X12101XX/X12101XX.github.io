@@ -377,6 +377,8 @@
   font-family: var(--sans);
   font-size: 20px;
   line-height: 1.8;
+  overflow-wrap: break-word;
+  word-break: break-word;
   counter-reset: section;
 }
 
@@ -952,6 +954,7 @@
 }
 
 :is(.post-content, .markdown-body) .katex-display {
+  max-width: 100%;
   margin: 1.8em 0;
   padding: 16px 20px;
   border: 1px solid var(--line);
@@ -1135,7 +1138,7 @@
 
 .post-toc-mobile {
   display: none;
-  grid-column: 1 / span 12;
+  grid-column: 1 / -1;
   margin-bottom: 12px;
   border: 1px solid var(--line-strong);
   background: var(--bg-elevated);
@@ -1494,6 +1497,8 @@
   color: var(--ink-2);
   font-size: 20px;
   line-height: 1.8;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .page-content {
