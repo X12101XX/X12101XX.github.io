@@ -111,6 +111,12 @@ body {
 
 #write h1,
 #write h2,
+#write h3 {
+  text-wrap: balance;
+}
+
+#write h1,
+#write h2,
 #write h3,
 #write h4,
 #write h5,
@@ -161,15 +167,15 @@ body {
 }
 
 #write h3 {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 40px 0 14px;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 36px 0 12px;
 }
 
 #write h4 {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 28px 0 10px;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 26px 0 10px;
 }
 
 #write h5,
@@ -382,8 +388,7 @@ body {
 }
 
 #write li::marker {
-  color: var(--accent);
-  font-weight: 700;
+  color: var(--muted);
 }
 
 #write .md-task-list-item,
@@ -438,7 +443,8 @@ body {
   color: var(--ink);
   background: var(--code-bg);
   border: 1px solid var(--line);
-  padding: 2px 6px;
+  border-radius: 2px;
+  padding: 0.1em 0.36em;
 }
 
 #write .md-fences {
@@ -547,8 +553,8 @@ body {
   margin: 28px 0;
   border-collapse: collapse;
   font-size: 16.5px;
-  border-top: 2px solid var(--line-strong);
-  border-bottom: 2px solid var(--line-strong);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
   background: var(--bg);
 }
 
@@ -564,7 +570,7 @@ body {
   background: var(--bg-elevated);
   color: var(--ink);
   font-weight: 700;
-  border-bottom: 2px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 #write tbody tr:nth-child(even) td {
@@ -741,8 +747,8 @@ header,
 }
 
 #typora-sidebar {
-  border-right: 1px solid var(--line-strong);
-  font-family: var(--sans);
+  border-right: 1px solid var(--line);
+  font-family: var(--serif);
 }
 
 .sidebar-tabs {
@@ -865,20 +871,133 @@ header,
   background: var(--ink);
 }
 
+/* ---------- PDF export & print pagination ---------- */
+
+@page {
+  margin: 14mm 12mm;
+  background: #FFFFFF;
+}
+
+body.typora-export,
+.typora-export,
+.typora-export-content {
+  --bg: #FFFFFF;
+  --bg-color: #FFFFFF;
+  --bg-elevated: #F7F6F3;
+  --code-bg: #F6F5F1;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+}
+
 @media print {
+  :root,
   html,
   body,
-  #write {
+  #write,
+  content,
+  .typora-export,
+  .typora-export-content {
+    --bg: #FFFFFF !important;
+    --bg-color: #FFFFFF !important;
+    --bg-elevated: #F7F6F3 !important;
+    --code-bg: #F6F5F1 !important;
     background: #FFFFFF !important;
-    color: #111111 !important;
-    font-size: 16px;
+    background-color: #FFFFFF !important;
+    color: #1C1B19 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #write {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 4px !important;
+    font-size: 14.5px !important;
+    line-height: 1.75 !important;
+  }
+
+  #write h1,
+  #write h2,
+  #write h3,
+  #write h4,
+  #write h5,
+  #write h6 {
+    break-after: avoid-page;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  #write h1 {
+    font-size: 24px !important;
+    margin: 0 0 14px !important;
+    padding-bottom: 10px !important;
+  }
+
+  #write h2 {
+    font-size: 19px !important;
+    margin: 22px 0 10px !important;
+  }
+
+  #write h3 {
+    font-size: 16px !important;
+    margin: 16px 0 6px !important;
+  }
+
+  #write p,
+  #write ul,
+  #write ol {
+    margin: 0 0 10px !important;
+  }
+
+  #write li {
+    margin: 4px 0 !important;
   }
 
   #write pre.md-fences,
+  #write .md-fences {
+    margin: 10px 0 16px !important;
+    padding: 12px 14px !important;
+    font-size: 12.5px !important;
+    line-height: 1.52 !important;
+    background: #F6F5F1 !important;
+    border: 1px solid #DCD8CF !important;
+    border-radius: 2px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  #write .md-fences .CodeMirror,
+  #write .md-fences pre {
+    font-size: 12.5px !important;
+    line-height: 1.52 !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
+
   #write blockquote,
   #write .md-alert,
+  #write .md-Alert,
+  #write .md-math-block,
+  #write .katex-display,
+  #write table,
+  #write img {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  #write blockquote {
+    margin: 12px 0 !important;
+    padding: 2px 0 2px 16px !important;
+    background: transparent !important;
+  }
+
+  #write .md-alert,
   #write .md-Alert {
-    background: #F7F7F5 !important;
-    border-color: #111111 !important;
+    margin: 12px 0 !important;
+    padding: 12px 16px !important;
+    background: #F7F6F3 !important;
   }
 }

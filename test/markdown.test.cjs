@@ -303,6 +303,9 @@ test('typora/marginalia.css and scripts/typora-helper.cjs exist with expected st
   assert.match(typoraCss, /\.md-Alert|\.md-alert/);
   assert.match(typoraCss, /\.md-fences/);
   assert.match(typoraCss, /\.md-footnote/);
+  assert.match(typoraCss, /@page/);
+  assert.match(typoraCss, /\.typora-export/);
+  assert.match(typoraCss, /page-break-inside:\s*avoid/);
 
   const helperPath = path.join(ROOT_DIR, 'scripts', 'typora-helper.cjs');
   assert.ok(fs.existsSync(helperPath), 'Missing scripts/typora-helper.cjs');
