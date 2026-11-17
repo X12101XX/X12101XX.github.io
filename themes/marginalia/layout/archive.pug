@@ -20,38 +20,39 @@ block content
     .shell
       header.page-head.archive-head
         p.eyebrow
-          span Archive
-          span.eyebrow-cn 归档
+          span= theme.archive.kicker || 'TIMELINE'
+          span.eyebrow-cn= theme.archive.kicker_cn || '时间归档'
         h1.page-title
-          span= theme.archive.heading_before + ' '
-          em= theme.archive.heading_em
+          span= theme.archive.heading_before || '按时间线整理的'
+          em= theme.archive.heading_em || '全部记录'
         p.page-lede= theme.archive.lede
         .page-head-meta
-          span #{totalCount} #{totalCount === 1 ? 'note' : 'notes'}
-          span Since #{theme.footer.since || 2026}
+          span 共 #{totalCount} 篇文章
+          span 始于 #{(theme.footer && theme.footer.since) || 2026} 年
       if groups.length
         .archive
           each group in groups
             section.archive-year
               .archive-year-head
                 h2.archive-year-label= group.year
-                span.archive-year-count.mono #{String(group.posts.length).padStart(2, '0')} #{group.posts.length === 1 ? 'note' : 'notes'}
+                span.archive-year-count #{group.posts.length} 篇
               .archive-year-list
                 each post in group.posts
                   - var postCats = post.categories ? post.categories.toArray() : []
-                  a.archive-item(href=url_for(post.path))
-                    time.archive-item-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM.DD')
+                  a.archive-item.spotlight-card(href=url_for(post.path))
+                    span.archive-dot(aria-hidden='true')
+                    time.archive-item-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM-DD')
                     span.archive-item-title= post.title
                     if postCats.length
-                      span.archive-item-cat.mono= postCats[0].name
+                      span.archive-item-cat= postCats[0].name
                     span.archive-item-read #{reading_time(post.content)} min
                     span.archive-item-arrow
-                      +icon('arrow', 16)
+                      +icon('arrow', 15)
         include _partial/pagination
       else
         .empty-state
-          h2 The archive is still empty.
-          p A page or two will find its way here.
+          h2 归档还是空的
+          p 写下的第一篇文章会出现在这里。
           a.btn.btn--line(href=url_for('/'))
-            span Return home
+            span 返回首页
             +icon('arrow-right', 15)

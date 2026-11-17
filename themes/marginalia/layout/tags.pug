@@ -6,29 +6,30 @@ block content
     .shell
       header.page-head
         p.eyebrow
-          span Tags
-          span.eyebrow-cn 标签
+          span= theme.tags.kicker || 'TAGS'
+          span.eyebrow-cn= theme.tags.kicker_cn || '标签索引'
         h1.page-title
-          span= theme.tags.heading_before + ' '
-          em= theme.tags.heading_em
+          span= theme.tags.heading_before || '串联不同笔记的'
+          em= theme.tags.heading_em || '关键词线索'
         p.page-lede= theme.tags.lede
         .page-head-meta
-          span #{tags.length} #{tags.length === 1 ? 'tag' : 'tags'}
+          span 共 #{tags.length} 个标签
           a.page-head-link(href=url_for('/categories/'))
-            span Browse categories
-            +icon('arrow', 13)
+            span 浏览主题分类
+            +icon('arrow-right', 13)
       if tags.length
         .tag-cloud
           each tag in tags
-            a.tag-pill(href=url_for(tag.path))
+            a.tag-pill.spotlight-card(href=url_for(tag.path))
+              span.tag-pill-hash #
               span.tag-pill-name= tag.name
-              sup.tag-pill-count= tag.length
+              span.tag-pill-count= tag.length
         .tags-foot
-          p Every tag is a thread. Pull one and see what it holds.
+          p 每一个标签都是一条线索，顺着它可以串起不同的思考片段。
           a.journal-tail-link(href=url_for('/archives/'))
-            span The full index
+            span 查看完整时间线
             +icon('arrow-right', 15)
       else
         .empty-state
-          h2 No threads yet.
-          p Tags will gather as the site grows.
+          h2 暂无标签
+          p 随着文章增多，标签网络会自动长出来。

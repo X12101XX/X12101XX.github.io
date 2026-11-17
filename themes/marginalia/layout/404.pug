@@ -5,22 +5,26 @@ block content
     .shell.error-shell
       p.eyebrow
         span 404
-        span.eyebrow-cn 迷失
+        span.eyebrow-cn 页面未找到
       p.error-code(aria-hidden='true') 404
       h1.error-title
-        span This page has
-        em wandered off.
-      p.error-lede Perhaps it was moved, renamed, or never written. The site is still here, though.
+        span 这个页面
+        em 似乎走丢了
+      p.error-lede 你访问的链接可能已被移动、重命名或尚未存在，你可以返回首页或浏览文章归档。
       .error-actions
         a.btn.btn--solid(href=url_for('/'))
-          span Return home
+          span 返回首页
           +icon('arrow-right', 15)
-        a.btn.btn--line(href=url_for('/archives/'))
-          span Browse the archive
+        a.btn.btn--line(href=url_for('/posts/'))
+          span 浏览文章
           +icon('arrow', 14)
       .error-links
-        a(href=url_for('/posts/')) Notes
+        a(href=url_for('/archives/')) 归档
         span ·
-        a(href=url_for('/friends/')) Friends
+        a(href=url_for('/categories/')) 分类
         span ·
-        a(href=url_for('/about/')) About
+        a(href=url_for('/tags/')) 标签
+        span ·
+        a(href=url_for('/friends/')) 友链
+        span ·
+        a(href=url_for('/about/')) 关于

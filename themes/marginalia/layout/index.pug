@@ -10,28 +10,30 @@ block content
   - var latest = validSitePosts[0]
   - var featured = page.current === 1
   - var allCategories = site.categories ? site.categories.toArray().filter(function (c) { return c.length > 0; }).sort(function (a, b) { return b.length - a.length || a.name.localeCompare(b.name); }) : []
-  - var topTags = site.tags ? site.tags.toArray().filter(function (t) { return t.length > 0; }).sort(function (a, b) { return b.length - a.length || a.name.localeCompare(b.name); }).slice(0, 10) : []
+  - var topTags = site.tags ? site.tags.toArray().filter(function (t) { return t.length > 0; }).sort(function (a, b) { return b.length - a.length || a.name.localeCompare(b.name); }).slice(0, 12) : []
   main#main.site-main.journal-page
     .shell
       header.page-head.journal-head
         p.eyebrow
-          span Index / #{theme.journal.kicker}
-          span.eyebrow-cn= theme.journal.kicker_cn
+          span= theme.journal.kicker || 'ARTICLES'
+          span.eyebrow-cn= theme.journal.kicker_cn || '文章索引'
         h1.page-title
-          span= theme.journal.heading_before + ' '
-          em= theme.journal.heading_em
+          span= theme.journal.heading_before || '全部文章与'
+          em= theme.journal.heading_em || '长篇笔记'
+        if theme.journal.lede
+          p.page-lede= theme.journal.lede
         .page-head-meta
-          span #{total} #{total === 1 ? 'entry' : 'entries'}
+          span 共 #{total} 篇文章
           if latest
-            span Updated #{date(latest.date, 'YYYY.MM.DD')}
+            span 最近更新 #{date(latest.date, 'YYYY-MM-DD')}
           a.page-head-link(href=url_for('/archives/'))
-            span Browse the archive
-            +icon('arrow', 13)
+            span 查看时间归档
+            +icon('arrow-right', 13)
       if allCategories.length || topTags.length
-        section.journal-taxonomies(aria-label='Filter by topic')
+        section.journal-taxonomies(aria-label='主题与标签筛选')
           if allCategories.length
             .journal-tax-group
-              span.journal-tax-label.mono Categories
+              span.journal-tax-label 分类
               .journal-tax-list
                 each cat in allCategories
                   a.chip.chip--solid(href=url_for(cat.path))
@@ -39,24 +41,24 @@ block content
                     span.chip-count= cat.length
           if topTags.length
             .journal-tax-group
-              span.journal-tax-label.mono Tags
+              span.journal-tax-label 标签
               .journal-tax-list
                 each tag in topTags
                   a.chip(href=url_for(tag.path))
-                    span= tag.name
+                    span # #{tag.name}
                     span.chip-count= tag.length
       if posts.length
         include _partial/post-rows
         include _partial/pagination
         .journal-tail
-          p.journal-tail-note The shelf is still growing. Every note begins as a question.
+          p.journal-tail-note 持续记录，不断打磨，每一篇笔记都源于一个真实的问题。
           a.journal-tail-link(href=url_for('/archives/'))
-            span View the full index
+            span 浏览完整时间线
             +icon('arrow-right', 15)
       else
         .empty-state
-          h2 Nothing filed yet.
-          p The first note is being written. Come back soon.
+          h2 暂无文章
+          p 第一篇笔记正在撰写中，敬请期待。
           a.btn.btn--line(href=url_for('/'))
-            span Return home
+            span 返回首页
             +icon('arrow-right', 15)

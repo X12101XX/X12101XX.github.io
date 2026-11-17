@@ -7,109 +7,204 @@ block content
   - var latest = validPosts[0]
   - var latestCats = latest && latest.categories ? latest.categories.toArray() : []
   - var recentPosts = validPosts.slice(0, 3)
-  - var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
-  - var now = new Date().getFullYear()
   - var landing = theme.landing || {}
-  - var primary = landing.primary || { label: 'Notes', path: '/posts/' }
-  - var secondary = landing.secondary || { label: 'Friends', path: '/friends/' }
-  - var titleText = landing.title || config.subtitle || 'Code & Quiet Things'
+  - var primary = landing.primary || { label: '浏览全部文章', path: '/posts/' }
+  - var secondary = landing.secondary || { label: '关于作者', path: '/about/' }
   - var noteCount = String(validPosts.length).padStart(2, '0')
   - var topicCount = String((site.categories ? site.categories.length : 0) + (site.tags ? site.tags.length : 0)).padStart(2, '0')
-  - var lit = ['0-0', '0-4', '1-1', '1-3', '2-2', '3-1', '3-3', '4-0', '4-4']
-  .home
+  - var allCats = site.categories ? site.categories.toArray().filter(function (c) { return c.length > 0; }).slice(0, 4) : []
+  - var allTags = site.tags ? site.tags.toArray().filter(function (t) { return t.length > 0; }).slice(0, 6) : []
+  main#main.home
     .shell.home-hero
       .home-copy
-        p.home-kicker.mono Personal index — #{now}
-        h1.home-title= titleText
+        p.home-kicker
+          span.kicker-dot(aria-hidden='true')
+          span= landing.kicker || 'Type Systems · Modern C++ · Lean 4'
+        h1.home-title
+          span= landing.title_prefix || 'X12101XX 的'
+          br
+          span.title-gradient= landing.title_gradient || '代码与思考笔记'
         p.home-lede= config.description
         .home-actions
           a.btn.btn--solid(href=url_for(primary.path))
+            +icon('sparkles', 15)
             span= primary.label
-            +icon('arrow', 14)
+            +icon('arrow-right', 15)
           a.btn.btn--line(href=url_for(secondary.path))
             span= secondary.label
             +icon('arrow', 14)
-        nav.home-socials(aria-label='Elsewhere')
+        .home-quick-topics
+          each cat in allCats
+            a.topic-pill(href=url_for(cat.path))
+              +icon('folder', 12)
+              span= cat.name
+          each tag in allTags
+            a.topic-pill(href=url_for(tag.path))
+              span # #{tag.name}
+        nav.home-socials(aria-label='外部链接')
           each item in socials
             - var isExternal = item.url && /^https?:\/\//i.test(item.url)
             a(href=url_for(item.url), target=isExternal ? '_blank' : false, rel=isExternal ? 'noopener noreferrer' : false)
+              +icon(item.icon, 14)
               span= item.name
-              +icon('arrow', 13)
+              +icon('arrow', 12)
       aside.home-panel
-        .glyph(data-glyph-grid, aria-hidden='true')
-          each r in [0, 1, 2, 3, 4]
-            each c in [0, 1, 2, 3, 4]
-              - var cell = r + '-' + c
-              span(class=(r === 2 && c === 2 ? 'is-signal' : (lit.indexOf(cell) !== -1 ? 'is-on' : '')))
-        .home-panel-head
-          span.mono Glyph
-          button.glyph-switch.dot-num(type='button', data-glyph-switch, aria-label='Switch matrix pattern', title='Switch matrix pattern') 01
-        dl.home-facts
-          div
-            dt.mono Notes
-            dd.dot-num= noteCount
-          div
-            dt.mono Topics
-            dd.dot-num= topicCount
-          div
-            dt.mono Updated
-            dd.dot-num= latest ? date(latest.date, 'YYYY.MM.DD') : '—'
-          div
-            dt.mono Since
-            dd.dot-num= since
+        .hero-terminal.spotlight-card(data-terminal)
+          .terminal-bar
+            .terminal-dots(aria-hidden='true')
+              span.terminal-dot.terminal-dot--red
+              span.terminal-dot.terminal-dot--yellow
+              span.terminal-dot.terminal-dot--green
+            .terminal-tabs(role='tablist', aria-label='代码示例切换')
+              button.terminal-tab.is-active(type='button', role='tab', aria-selected='true', data-terminal-tab='lean') DepTypes.lean
+              button.terminal-tab(type='button', role='tab', aria-selected='false', data-terminal-tab='cpp') Template.cpp
+            span.terminal-badge(data-terminal-lang) Lean 4 · ∀ n
+          .terminal-body
+            pre.terminal-code.is-active(data-terminal-panel='lean')
+              code
+                span.tok-kw def
+                |  
+                span.tok-fn zeros
+                |  : (n : 
+                span.tok-type Nat
+                | ) → 
+                span.tok-type Vector Int
+                |  n
+                | 
+                |   | .zero   => #v[]
+                | 
+                |   | .succ s => (
+                span.tok-fn zeros
+                |  s).push 
+                span.tok-num 0
+                | 
+                | 
+                | 
+                span.tok-kw #eval
+                |  (
+                span.tok-fn zeros
+                |  
+                span.tok-num 3
+                | ).size 
+                span.tok-cmt -- 3 : Nat
+            pre.terminal-code(data-terminal-panel='cpp', hidden)
+              code
+                span.tok-kw template
+                |  &lt;
+                span.tok-type std::size_t
+                |  N&gt;
+                | 
+                | 
+                span.tok-kw constexpr auto
+                |  
+                span.tok-fn zeros
+                | () -&gt; 
+                span.tok-type std::array
+                | &lt;
+                span.tok-type int
+                | , N&gt; {
+                | 
+                |   
+                span.tok-kw return
+                |  {}; 
+                span.tok-cmt // Compile-time N only
+                | 
+                | }
+          .terminal-status
+            span.status-pulse(aria-hidden='true')
+            span.terminal-status-text(data-terminal-status) Proof State: No goals · Typechecked
+        .home-stats-grid
+          a.stat-card.spotlight-card(href=url_for('/posts/'))
+            span.stat-label 文章总数
+            strong.stat-value= noteCount
+            span.stat-sub 篇长文记录
+          a.stat-card.spotlight-card(href=url_for('/tags/'))
+            span.stat-label 分类与标签
+            strong.stat-value= topicCount
+            span.stat-sub 个主题节点
+          a.stat-card.spotlight-card(href=url_for('/archives/'))
+            span.stat-label 最近更新
+            strong.stat-value= latest ? date(latest.date, 'MM.DD') : '—'
+            span.stat-sub= latest ? date(latest.date, 'YYYY 年') : '等待发布'
     if latest
-      section.home-latest(aria-label='Latest note')
-        .shell.home-latest-inner
-          span.home-latest-label.mono Latest note
-          a.home-latest-title(href=url_for(latest.path))= latest.title
-          .home-latest-meta
-            if latestCats.length
-              span.home-latest-badge.mono= latestCats[0].name
-            span #{reading_time(latest.content)} min read
-            time.home-latest-date.dot-num(datetime=date(latest.date, 'YYYY-MM-DD'))= date(latest.date, 'YYYY.MM.DD')
-          +icon('arrow', 18)
+      section.home-latest(aria-label='最新文章')
+        .shell
+          a.home-latest-inner.spotlight-card(href=url_for(latest.path))
+            .home-latest-head
+              span.home-latest-label
+                span.badge-pulse(aria-hidden='true')
+                |  NEW
+              if latestCats.length
+                span.home-latest-badge= latestCats[0].name
+              span.home-latest-read #{reading_time(latest.content)} 分钟阅读
+              time.home-latest-date(datetime=date(latest.date, 'YYYY-MM-DD'))= date(latest.date, 'YYYY-MM-DD')
+            h2.home-latest-title= latest.title
+            if post_excerpt(latest, 140)
+              p.home-latest-excerpt= post_excerpt(latest, 140)
+            span.home-latest-cta
+              span 阅读全文
+              +icon('arrow-right', 15)
     if recentPosts.length
-      section.home-recent(aria-label='Recent notes')
+      section.home-recent(aria-label='近期文章')
         .shell
           .home-recent-head
-            h2.home-recent-label.mono Recent notes
+            h2.home-recent-label 近期文章
             a(href=url_for('/posts/'))
-              span All notes
-              +icon('arrow', 13)
+              span 查看全部
+              +icon('arrow-right', 13)
           .home-recent-grid
             each post, index in recentPosts
               - var postCats = post.categories ? post.categories.toArray() : []
-              - var postNum = String(index + 1).padStart(2, '0')
-              a.home-recent-card(href=url_for(post.path))
+              - var postTags = post.tags ? post.tags.toArray().slice(0, 2) : []
+              - var charText = typeof word_count === 'function' ? word_count(post.content) : ''
+              a.home-recent-card.spotlight-card(href=url_for(post.path))
                 .home-recent-meta
-                  span.dot-num= postNum
-                  time(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY.MM.DD')
+                  time(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY-MM-DD')
                   if postCats.length
-                    span ·
-                    span= postCats[0].name
+                    span.meta-pill= postCats[0].name
                 h3.home-recent-title= post.title
                 if post_excerpt(post, 120)
                   p.home-recent-excerpt= post_excerpt(post, 120)
                 .home-recent-foot
-                  span.mono #{reading_time(post.content)} min read
-                  +icon('arrow', 14)
-    nav.home-index(aria-label='Sections')
+                  span #{charText ? '约 ' + charText + ' 字 · ' : ''}#{reading_time(post.content)} 分钟阅读
+                  span.home-recent-go
+                    span 阅读
+                    +icon('arrow', 14)
+    nav.home-index(aria-label='快速入口')
       .shell.home-index-inner
-        a(href=url_for('/posts/'))
-          span.dot-num 01
-          span Notes
-        a(href=url_for('/archives/'))
-          span.dot-num 02
-          span Archive
-        a(href=url_for('/categories/'))
-          span.dot-num 03
-          span Categories
-        a(href=url_for('/tags/'))
-          span.dot-num 04
-          span Tags
-        a(href=url_for('/friends/'))
-          span.dot-num 05
-          span Friends
-        a(href=url_for('/about/'))
-          span.dot-num 06
-          span About
+        a.home-index-card.spotlight-card(href=url_for('/posts/'))
+          .home-index-icon
+            +icon('book', 18)
+          .home-index-text
+            span.home-index-name 文章列表
+            span.home-index-desc 所有笔记与长文
+        a.home-index-card.spotlight-card(href=url_for('/archives/'))
+          .home-index-icon
+            +icon('clock', 18)
+          .home-index-text
+            span.home-index-name 时间归档
+            span.home-index-desc 按年份梳理时间线
+        a.home-index-card.spotlight-card(href=url_for('/categories/'))
+          .home-index-icon
+            +icon('folder', 18)
+          .home-index-text
+            span.home-index-name 主题分类
+            span.home-index-desc 知识领域与专题
+        a.home-index-card.spotlight-card(href=url_for('/tags/'))
+          .home-index-icon
+            +icon('tag', 18)
+          .home-index-text
+            span.home-index-name 标签索引
+            span.home-index-desc 细粒度关键词网络
+        a.home-index-card.spotlight-card(href=url_for('/friends/'))
+          .home-index-icon
+            +icon('link', 18)
+          .home-index-text
+            span.home-index-name 友情链接
+            span.home-index-desc 同路人与独立博客
+        a.home-index-card.spotlight-card(href=url_for('/about/'))
+          .home-index-icon
+            +icon('terminal', 18)
+          .home-index-text
+            span.home-index-name 关于作者
+            span.home-index-desc 站点介绍与写作初衷

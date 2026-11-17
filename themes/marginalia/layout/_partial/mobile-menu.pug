@@ -3,20 +3,22 @@ include icons
 - var socials = theme.social || []
 .mobile-menu(id='mobile-menu', hidden)
   .mobile-menu-inner
-    nav.mobile-nav(aria-label='Mobile')
+    nav.mobile-nav(aria-label='移动端导航')
       each item, index in menu
         - var mobileActive = is_active_nav(item.path, page.path)
         - var mobileIndex = String(index + 1).padStart(2, '0')
-        a(href=url_for(item.path), class=mobileActive ? 'is-active' : '', aria-current=mobileActive ? 'page' : false, data-menu-close)
+        a(href=url_for(item.path), class=mobileActive ? 'is-active' : '', data-menu-close)
           span.mobile-nav-index= mobileIndex
           span.mobile-nav-name= item.name
           +icon('arrow', 16)
     .mobile-menu-foot
       .mobile-socials
         each item in socials
-          - var isExternal = item.url && /^https?:\/\//i.test(item.url)
-          a.social-link(href=url_for(item.url), aria-label=item.name, target=isExternal ? '_blank' : false, rel=isExternal ? 'noopener noreferrer' : false)
+          a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
             +icon(item.icon, 16)
-      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='Search notes', aria-haspopup='dialog')
+        button.social-link.theme-toggle(type='button', data-theme-toggle, aria-label='切换明暗主题')
+          +icon('sun', 16)
+          +icon('moon', 16)
+      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='搜索文章')
         +icon('search', 14)
-        span Search
+        span 搜索文章

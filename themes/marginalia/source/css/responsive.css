@@ -1,19 +1,23 @@
 /* ---------- 1100 ---------- */
 
 @media (max-width: 1100px) {
+  .post-frame {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
   .post-aside {
     display: none;
   }
 
   .post-toc-mobile {
     display: block;
-    grid-column: 1 / span 8;
   }
 
   .post-head,
   .post-content,
   .post-end {
-    grid-column: 1 / span 8;
+    max-width: 100%;
   }
 }
 
@@ -32,147 +36,45 @@
     grid-template-columns: 1fr auto;
   }
 
-  .site-header .header-tools {
-    justify-self: end;
-  }
-
   .home-hero {
-    padding: 48px 0 56px;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 44px 40px;
   }
 
-  .home-title {
-    font-size: clamp(42px, 7.2vw, 72px);
+  .home-recent-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .home-index-inner {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .category-card,
-  .friend-card {
-    grid-column: span 4;
+  .about-grid {
+    grid-template-columns: 1fr;
   }
 
-  .about-main {
-    grid-column: 1 / span 6;
-  }
-
-  .about-aside {
-    grid-column: 7 / span 2;
-  }
-
-  .friend-invite-copy {
-    grid-column: 1 / span 5;
-  }
-
-  .friend-site-card {
-    grid-column: 7 / span 2;
+  .friend-invite {
+    grid-template-columns: 1fr;
   }
 }
 
 /* ---------- 820 ---------- */
 
 @media (max-width: 820px) {
-  .home-hero {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 40px 0 48px;
-  }
-
-  .home-copy,
-  .home-panel {
-    grid-column: 1;
-  }
-
-  .home-panel {
-    max-width: 360px;
-  }
-
-  .home-title {
-    font-size: clamp(38px, 8.8vw, 60px);
-  }
-
   .home-latest-inner {
-    grid-template-columns: 1fr auto;
-    gap: 8px 16px;
-    padding: 16px 18px;
+    grid-template-columns: 1fr;
   }
 
-  .home-latest-label {
+  .home-latest-cta {
     grid-column: 1;
-  }
-
-  .home-latest-meta {
-    grid-column: 2;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-  }
-
-  .home-latest-title {
-    grid-column: 1 / span 2;
-    white-space: normal;
-  }
-
-  .home-latest-inner > .icon {
-    display: none;
+    grid-row: auto;
+    justify-self: flex-start;
+    margin-top: 8px;
   }
 
   .home-recent-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .post-row {
-    grid-template-columns: minmax(0, 1fr) 36px;
-    gap: 16px;
-    padding: 20px;
-  }
-
-  .post-row-side {
-    grid-column: 1;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    padding-top: 0;
-  }
-
-  .post-row-main {
-    grid-column: 1;
-  }
-
-  .post-row-arrow {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    margin-top: 0;
-  }
-
-  .post-row-title {
-    font-size: 24px;
-  }
-
-  .post-frame {
-    grid-template-columns: 1fr;
-  }
-
-  .post-head,
-  .post-toc-mobile,
-  .post-content,
-  .post-end {
-    grid-column: 1;
-    max-width: 100%;
-  }
-
-  .post-title {
-    font-size: clamp(34px, 6.4vw, 52px);
-  }
-
-  .post-lede {
-    font-size: 18px;
-  }
-
-  .post-content {
-    margin-top: 32px;
   }
 
   .category-grid,
@@ -180,52 +82,15 @@
     grid-template-columns: 1fr;
   }
 
-  .category-card,
-  .friend-card {
-    grid-column: 1;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-main,
-  .about-aside {
-    grid-column: 1;
-  }
-
-  .friend-invite {
-    grid-template-columns: 1fr;
-  }
-
-  .friend-invite-copy,
-  .friend-site-card {
-    grid-column: 1;
-  }
-
   .archive-year {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 16px;
   }
 
   .archive-year-head {
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
-  }
-
-  .archive-year-label {
-    font-size: clamp(56px, 14vw, 96px);
-  }
-
-  .archive-item {
-    gap: 12px;
-    margin: 2px -12px;
-    padding: 12px;
-  }
-
-  .archive-item-date {
-    width: 48px;
   }
 
   .archive-item-read {
@@ -237,11 +102,12 @@
 
 @media (max-width: 640px) {
   :root {
-    --header: 56px;
+    --header: 58px;
   }
 
-  .brand {
-    font-size: 20px;
+  .brand-badge,
+  .icon-btn {
+    display: none;
   }
 
   .search-trigger {
@@ -260,128 +126,49 @@
   }
 
   .page-head {
-    padding-bottom: 28px;
-  }
-
-  .page-title {
-    font-size: clamp(34px, 10vw, 48px);
-  }
-
-  .page-lede {
-    font-size: 16.5px;
-  }
-
-  .page-head-meta {
-    font-size: 10px;
+    padding-bottom: 24px;
   }
 
   .page-head-link {
     margin-left: 0;
   }
 
-  .home-kicker {
-    margin-bottom: 20px;
+  .home-hero {
+    padding-block: 32px 36px;
   }
 
-  .home-title {
-    font-size: clamp(36px, 11vw, 48px);
-  }
-
-  .home-lede {
-    font-size: 16.5px;
-  }
-
-  .home-actions .btn {
-    flex: 1 1 auto;
-  }
-
-  .home-socials {
-    gap: 16px;
-    margin-top: 32px;
-  }
-
-  .home-latest-inner {
-    padding: 14px 16px;
-  }
-
-  .home-latest-title {
-    font-size: 16px;
-  }
-
-  .home-recent {
-    padding: 28px 0 36px;
-  }
-
-  .home-recent-card {
-    padding: 18px;
-  }
-
-  .home-index-inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .home-index a {
-    padding: 14px 16px;
-    font-size: 13px;
-  }
-
-  .journal-taxonomies {
-    padding: 14px 16px;
-    gap: 10px;
-  }
-
-  .journal-tax-group {
-    flex-direction: column;
-    align-items: flex-start;
+  .home-stats-grid {
     gap: 8px;
   }
 
-  .journal-tax-label {
-    min-width: 0;
+  .stat-card {
+    padding: 12px;
   }
 
-  .post-row {
-    padding: 18px;
-  }
-
-  .post-row-title {
-    font-size: 22px;
-  }
-
-  .post-row-excerpt {
-    font-size: 14px;
-  }
-
-  .post-title {
-    font-size: clamp(32px, 8.8vw, 42px);
-  }
-
-  .post-byline {
-    font-size: 9.5px;
-  }
-
-  .post-content {
-    font-size: 17px;
-  }
-
-  .post-content h2 {
-    padding: 16px 0 0 44px;
-    font-size: 24px;
-  }
-
-  .post-content h2::before {
-    top: 16px;
-    font-size: 18px;
-  }
-
-  .post-content h3 {
+  .stat-value {
     font-size: 20px;
   }
 
-  .post-content blockquote {
-    padding: 14px 18px;
-    font-size: 17px;
+  .home-index-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .terminal-bar {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+
+  .terminal-badge {
+    display: none;
+  }
+
+  .post-row {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+  }
+
+  .post-row-arrow {
+    display: none;
   }
 
   .post-nav {
@@ -396,60 +183,26 @@
     justify-content: flex-start;
   }
 
+  .archive-year-list {
+    padding-left: 14px;
+  }
+
+  .archive-dot {
+    left: -19px;
+  }
+
   .archive-item {
     gap: 10px;
+    padding: 12px 14px;
   }
 
   .archive-item-arrow {
     display: none;
   }
 
-  .category-card {
-    padding: 18px;
-  }
-
-  .tag-pill {
-    font-size: 15px;
-  }
-
-  .about-card {
-    padding: 18px;
-  }
-
-  .friend-card {
-    padding: 18px;
-  }
-
-  .friend-index {
-    right: 18px;
-    bottom: 14px;
-  }
-
-  .friend-invite h2 {
-    font-size: 28px;
-  }
-
-  .error-code {
-    font-size: clamp(110px, 34vw, 180px);
-  }
-
-  .error-title {
-    font-size: clamp(32px, 9vw, 44px);
-  }
-
   .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .footer-note {
-    text-align: left;
-  }
-
-  .footer-links {
-    justify-self: start;
-    justify-content: flex-start;
-    gap: 8px 14px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .image-lightbox {
@@ -462,7 +215,7 @@
   }
 
   .search-overlay {
-    padding: 20px 14px;
+    padding: 16px 12px;
   }
 
   .search-panel {
@@ -470,41 +223,23 @@
   }
 
   .search-bar input {
-    font-size: 20px;
-  }
-
-  .search-foot {
-    margin-top: 14px;
-    gap: 8px 14px;
-  }
-
-  .search-result-title {
     font-size: 17px;
   }
 
-  .search-result-snippet {
-    font-size: 13px;
-  }
-
   .mobile-nav-name {
-    font-size: 24px;
+    font-size: 17px;
   }
 }
 
 /* ---------- 380 ---------- */
 
 @media (max-width: 380px) {
-  .home-title {
-    font-size: 36px;
-  }
-
   .home-actions {
     flex-direction: column;
     align-items: stretch;
   }
 
   .home-actions .btn {
-    flex: none;
     width: 100%;
   }
 }

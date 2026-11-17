@@ -4,23 +4,24 @@ block content
   - var posts = page.posts.toArray()
   - var startIndex = (page.current - 1) * config.per_page
   - var title = page.category || page.title.replace(/^Category:\s*/i, '')
+  - var featured = false
   main#main.site-main.taxonomy-page
     .shell
       header.page-head.taxonomy-head
         a.back-link(href=url_for('/categories/'))
           +icon('arrow-left', 13)
-          span All categories
+          span 返回全部分类
         p.eyebrow
-          span Category
+          span CATEGORY
           span.eyebrow-cn 分类
         h1.page-title= title
-        p.page-lede Notes gathered under this subject.
+        p.page-lede 该主题下的所有笔记归档（共 #{posts.length} 篇）。
       if posts.length
         include _partial/post-rows
         include _partial/pagination
       else
         .empty-state
-          h2 No notes here yet.
+          h2 该分类下暂无文章
           a.btn.btn--line(href=url_for('/categories/'))
-            span Browse categories
+            span 浏览其他分类
             +icon('arrow-right', 15)

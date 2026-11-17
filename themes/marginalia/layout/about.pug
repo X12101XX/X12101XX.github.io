@@ -4,40 +4,40 @@ block content
   - var since = theme.footer && theme.footer.since ? theme.footer.since : 2026
   main#main.site-main.about-page
     .shell.about-shell
-      header.about-head
+      header.page-head.about-head
         p.eyebrow
-          span About
-          span.eyebrow-cn 关于
+          span= theme.about.kicker || 'ABOUT'
+          span.eyebrow-cn= theme.about.kicker_cn || '关于作者'
         h1.page-title
-          span= theme.about.heading_before + ' '
-          em= theme.about.heading_em
+          span= theme.about.heading_before || '写下代码背后的'
+          em= theme.about.heading_em || '思考与理解'
         p.page-lede= page.description || config.description
       .about-grid
         .about-main
           article.about-content.markdown-body!= page.content
           blockquote.about-quote
             p “写下来，是为了把一个问题真正想清楚。”
-            cite — a note to self
+            cite — 写给自己的备忘
         aside.about-aside
-          .about-card
+          .about-card.spotlight-card
             img.about-avatar(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='240', height='240', loading='lazy')
             p.about-name= theme.author.name || config.author
-            p.about-role= theme.landing.title
+            p.about-role= config.subtitle || 'Code & Quiet Things'
             .about-facts
               .about-fact
-                span.about-fact-label Since
-                span.about-fact-value= since
+                span.about-fact-label 建站年份
+                span.about-fact-value #{since} 年
               .about-fact
-                span.about-fact-label Writing
-                span.about-fact-value Code & understanding
+                span.about-fact-label 关注方向
+                span.about-fact-value 代码、类型与工具
               .about-fact
-                span.about-fact-label Elsewhere
+                span.about-fact-label 开源主页
                 a.about-fact-value(href=theme.author.github, target='_blank', rel='noopener noreferrer')
                   span GitHub
                   +icon('arrow', 12)
             a.about-card-link(href=url_for('/posts/'))
-              span Read the notes
+              span 阅读全部文章
               +icon('arrow-right', 14)
-          .about-card.about-card--quiet
-            p.about-card-kicker Colophon
-            p Set in Archivo, Doto and IBM Plex Mono. White on black, one purple.
+          .about-card.about-card--quiet.spotlight-card
+            p.about-card-kicker 站点说明
+            p 基于 Hexo 静态构建，本地支持 KaTeX 数学公式、Lean 4 高亮与 Typora 无缝写作。

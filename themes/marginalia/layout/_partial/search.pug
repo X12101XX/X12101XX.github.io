@@ -3,24 +3,26 @@ include icons
   .search-backdrop(data-search-close)
   .search-panel(role='dialog', aria-modal='true', aria-labelledby='search-label')
     .search-head
-      p.search-kicker.mono Index / Search
-      button.search-close(type='button', data-search-close, aria-label='Close search')
-        +icon('close', 17)
+      p.search-kicker
+        +icon('sparkles', 14)
+        span 全站检索
+      button.search-close(type='button', data-search-close, aria-label='关闭搜索')
+        +icon('close', 16)
     .search-bar
-      +icon('search', 20)
-      label.sr-only(id='search-label') Search notes
-      input#search-input(type='search', placeholder='Search notes…', autocomplete='off', spellcheck='false', aria-controls='search-results')
+      +icon('search', 18)
+      label.sr-only(id='search-label') 搜索文章
+      input#search-input(type='search', placeholder='搜索文章标题、标签或正文...', autocomplete='off', spellcheck='false', aria-controls='search-results')
     .search-body
-      p.search-status(id='search-status') Type to search notes and essays.
+      p.search-status(id='search-status') 输入关键词开始检索（支持空格分词）
       ul.search-results(id='search-results')
-    .search-foot.mono
+    .search-foot
       span
         kbd ↑
         kbd ↓
-        |  Navigate
+        |  选择
       span
         kbd ↵
-        |  Open
+        |  打开
       span
         kbd Esc
-        |  Close
+        |  关闭

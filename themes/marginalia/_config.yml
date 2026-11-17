@@ -1,4 +1,4 @@
-# Marginalia — a Nothing-inspired monochrome index for Hexo.
+# Marginalia — Modern Aurora & Glassmorphism theme for Hexo.
 # Site-specific settings live in _config.marginalia.yml at the project root.
 
 toc:
@@ -15,7 +15,7 @@ reading:
 
 footer:
   since: 2026
-  note: Notes in progress
+  note: 缓慢地写，诚实地写
 
 author:
   name: X12101XX
@@ -23,17 +23,19 @@ author:
   github: https://github.com/X12101XX
 
 menu:
-  - name: Notes
+  - name: 首页
+    path: /
+  - name: 文章
     path: /posts/
-  - name: Archive
+  - name: 归档
     path: /archives/
-  - name: Categories
+  - name: 分类
     path: /categories/
-  - name: Tags
+  - name: 标签
     path: /tags/
-  - name: Friends
+  - name: 友链
     path: /friends/
-  - name: About
+  - name: 关于
     path: /about/
 
 social:
@@ -46,41 +48,55 @@ social:
 
 landing:
   name: X12101XX
-  title: Code & Quiet Things
+  badge: NOTES
+  kicker: Type Systems · Modern C++ · Lean 4
+  title_prefix: X12101XX 的
+  title_gradient: 代码与思考笔记
   primary:
-    label: Notes
-    cn: 博客文章
+    label: 浏览全部文章
     path: /posts/
   secondary:
-    label: Friends
-    cn: 友情链接
-    path: /friends/
+    label: 关于作者
+    path: /about/
 
 journal:
-  kicker: Notes
-  kicker_cn: 笔记
-  heading_before: Notes, kept in
-  heading_em: longhand.
+  kicker: ARTICLES
+  kicker_cn: 文章索引
+  heading_before: 全部文章与
+  heading_em: 长篇笔记
+  lede: 记录编程语言、类型系统、编译器工具链与日常工程实践。
 
 archive:
-  heading_before: Everything,
-  heading_em: in its season.
-  lede: Every note, filed in the order it was written.
+  kicker: TIMELINE
+  kicker_cn: 时间归档
+  heading_before: 按时间线整理的
+  heading_em: 全部记录
+  lede: 每一篇笔记按创作时间顺序排列，见证思考的轨迹。
 
 categories:
-  heading_before: Filed under
-  heading_em: a few ideas.
-  lede: The subjects this site keeps returning to.
+  kicker: CATEGORIES
+  kicker_cn: 主题分类
+  heading_before: 按主题聚合的
+  heading_em: 知识目录
+  lede: 网站长期关注的若干核心主题与方向。
 
 tags:
-  heading_before: Threads that
-  heading_em: run through.
-  lede: Small words that tie one note to another.
+  kicker: TAGS
+  kicker_cn: 标签索引
+  heading_before: 串联不同笔记的
+  heading_em: 关键词线索
+  lede: 用更细粒度的标签，在文章之间自由穿梭。
 
 friends:
-  heading_before: Kindred corners,
-  heading_em: kept close.
+  kicker: FRIENDS
+  kicker_cn: 友情链接
+  heading_before: 同样认真写作的
+  heading_em: 独立角落
+  lede: 收集一些有趣、真诚且值得常去逛逛的博客与小站。
 
 about:
-  heading_before: A quiet place,
-  heading_em: kept in the open.
+  kicker: ABOUT
+  kicker_cn: 关于作者
+  heading_before: 写下代码背后的
+  heading_em: 思考与理解
+  lede: 关于代码、工具与理解的个人笔记。

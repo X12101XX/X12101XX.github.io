@@ -10,68 +10,71 @@ block content
       .post-frame
         header.post-head
           .post-kicker
+            a.post-kicker-home(href=url_for('/posts/')) 文章
+            span.sep /
             each category, index in categories
               a.post-kicker-link(href=url_for(category.path))= category.name
               if index < categories.length - 1
                 span.sep /
             if categories.length
               span.sep /
-            time(datetime=date(page.date, 'YYYY-MM-DD'))= date(page.date, 'YYYY.MM.DD')
+            time(datetime=date(page.date, 'YYYY-MM-DD'))= date(page.date, 'YYYY-MM-DD')
             if typeof word_count === 'function'
               span.sep /
-              span #{word_count(page.content)} chars
+              span 约 #{word_count(page.content)} 字
             span.sep /
-            span #{reading_time(page.content)} min read
+            span #{reading_time(page.content)} 分钟阅读
           h1.post-title= page.title
           if page.description
             p.post-lede= page.description
           .post-byline
-            span Written by #{theme.author.name || config.author}
+            span 作者：#{(theme.author && theme.author.name) || config.author}
             span.byline-rule
             if page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')
-              span Updated #{date(page.updated, 'YYYY.MM.DD')}
+              span 更新于 #{date(page.updated, 'YYYY-MM-DD')}
             else
-              span Filed #{date(page.date, 'YYYY')}
+              span 发布于 #{date(page.date, 'YYYY-MM-DD')}
         if tocHtml
           details.post-toc-mobile
-            summary.mono Contents / 目录
+            summary
+              span 文章目录
             .post-toc-mobile-body!= tocHtml
         article.post-content.markdown-body!= page.content
         if tocHtml
-          aside.post-aside(aria-label='On this page')
+          aside.post-aside(aria-label='文章目录')
             .post-aside-head
-              p.post-aside-label Contents
-              span.post-aside-progress.dot-num(data-reading-percent) 00%
+              p.post-aside-label 文章目录
+              span.post-aside-progress(data-reading-percent) 0%
             != tocHtml
-            a.post-aside-top.mono(href='#top') Top ↑
+            a.post-aside-top(href='#top') 返回顶部 ↑
         footer.post-end
           .post-filed
             if categories.length
               .post-filed-group
-                span.post-filed-label Filed under
+                span.post-filed-label 所属分类
                 each category in categories
                   a.chip.chip--solid(href=url_for(category.path))= category.name
             if tags.length
               .post-filed-group
-                span.post-filed-label Tagged
+                span.post-filed-label 文章标签
                 each tag in tags
-                  a.chip(href=url_for(tag.path))= tag.name
+                  a.chip(href=url_for(tag.path)) # #{tag.name}
           if page.prev || page.next
-            nav.post-nav(aria-label='More notes')
+            nav.post-nav(aria-label='上下篇导航')
               if page.prev
-                a.post-nav-link.post-nav-link--prev(href=url_for(page.prev.path))
+                a.post-nav-link.post-nav-link--prev.spotlight-card(href=url_for(page.prev.path))
                   span.post-nav-label
                     +icon('arrow-left', 12)
-                    span Previous note
+                    span 上一篇
                   span.post-nav-title= page.prev.title
               else
                 span.post-nav-link.is-empty
               if page.next
-                a.post-nav-link.post-nav-link--next(href=url_for(page.next.path))
+                a.post-nav-link.post-nav-link--next.spotlight-card(href=url_for(page.next.path))
                   span.post-nav-label
-                    span Next note
+                    span 下一篇
                     +icon('arrow-right', 12)
                   span.post-nav-title= page.next.title
           a.post-return(href=url_for('/posts/'))
             +icon('arrow-left', 14)
-            span Back to notes
+            span 返回文章列表

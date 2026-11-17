@@ -1,20 +1,20 @@
 include icons
 if page.total > 1
-  nav.pagination(aria-label='Pagination')
+  nav.pagination(aria-label='分页导航')
     if page.prev
       a.pagination-step(href=url_for(page.prev_link))
         +icon('arrow-left', 14)
-        span Newer
+        span 上一页
     else
       span.pagination-step.is-disabled
         +icon('arrow-left', 14)
-        span Newer
-    p.pagination-count Page #{page.current} of #{page.total}
+        span 上一页
+    p.pagination-count 第 #{page.current} 页 / 共 #{page.total} 页
     if page.next
       a.pagination-step(href=url_for(page.next_link))
-        span Older
+        span 下一页
         +icon('arrow-right', 14)
     else
       span.pagination-step.is-disabled
-        span Older
+        span 下一页
         +icon('arrow-right', 14)

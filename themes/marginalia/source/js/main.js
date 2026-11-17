@@ -20,13 +20,13 @@
     root.classList.add('is-leaving');
     window.setTimeout(() => {
       window.location.href = url;
-    }, 190);
+    }, 180);
   };
 
   if (root.classList.contains('is-entering')) {
     window.setTimeout(() => {
       root.classList.remove('is-transitioning', 'is-entering');
-    }, 320);
+    }, 300);
   }
 
   const copyText = async (text) => {
@@ -46,6 +46,56 @@
     if (!ok) throw new Error('Copy failed');
   };
 
+  /* ---------------- theme toggle ---------------- */
+
+  const themeMeta = doc.querySelector('meta[name="theme-color"]');
+  const applyTheme = (theme) => {
+    const next = theme === 'light' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    if (themeMeta) {
+      themeMeta.setAttribute('content', next === 'light' ? '#f8fafc' : '#07080d');
+    }
+    doc.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+      btn.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false');
+    });
+  };
+
+  applyTheme(root.dataset.theme || 'dark');
+
+  doc.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const current = root.dataset.theme === 'light' ? 'light' : 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch (error) {}
+    });
+  });
+
+  /* ---------------- spotlight mouse glow ---------------- */
+
+  if (!reducedMotion.matches && window.matchMedia('(hover: hover)').matches) {
+    let activeCard = null;
+    doc.addEventListener('pointermove', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('.spotlight-card') : null;
+      if (!card) {
+        if (activeCard) {
+          activeCard.style.removeProperty('--mouse-x');
+          activeCard.style.removeProperty('--mouse-y');
+          activeCard = null;
+        }
+        return;
+      }
+      activeCard = card;
+      const rect = card.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x.toFixed(1)}px`);
+      card.style.setProperty('--mouse-y', `${y.toFixed(1)}px`);
+    }, { passive: true });
+  }
+
   /* ---------------- mobile menu ---------------- */
 
   const menu = doc.getElementById('mobile-menu');
@@ -57,7 +107,7 @@
     clearTimeout(menuCloseTimer);
     menu.hidden = false;
     menuToggle.setAttribute('aria-expanded', 'true');
-    menuToggle.setAttribute('aria-label', 'Close menu');
+    menuToggle.setAttribute('aria-label', '关闭导航菜单');
     root.classList.add('menu-open');
     requestAnimationFrame(() => menu.classList.add('is-open'));
   };
@@ -66,7 +116,7 @@
     if (!menu || !menuToggle) return;
     menu.classList.remove('is-open');
     menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.setAttribute('aria-label', 'Open menu');
+    menuToggle.setAttribute('aria-label', '打开导航菜单');
     root.classList.remove('menu-open');
     menuCloseTimer = setTimeout(() => {
       if (!menu.classList.contains('is-open')) menu.hidden = true;
@@ -93,7 +143,7 @@
   /* ---------------- header state ---------------- */
 
   const header = doc.getElementById('site-header');
-  if (header && !header.classList.contains('site-header--landing')) {
+  if (header) {
     let ticking = false;
     const updateHeader = () => {
       header.classList.toggle('is-scrolled', window.scrollY > 8);
@@ -108,72 +158,46 @@
     updateHeader();
   }
 
-  /* ---------------- interactive 5x5 glyph ---------------- */
+  /* ---------------- hero interactive terminal ---------------- */
 
-  const glyphGrid = doc.querySelector('[data-glyph-grid]');
-  const glyphSwitch = doc.querySelector('[data-glyph-switch]');
-  if (glyphGrid) {
-    const cells = Array.from(glyphGrid.querySelectorAll('span'));
-    const patterns = [
-      {
-        label: '01',
-        name: 'X-cross',
-        on: [0, 4, 6, 8, 16, 18, 20, 24],
-        signal: [12]
-      },
-      {
-        label: '02',
-        name: 'Frame',
-        on: [0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24],
-        signal: [12]
-      },
-      {
-        label: '03',
-        name: 'Diamond',
-        on: [2, 6, 8, 10, 14, 16, 18, 22],
-        signal: [12]
-      },
-      {
-        label: '04',
-        name: 'Pulse',
-        on: [2, 6, 10, 11, 13, 14, 18, 22],
-        signal: [12]
-      }
-    ];
-    let patternIndex = 0;
+  const terminal = doc.querySelector('[data-terminal]');
+  if (terminal) {
+    const tabs = Array.from(terminal.querySelectorAll('[data-terminal-tab]'));
+    const panels = Array.from(terminal.querySelectorAll('[data-terminal-panel]'));
+    const langBadge = terminal.querySelector('[data-terminal-lang]');
+    const statusText = terminal.querySelector('[data-terminal-status]');
 
-    const applyPattern = (index) => {
-      const pattern = patterns[index];
-      if (!pattern) return;
-      const onSet = new Set(pattern.on);
-      const signalSet = new Set(pattern.signal);
-      cells.forEach((cell, cellIndex) => {
-        cell.classList.toggle('is-signal', signalSet.has(cellIndex));
-        cell.classList.toggle('is-on', onSet.has(cellIndex));
-      });
-      if (glyphSwitch) {
-        glyphSwitch.textContent = pattern.label;
-        glyphSwitch.setAttribute('aria-label', `Switch matrix pattern (${pattern.name})`);
+    const metaByTab = {
+      lean: {
+        lang: 'Lean 4 · ∀ n',
+        status: 'Proof State: No goals · Typechecked'
+      },
+      cpp: {
+        lang: 'C++20 · constexpr',
+        status: 'Compile-time N only · Not dependent'
       }
     };
 
-    if (glyphSwitch) {
-      glyphSwitch.addEventListener('click', () => {
-        patternIndex = (patternIndex + 1) % patterns.length;
-        applyPattern(patternIndex);
+    const activateTab = (key) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.terminalTab === key;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
       });
-    }
+      panels.forEach((panel) => {
+        const active = panel.dataset.terminalPanel === key;
+        panel.hidden = !active;
+        panel.classList.toggle('is-active', active);
+      });
+      const meta = metaByTab[key];
+      if (meta) {
+        if (langBadge) langBadge.textContent = meta.lang;
+        if (statusText) statusText.textContent = meta.status;
+      }
+    };
 
-    cells.forEach((cell, cellIndex) => {
-      cell.addEventListener('click', () => {
-        if (cell.classList.contains('is-signal') || cell.classList.contains('is-on')) {
-          cell.classList.remove('is-signal', 'is-on');
-        } else if (cellIndex === 12) {
-          cell.classList.add('is-signal');
-        } else {
-          cell.classList.add('is-on');
-        }
-      });
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => activateTab(tab.dataset.terminalTab));
     });
   }
 
@@ -265,7 +289,7 @@
   const loadIndex = async () => {
     if (searchEntries || searchLoading || !overlay) return;
     searchLoading = true;
-    if (searchStatus) searchStatus.textContent = 'Opening the index…';
+    if (searchStatus) searchStatus.textContent = '正在加载检索索引…';
     try {
       const response = await fetch(overlay.dataset.index || '/search.xml', { cache: 'no-cache' });
       if (!response.ok) throw new Error('Search index unavailable');
@@ -275,7 +299,7 @@
       if (searchOpen) renderResults(searchInput ? searchInput.value.trim() : '');
     } catch (error) {
       searchLoading = false;
-      if (searchStatus) searchStatus.textContent = 'The index could not be opened.';
+      if (searchStatus) searchStatus.textContent = '无法打开搜索索引。';
       if (searchResults) searchResults.innerHTML = '';
     }
   };
@@ -284,7 +308,7 @@
 
   const itemDate = (entry) => {
     if (!entry.date) return '';
-    return entry.date.slice(0, 10).replace(/-/g, '.');
+    return entry.date.slice(0, 10);
   };
 
   const snippetFor = (entry, query) => {
@@ -317,8 +341,8 @@
     let matches;
 
     if (!normalized) {
-      matches = searchEntries.slice(0, 4);
-      searchStatus.textContent = 'Recently filed';
+      matches = searchEntries.slice(0, 5);
+      searchStatus.textContent = '最近发布';
     } else {
       const q = normalized.toLowerCase();
       const tokens = tokenizeQuery(q);
@@ -346,15 +370,15 @@
         .slice(0, 8)
         .map((item) => item.entry);
       searchStatus.textContent = matches.length
-        ? `${matches.length} ${matches.length === 1 ? 'result' : 'results'} for “${normalized}”`
-        : `Nothing found for “${normalized}”`;
+        ? `共找到 ${matches.length} 条关于 “${normalized}” 的结果`
+        : `没有找到与 “${normalized}” 匹配的文章`;
     }
 
     activeResult = -1;
     searchResults.innerHTML = '';
 
     if (!matches.length) {
-      searchResults.innerHTML = '<li class="search-empty">Try a shorter word, or browse the journal instead.</li>';
+      searchResults.innerHTML = '<li class="search-empty">换一个更简短的关键词试试，或者前往归档浏览。</li>';
       return;
     }
 
@@ -402,7 +426,7 @@
     closeTimer = setTimeout(() => {
       overlay.hidden = true;
       if (searchInput) searchInput.value = '';
-      if (searchStatus) searchStatus.textContent = 'Type to search notes and essays.';
+      if (searchStatus) searchStatus.textContent = '输入关键词开始检索（支持空格分词）';
       if (searchResults) searchResults.innerHTML = '';
       if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
     }, 280);
@@ -438,7 +462,7 @@
     setTimeout(loadIndex, 1600);
   }
 
-  /* ---------------- code copy ---------------- */
+  /* ---------------- code copy & macOS toolbar ---------------- */
 
   const languageNames = {
     bash: 'Shell',
@@ -507,32 +531,44 @@
     const lineCount = lineNodes.length || (rawCode ? rawCode.split('\n').length : 0);
 
     const toolbar = doc.createElement('div');
+    const leftGroup = doc.createElement('div');
+    const dots = doc.createElement('span');
     const label = doc.createElement('span');
     const button = doc.createElement('button');
+
     toolbar.className = 'code-toolbar';
+    leftGroup.className = 'code-toolbar-left';
+    dots.className = 'code-dots';
+    dots.setAttribute('aria-hidden', 'true');
+    dots.innerHTML = '<span></span><span></span><span></span>';
+
     label.className = 'code-lang';
     label.textContent = lineCount > 0
       ? `${language} · ${lineCount} ${lineCount === 1 ? 'line' : 'lines'}`
       : language;
+
+    leftGroup.append(dots, label);
+
     button.type = 'button';
     button.className = 'code-copy';
-    button.textContent = 'Copy';
-    button.setAttribute('aria-label', `Copy ${language} code`);
-    toolbar.append(label, button);
+    button.textContent = '复制';
+    button.setAttribute('aria-label', `复制 ${language} 代码`);
+
+    toolbar.append(leftGroup, button);
     figure.insertBefore(toolbar, figure.firstChild);
 
     button.addEventListener('click', async () => {
       try {
         await copyText(rawCode);
-        button.textContent = 'Copied';
+        button.textContent = '已复制';
         button.classList.add('is-copied');
         setTimeout(() => {
-          button.textContent = 'Copy';
+          button.textContent = '复制';
           button.classList.remove('is-copied');
         }, 1600);
       } catch (error) {
-        button.textContent = 'Press ⌘C';
-        setTimeout(() => { button.textContent = 'Copy'; }, 1600);
+        button.textContent = '按 ⌘C 复制';
+        setTimeout(() => { button.textContent = '复制'; }, 1600);
       }
     });
   });
@@ -597,8 +633,8 @@
     anchor.className = 'heading-anchor';
     anchor.href = `#${encodeURIComponent(heading.id)}`;
     anchor.textContent = '#';
-    anchor.setAttribute('aria-label', 'Copy section link');
-    anchor.setAttribute('title', 'Copy link to section');
+    anchor.setAttribute('aria-label', '复制章节链接');
+    anchor.setAttribute('title', '复制当前章节链接');
     let resetTimer;
     anchor.addEventListener('click', async (event) => {
       event.preventDefault();
@@ -671,11 +707,11 @@
     lightboxEl.hidden = true;
     lightboxEl.setAttribute('role', 'dialog');
     lightboxEl.setAttribute('aria-modal', 'true');
-    lightboxEl.setAttribute('aria-label', 'Image preview');
+    lightboxEl.setAttribute('aria-label', '图片预览');
     lightboxEl.innerHTML = `
       <div class="image-lightbox-backdrop" data-lightbox-close></div>
       <figure class="image-lightbox-frame">
-        <button type="button" class="image-lightbox-close" data-lightbox-close aria-label="Close image preview">×</button>
+        <button type="button" class="image-lightbox-close" data-lightbox-close aria-label="关闭图片预览">×</button>
         <img class="image-lightbox-img" alt="">
         <figcaption class="image-lightbox-caption mono"></figcaption>
       </figure>
@@ -808,7 +844,7 @@
         progress.style.transform = `scaleX(${fraction})`;
       }
       if (percentEl) {
-        percentEl.textContent = `${String(Math.round(fraction * 100)).padStart(2, '0')}%`;
+        percentEl.textContent = `${Math.round(fraction * 100)}%`;
       }
     }
 

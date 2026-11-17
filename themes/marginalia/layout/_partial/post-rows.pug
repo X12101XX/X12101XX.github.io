@@ -1,29 +1,30 @@
 include icons
-- var rowPosts = (typeof valid_posts === 'function' ? valid_posts(posts) : (posts || [])).filter(function (post) { return post && post.published !== false && post.title && String(post.title).trim(); })
 .post-list
-  each post, index in rowPosts
-    - var tags = post.tags ? post.tags.toArray().slice(0, 2) : []
+  each post, index in posts
+    - var tags = post.tags ? post.tags.toArray().slice(0, 3) : []
     - var categories = post.categories ? post.categories.toArray() : []
-    - var number = String((startIndex || 0) + index + 1).padStart(2, '0')
-    article.post-row
-      .post-row-side
-        span.post-row-number= number
-        time.post-row-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY.MM.DD')
-      .post-row-main
-        if featured && index === 0
-          span.post-row-flag Latest note
+    - var charText = typeof word_count === 'function' ? word_count(post.content) : ''
+    article.post-row.spotlight-card
+      .post-row-body
+        .post-row-top
+          if featured && index === 0
+            span.post-row-flag 最新文章
+          time.post-row-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY-MM-DD')
+          if categories.length
+            span.dot ·
+            span.post-row-category= categories[0].name
+          if charText
+            span.dot ·
+            span 约 #{charText} 字
+          span.dot ·
+          span #{reading_time(post.content)} 分钟阅读
         h2.post-row-title
           a(href=url_for(post.path))= post.title
         if post_excerpt(post, 175)
           p.post-row-excerpt= post_excerpt(post, 175)
-        .post-row-meta
-          if categories.length
-            span.post-row-category= categories[0].name
-            span.dot ·
-          span #{typeof word_count === 'function' ? word_count(post.content) + ' chars · ' : ''}#{reading_time(post.content)} min read
-          if tags.length
-            span.dot ·
+        if tags.length
+          .post-row-tags
             each tag in tags
-              a.chip(href=url_for(tag.path))= tag.name
-      a.post-row-arrow(href=url_for(post.path), aria-label='Read ' + post.title)
-        +icon('arrow', 20)
+              a.chip(href=url_for(tag.path)) # #{tag.name}
+      a.post-row-arrow(href=url_for(post.path), aria-label='阅读 ' + post.title)
+        +icon('arrow', 18)

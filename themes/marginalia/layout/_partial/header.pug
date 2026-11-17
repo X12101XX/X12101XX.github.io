@@ -1,19 +1,28 @@
 include icons
 - var menu = theme.menu || []
+- var avatarUrl = (theme.author && theme.author.avatar) || '/images/avatar.jpg'
+- var badgeText = (theme.landing && theme.landing.badge) || 'NOTES'
 header.site-header(id='site-header')
   .shell.header-inner
     a.brand(href=url_for('/'), aria-label=config.title)
-      span.brand-text= theme.author.name || 'X12101XX'
-      span.brand-dot(aria-hidden='true')
-    nav.site-nav(aria-label='Primary')
+      img.brand-avatar(src=url_for(avatarUrl), alt=theme.author.name || config.author, width='28', height='28')
+      span.brand-text= (theme.author && theme.author.name) || 'X12101XX'
+      span.brand-badge= badgeText
+    nav.site-nav(aria-label='主导航')
       each item in menu
         - var active = is_active_nav(item.path, page.path)
         a(href=url_for(item.path), class=active ? 'is-active' : '', aria-current=active ? 'page' : false)= item.name
     .header-tools
-      button.search-trigger(type='button', data-search-open, aria-label='Search notes', aria-haspopup='dialog')
+      button.search-trigger(type='button', data-search-open, aria-label='搜索文章', aria-haspopup='dialog')
         +icon('search', 14)
-        span.search-trigger-label Search
-        kbd.search-kbd(aria-hidden='true') /
-      button.menu-toggle(type='button', data-menu-toggle, aria-controls='mobile-menu', aria-expanded='false', aria-label='Open menu')
+        span.search-trigger-label 搜索...
+        kbd.search-kbd(aria-hidden='true') ⌘K
+      button.theme-toggle(type='button', data-theme-toggle, aria-label='切换明暗主题', title='切换深色 / 浅色模式')
+        +icon('sun', 16)
+        +icon('moon', 16)
+      if theme.author && theme.author.github
+        a.icon-btn(href=theme.author.github, target='_blank', rel='noopener noreferrer', aria-label='GitHub', title='GitHub')
+          +icon('github', 16)
+      button.menu-toggle(type='button', data-menu-toggle, aria-controls='mobile-menu', aria-expanded='false', aria-label='打开导航菜单')
         span.menu-toggle-line
         span.menu-toggle-line
