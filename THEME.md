@@ -1,18 +1,18 @@
 # Marginalia
 
-`themes/marginalia` 是为这个网站写的原创 Hexo 主题，不是上游主题的 fork。名字取意于书页边缘的批注，版式则采用 Nothing 的工业点阵与网格系统。配套的 Typora 编辑器主题 [`typora/marginalia.css`](typora/marginalia.css) 延续相同的黑底视觉与排版规则，实现写作环境与线上阅读的一致体验。
+`themes/marginalia` 是为这个网站写的原创 Hexo 主题，不是上游主题的 fork。名字取意于书页边缘的批注，视觉上融合了 **Linear / Vercel 风格现代深色极简质感**（深邃炭黑层次 `#09090b`、微光渐变边框、毛玻璃导航与浮层、精致圆角卡片、柔和阴影）与原有八列网格及点阵字标基因。配套的 Typora 编辑器主题 [`typora/marginalia.css`](typora/marginalia.css) 延续相同的深色质感与排版规则，实现写作环境与线上阅读的一致体验。
 
-设计方向来自 Nothing 的工业点阵与八列网格：纯黑底、白色字、单一紫色信号；Archivo 承担标题与正文，Doto 只用于字标和数字，IBM Plex Mono 承担标签与代码。严格页边距、1px 细线、零圆角、零阴影、零渐变；标题与正文使用句子式大小写，只有字标使用大写。
+设计变量以深邃夜幕黑底（`#09090b`）、多级炭黑表面（`#12131a` / `#181a24`）、环境顶部聚光渐变与紫色信号（`#b15cff`）为核心；Archivo 承担标题与正文，Doto 只用于字标和数字，IBM Plex Mono 承担标签与代码。标题与正文使用句子式大小写，只有字标使用大写。
 
 ## 页面的样子
 
-- **入口 `/`**：一块黑色索引。点阵字标、放大的标签标题、可交互 5×5 点阵字形（按钮切换预设图案或点击点亮单元）、统计面板（Notes / Topics / Updated / Since）、`Latest note` 条（含分类与阅读时长）、`Recent notes` 近期 3 篇摘要卡片与六条入口（Notes / Archive / Categories / Tags / Friends / About）；没有头像、没有渐变、没有水印。
-- **文章 `/posts/`**：顶部分类与标签筛选栏（`.journal-taxonomies`），下方按时间排列的索引行；点阵编号、日期、标题、摘要、字数/阅读时长统计与方形标签，全部落在 1px 细线上。
-- **文章 `/posts/:title/`**：点阵章节编号的阅读版式；Archivo 标题、字数与阅读时长 kicker、单栏正文、桌面端右侧粘性目录（带实时阅读百分比与 `Top ↑` 返回链接）、移动端/平板端可折叠目录、文内 `[TOC]` 自动目录、标题悬停复制锚点、Typora Callout / 高亮 / 脚注 / 任务列表、横向可滚动表格包装、图片说明与 1px 硬边黑底灯箱、等宽代码栏（含语言标签与行数统计）与上下篇索引。
-- **归档 / 分类 / 标签**：大号点阵年份搭配篇数统计与主分类标签、方形分类卡与方角标签，用编号与细线组织信息。
-- **友链 `/friends/`**：方形头像、1px 名片与交换友链的说明。
-- **关于 `/about/`**：头像、站点说明与规格表并排；章节标题带点阵编号。
-- **404**：超大点阵 404 与硬边按钮。
+- **入口 `/`**：顶部毛玻璃胶囊导航 + 聚光灯背景；点阵字标、放大的渐变标题、毛玻璃右栏（可交互 5×5 点阵字形 + 统计面板）、浮层风格 `Latest note` 横幅（含分类与阅读时长）、`Recent notes` 三列 Bento 摘要卡片与六格圆角入口（Notes / Archive / Categories / Tags / Friends / About）。
+- **文章 `/posts/`**：顶部分类与标签筛选栏（`.journal-taxonomies`），下方按时间排列的圆角卡片索引；点阵编号、日期、标题、摘要、字数/阅读时长统计与圆角标签。
+- **文章 `/posts/:title/`**：点阵章节编号的阅读版式；Archivo 渐变标题、字数与阅读时长 kicker、单栏正文、桌面端右侧毛玻璃粘性目录（带实时阅读百分比与 `Top ↑` 返回链接）、移动端/平板端可折叠目录、文内 `[TOC]` 自动目录、标题悬停复制锚点、Typora 语义配色 Callout / 高亮 / 脚注 / 任务列表、圆角横向可滚动表格包装、图片说明与毛玻璃灯箱、IDE 风格等宽代码块（含语言标签与行数统计）与圆角上下篇卡片。
+- **归档 / 分类 / 标签**：渐变大号点阵年份搭配篇数胶囊与主分类标签、圆角分类卡（全站索引卡采用紫靛微光渐变高亮）与圆角标签胶囊。
+- **友链 `/friends/`**：圆角头像、微光名片与交换友链的说明。
+- **关于 `/about/`**：头像、站点说明与规格卡片并排；章节标题带点阵编号。
+- **404**：渐变点阵 404 与微光按钮。
 
 ## 文件结构
 
@@ -65,12 +65,14 @@
 颜色与字体集中在 `themes/marginalia/source/css/base.css` 的 `:root`：
 
 ```css
---bg: #000000;           /* 黑底 */
---ink: #ffffff;          /* 白字 */
---muted: #b1b3b3;        /* 次级文字 */
---faint: #7e8080;        /* 微文字 */
---purple: #b15cff;       /* 唯一信号色 */
---line: rgba(255, 255, 255, 0.2);
+--bg: #09090b;           /* 深邃炭黑底 */
+--surface: #12131a;      /* 卡片表面 */
+--surface-2: #181a24;    /* 悬停/高阶表面 */
+--ink: #f4f4f6;          /* 主文字 */
+--muted: #9496a4;        /* 次级文字 */
+--faint: #646775;        /* 微文字 */
+--purple: #b15cff;       /* 紫色信号 */
+--line: rgba(255, 255, 255, 0.085);
 --margin: clamp(20px, 2.3vw, 40px);  /* 2.3% 页边距 */
 --sans: 'Archivo', 'PingFang SC', ...;
 --dot: 'Doto', 'IBM Plex Mono', monospace;
@@ -100,7 +102,7 @@
 
 [`typora/marginalia.css`](typora/marginalia.css) 将站点视觉规则延伸到 Typora 写作界面：
 
-- 使用与网页端一致的纯黑 `#000000` 画布、1px 细线、零圆角 / 零阴影 / 零渐变与 `#b15cff` 紫色信号。
+- 使用与网页端一致的深邃炭黑 `#09090b` 画布、分层表面、精致圆角、微光边框与 `#b15cff` 紫色信号。
 - 通过 `@font-face` 与字体栈引用 `Archivo`、`Doto`（用于 `h2::before` 的 `01`, `02`, ... 章节编号）与 `IBM Plex Mono`（用于 YAML front matter `.md-meta-block`、行内代码、`.md-fences` 代码块与界面的等宽标签）。
 - 覆盖 `.md-Alert` / `.md-alert` 提醒块（`note` / `tip` / `important` / `warning` / `caution`）、`blockquote`、`table`、`mark`（`==高亮==`）、`.md-task-list-item` 任务列表、`.md-footnote` 脚注、KaTeX / MathJax 公式块与 `#typora-sidebar` 暗色大纲侧边栏。
 - 运行 `npm run typora:theme`（或 `npm run typora:theme -- --dir <path>`）可将样式与字体安装至本地 Typora 主题目录。
@@ -120,11 +122,11 @@ search:
 
 ## 定制建议
 
-- 换颜色：只改 `themes/marginalia/source/css/base.css` 顶部的变量，优先保持黑底、白字、单一紫色信号三层关系。
+- 换颜色：只改 `themes/marginalia/source/css/base.css` 顶部的变量，保持深邃炭黑层次与高对比度文字的可读性。
 - 换字体：改 `base.css` 的 `@font-face` 与 `--sans` / `--dot` / `--mono`；Doto 只用于字标和数字，不要放进正文。
 - 换首页文案：改 `_config.marginalia.yml` 的 `landing` 与各页面 `heading_before` / `heading_em`；首页主按钮使用 `primary`。
 - 换菜单：改 `menu`；社交图标名称需在 `layout/_partial/icons.pug` 中存在。
 - 换友链：改 `source/_data/friends.yml`，`avatar` 可为空。
 - 改页脚：`_config.marginalia.yml` 的 `footer.since` / `footer.note`；请保留“不显示 Hexo 与主题版本”的原则。
 - 新增页面布局：在 `layout/` 中创建同名 `.pug`，并在 Markdown front matter 里指定 `layout`。
-- 不要加圆角、阴影或渐变；网格、1px 细线和单一紫色信号是这个主题的约束，不是可选项。
+- 保持卡片圆角（`--radius-*`）、细线边框（`--line` / `--border-glow`）和紫色信号的点到为止，避免过度炫光影响长文阅读沉浸感。
