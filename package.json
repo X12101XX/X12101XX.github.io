@@ -6,7 +6,10 @@
     "build": "hexo clean && hexo generate",
     "server": "hexo server",
     "clean": "hexo clean",
-    "test": "node --test test/*.test.cjs"
+    "test": "node --test test/*.test.cjs",
+    "new": "node scripts/typora-helper.cjs new",
+    "draft": "node scripts/typora-helper.cjs draft",
+    "typora:theme": "node scripts/typora-helper.cjs install-theme"
   },
   "keywords": [],
   "author": "X12101XX",

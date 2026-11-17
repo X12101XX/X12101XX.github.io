@@ -1,11 +1,16 @@
 extends _partial/base.pug
 include _partial/icons
 block content
-  - var posts = page.posts.toArray()
-  - var total = site.posts.length
+  - var rawPosts = page.posts ? page.posts.toArray() : []
+  - var posts = (typeof valid_posts === 'function' ? valid_posts(rawPosts) : rawPosts).filter(function (p) { return p && p.published !== false && p.title && String(p.title).trim(); })
+  - var rawSitePosts = site.posts && typeof site.posts.sort === 'function' ? site.posts.sort('-date') : site.posts
+  - var validSitePosts = (typeof valid_posts === 'function' ? valid_posts(rawSitePosts) : (rawSitePosts ? rawSitePosts.toArray() : [])).filter(function (p) { return p && p.published !== false && p.title && String(p.title).trim(); })
+  - var total = validSitePosts.length
   - var startIndex = (page.current - 1) * config.per_page
-  - var latest = site.posts.toArray()[0]
+  - var latest = validSitePosts[0]
   - var featured = page.current === 1
+  - var allCategories = site.categories ? site.categories.toArray().filter(function (c) { return c.length > 0; }).sort(function (a, b) { return b.length - a.length || a.name.localeCompare(b.name); }) : []
+  - var topTags = site.tags ? site.tags.toArray().filter(function (t) { return t.length > 0; }).sort(function (a, b) { return b.length - a.length || a.name.localeCompare(b.name); }).slice(0, 10) : []
   main#main.site-main.journal-page
     .shell
       header.page-head.journal-head
@@ -22,6 +27,24 @@ block content
           a.page-head-link(href=url_for('/archives/'))
             span Browse the archive
             +icon('arrow', 13)
+      if allCategories.length || topTags.length
+        section.journal-taxonomies(aria-label='Filter by topic')
+          if allCategories.length
+            .journal-tax-group
+              span.journal-tax-label.mono Categories
+              .journal-tax-list
+                each cat in allCategories
+                  a.chip.chip--solid(href=url_for(cat.path))
+                    span= cat.name
+                    span.chip-count= cat.length
+          if topTags.length
+            .journal-tax-group
+              span.journal-tax-label.mono Tags
+              .journal-tax-list
+                each tag in topTags
+                  a.chip(href=url_for(tag.path))
+                    span= tag.name
+                    span.chip-count= tag.length
       if posts.length
         include _partial/post-rows
         include _partial/pagination

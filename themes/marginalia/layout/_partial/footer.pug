@@ -7,8 +7,11 @@ footer.site-footer
     p.footer-copy © #{years} #{theme.author.name || config.author}
     p.footer-note= theme.footer.note || 'Notes in progress'
     nav.footer-links(aria-label='Footer')
+      a(href=url_for('/posts/')) Notes
+      a(href=url_for('/archives/')) Archive
+      a(href=url_for('/categories/')) Categories
+      a(href=url_for('/tags/')) Tags
       if theme.author && theme.author.github
         a(href=theme.author.github, target='_blank', rel='noopener noreferrer') GitHub
-      a(href=url_for('/posts/')) Notes
       a(href=url_for('/atom.xml')) RSS
       a(href='#top') Top ↑

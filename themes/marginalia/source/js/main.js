@@ -29,6 +29,23 @@
     }, 320);
   }
 
+  const copyText = async (text) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const area = doc.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    doc.body.appendChild(area);
+    area.select();
+    const ok = doc.execCommand('copy');
+    area.remove();
+    if (!ok) throw new Error('Copy failed');
+  };
+
   /* ---------------- mobile menu ---------------- */
 
   const menu = doc.getElementById('mobile-menu');
@@ -91,6 +108,75 @@
     updateHeader();
   }
 
+  /* ---------------- interactive 5x5 glyph ---------------- */
+
+  const glyphGrid = doc.querySelector('[data-glyph-grid]');
+  const glyphSwitch = doc.querySelector('[data-glyph-switch]');
+  if (glyphGrid) {
+    const cells = Array.from(glyphGrid.querySelectorAll('span'));
+    const patterns = [
+      {
+        label: '01',
+        name: 'X-cross',
+        on: [0, 4, 6, 8, 16, 18, 20, 24],
+        signal: [12]
+      },
+      {
+        label: '02',
+        name: 'Frame',
+        on: [0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24],
+        signal: [12]
+      },
+      {
+        label: '03',
+        name: 'Diamond',
+        on: [2, 6, 8, 10, 14, 16, 18, 22],
+        signal: [12]
+      },
+      {
+        label: '04',
+        name: 'Pulse',
+        on: [2, 6, 10, 11, 13, 14, 18, 22],
+        signal: [12]
+      }
+    ];
+    let patternIndex = 0;
+
+    const applyPattern = (index) => {
+      const pattern = patterns[index];
+      if (!pattern) return;
+      const onSet = new Set(pattern.on);
+      const signalSet = new Set(pattern.signal);
+      cells.forEach((cell, cellIndex) => {
+        cell.classList.toggle('is-signal', signalSet.has(cellIndex));
+        cell.classList.toggle('is-on', onSet.has(cellIndex));
+      });
+      if (glyphSwitch) {
+        glyphSwitch.textContent = pattern.label;
+        glyphSwitch.setAttribute('aria-label', `Switch matrix pattern (${pattern.name})`);
+      }
+    };
+
+    if (glyphSwitch) {
+      glyphSwitch.addEventListener('click', () => {
+        patternIndex = (patternIndex + 1) % patterns.length;
+        applyPattern(patternIndex);
+      });
+    }
+
+    cells.forEach((cell, cellIndex) => {
+      cell.addEventListener('click', () => {
+        if (cell.classList.contains('is-signal') || cell.classList.contains('is-on')) {
+          cell.classList.remove('is-signal', 'is-on');
+        } else if (cellIndex === 12) {
+          cell.classList.add('is-signal');
+        } else {
+          cell.classList.add('is-on');
+        }
+      });
+    });
+  }
+
   /* ---------------- search ---------------- */
 
   const overlay = doc.getElementById('search-overlay');
@@ -113,9 +199,15 @@
 
   const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+  const tokenizeQuery = (query) => Array.from(
+    new Set(String(query || '').trim().split(/\s+/).filter(Boolean))
+  );
+
   const plainText = (html) => String(html ?? '')
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<span class="katex-mathml">[\s\S]*?<\/span>/gi, ' ')
+    .replace(/<td class="gutter">[\s\S]*?<\/td>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/gi, ' ')
     .replace(/&amp;/gi, '&')
@@ -123,16 +215,29 @@
     .replace(/&gt;/gi, '>')
     .replace(/&quot;/gi, '"')
     .replace(/&#39;/gi, "'")
+    .replace(/&hellip;/gi, '…')
+    .replace(/&mdash;/gi, '—')
+    .replace(/&ndash;/gi, '–')
     .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
     .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
     .replace(/\s+/g, ' ')
     .trim();
 
   const markMatch = (value, query) => {
-    const safe = escapeHtml(value);
-    if (!query) return safe;
-    const pattern = new RegExp(`(${escapeRegExp(query)})`, 'gi');
-    return safe.replace(pattern, '<mark>$1</mark>');
+    const text = String(value ?? '');
+    const tokens = tokenizeQuery(query).sort((a, b) => b.length - a.length);
+    if (!tokens.length) return escapeHtml(text);
+    const pattern = new RegExp(`(${tokens.map(escapeRegExp).join('|')})`, 'gi');
+    let out = '';
+    let lastIndex = 0;
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      if (match.index > lastIndex) out += escapeHtml(text.slice(lastIndex, match.index));
+      out += `<mark>${escapeHtml(match[0])}</mark>`;
+      lastIndex = pattern.lastIndex;
+    }
+    if (lastIndex < text.length) out += escapeHtml(text.slice(lastIndex));
+    return out;
   };
 
   const parseIndex = (xmlText) => {
@@ -184,12 +289,17 @@
 
   const snippetFor = (entry, query) => {
     const text = entry.plain || '';
-    if (!query) return text.slice(0, 130);
+    const tokens = tokenizeQuery(query).map((t) => t.toLowerCase());
+    if (!tokens.length) return text.slice(0, 130);
     const lower = text.toLowerCase();
-    const index = lower.indexOf(query.toLowerCase());
-    if (index < 0) return text.slice(0, 130);
-    const start = Math.max(0, index - 52);
-    const end = Math.min(text.length, index + 110);
+    let bestIndex = -1;
+    for (const token of tokens) {
+      const idx = lower.indexOf(token);
+      if (idx >= 0 && (bestIndex < 0 || idx < bestIndex)) bestIndex = idx;
+    }
+    if (bestIndex < 0) return text.slice(0, 130);
+    const start = Math.max(0, bestIndex - 52);
+    const end = Math.min(text.length, bestIndex + 110);
     return `${start > 0 ? '…' : ''}${text.slice(start, end)}${end < text.length ? '…' : ''}`;
   };
 
@@ -211,15 +321,24 @@
       searchStatus.textContent = 'Recently filed';
     } else {
       const q = normalized.toLowerCase();
+      const tokens = tokenizeQuery(q);
       matches = searchEntries.map((entry) => {
         const title = entry.title.toLowerCase();
         const meta = itemMeta(entry).toLowerCase();
         const content = entry.plain.toLowerCase();
+        const allMatch = tokens.every((token) => (
+          title.includes(token) || meta.includes(token) || content.includes(token)
+        ));
+        if (!allMatch) return { entry, score: 0 };
+
         let score = 0;
         if (title === q) score += 30;
-        if (title.includes(q)) score += 12;
-        if (meta.includes(q)) score += 4;
-        if (content.includes(q)) score += 1;
+        if (title.includes(q)) score += 15;
+        tokens.forEach((token) => {
+          if (title.includes(token)) score += 12;
+          if (meta.includes(token)) score += 4;
+          if (content.includes(token)) score += 1;
+        });
         return { entry, score };
       })
         .filter((item) => item.score > 0)
@@ -243,6 +362,7 @@
       const item = doc.createElement('li');
       const link = doc.createElement('a');
       const date = itemDate(entry);
+      const meta = itemMeta(entry);
       link.className = 'search-result';
       link.href = entry.url;
       link.innerHTML = `
@@ -250,7 +370,7 @@
           <span class="search-result-title">${markMatch(entry.title, normalized)}</span>
           ${date ? `<span class="search-result-date">${escapeHtml(date)}</span>` : ''}
         </span>
-        ${itemMeta(entry) ? `<span class="search-result-meta">${escapeHtml(itemMeta(entry))}</span>` : ''}
+        ${meta ? `<span class="search-result-meta">${markMatch(meta, normalized)}</span>` : ''}
         <span class="search-result-snippet">${markMatch(snippetFor(entry, normalized), normalized)}</span>
       `;
       item.appendChild(link);
@@ -312,7 +432,310 @@
     });
   }
 
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(loadIndex, { timeout: 2600 });
+  } else {
+    setTimeout(loadIndex, 1600);
+  }
+
+  /* ---------------- code copy ---------------- */
+
+  const languageNames = {
+    bash: 'Shell',
+    sh: 'Shell',
+    shell: 'Shell',
+    c: 'C',
+    cpp: 'C++',
+    cxx: 'C++',
+    cc: 'C++',
+    h: 'C/C++ Header',
+    hpp: 'C++ Header',
+    cs: 'C#',
+    csharp: 'C#',
+    css: 'CSS',
+    diff: 'Diff',
+    go: 'Go',
+    haskell: 'Haskell',
+    hs: 'Haskell',
+    html: 'HTML',
+    ini: 'INI',
+    java: 'Java',
+    javascript: 'JavaScript',
+    js: 'JavaScript',
+    json: 'JSON',
+    kotlin: 'Kotlin',
+    latex: 'LaTeX',
+    lean: 'Lean 4',
+    lean4: 'Lean 4',
+    lua: 'Lua',
+    markdown: 'Markdown',
+    md: 'Markdown',
+    mermaid: 'Mermaid',
+    ml: 'OCaml',
+    nix: 'Nix',
+    ocaml: 'OCaml',
+    plain: 'Text',
+    plaintext: 'Text',
+    py: 'Python',
+    python: 'Python',
+    rs: 'Rust',
+    rust: 'Rust',
+    sql: 'SQL',
+    swift: 'Swift',
+    tex: 'TeX',
+    text: 'Text',
+    toml: 'TOML',
+    ts: 'TypeScript',
+    typescript: 'TypeScript',
+    txt: 'Text',
+    xml: 'XML',
+    yaml: 'YAML',
+    yml: 'YAML',
+    zig: 'Zig'
+  };
+
+  doc.querySelectorAll('.post-content figure.highlight, .markdown-body figure.highlight').forEach((figure) => {
+    const code = figure.querySelector('td.code pre') || figure.querySelector('pre');
+    if (!code) return;
+    const classes = Array.from(figure.classList).filter((name) => name !== 'highlight');
+    const languageClass = classes.find((name) => name !== 'plain') || (classes.includes('plain') ? 'plain' : '');
+    const language = languageNames[languageClass] || (languageClass ? languageClass.charAt(0).toUpperCase() + languageClass.slice(1) : 'Code');
+    const lineNodes = Array.from(code.querySelectorAll('.line'));
+    const rawCode = lineNodes.length
+      ? lineNodes.map((line) => line.textContent).join('\n')
+      : code.textContent.replace(/\n$/, '');
+    const lineCount = lineNodes.length || (rawCode ? rawCode.split('\n').length : 0);
+
+    const toolbar = doc.createElement('div');
+    const label = doc.createElement('span');
+    const button = doc.createElement('button');
+    toolbar.className = 'code-toolbar';
+    label.className = 'code-lang';
+    label.textContent = lineCount > 0
+      ? `${language} · ${lineCount} ${lineCount === 1 ? 'line' : 'lines'}`
+      : language;
+    button.type = 'button';
+    button.className = 'code-copy';
+    button.textContent = 'Copy';
+    button.setAttribute('aria-label', `Copy ${language} code`);
+    toolbar.append(label, button);
+    figure.insertBefore(toolbar, figure.firstChild);
+
+    button.addEventListener('click', async () => {
+      try {
+        await copyText(rawCode);
+        button.textContent = 'Copied';
+        button.classList.add('is-copied');
+        setTimeout(() => {
+          button.textContent = 'Copy';
+          button.classList.remove('is-copied');
+        }, 1600);
+      } catch (error) {
+        button.textContent = 'Press ⌘C';
+        setTimeout(() => { button.textContent = 'Copy'; }, 1600);
+      }
+    });
+  });
+
+  /* ---------------- inline [TOC] hydration ---------------- */
+
+  const buildTocFromHeadings = () => {
+    const headings = Array.from(doc.querySelectorAll('.post-content h2[id], .post-content h3[id], .markdown-body h2[id], .markdown-body h3[id]'));
+    if (!headings.length) return null;
+    const rootList = doc.createElement('ol');
+    rootList.className = 'toc';
+    let lastTopItem = null;
+    let lastChildList = null;
+
+    headings.forEach((heading) => {
+      const li = doc.createElement('li');
+      const level = heading.tagName === 'H3' ? 3 : 2;
+      li.className = `toc-item toc-level-${level}`;
+      const link = doc.createElement('a');
+      link.className = 'toc-link';
+      link.href = `#${encodeURIComponent(heading.id)}`;
+      const span = doc.createElement('span');
+      span.className = 'toc-text';
+      span.textContent = heading.textContent.trim();
+      link.appendChild(span);
+      li.appendChild(link);
+
+      if (level === 3 && lastTopItem) {
+        if (!lastChildList) {
+          lastChildList = doc.createElement('ol');
+          lastChildList.className = 'toc-child';
+          lastTopItem.appendChild(lastChildList);
+        }
+        lastChildList.appendChild(li);
+      } else {
+        rootList.appendChild(li);
+        lastTopItem = li;
+        lastChildList = null;
+      }
+    });
+    return rootList;
+  };
+
+  const inlineTocContainers = doc.querySelectorAll('.post-content [data-inline-toc], .markdown-body [data-inline-toc]');
+  if (inlineTocContainers.length) {
+    const sourceToc = doc.querySelector('.post-aside .toc') || doc.querySelector('.post-toc-mobile-body .toc');
+    const builtToc = sourceToc ? null : buildTocFromHeadings();
+    inlineTocContainers.forEach((container) => {
+      container.innerHTML = '';
+      const clone = sourceToc ? sourceToc.cloneNode(true) : (builtToc ? builtToc.cloneNode(true) : null);
+      if (!clone || !clone.children.length) return;
+      clone.querySelectorAll('.is-active').forEach((node) => node.classList.remove('is-active'));
+      container.appendChild(clone);
+    });
+  }
+
+  /* ---------------- heading anchors ---------------- */
+
+  doc.querySelectorAll('.post-content h2[id], .post-content h3[id], .post-content h4[id]').forEach((heading) => {
+    if (heading.querySelector('.heading-anchor')) return;
+    const anchor = doc.createElement('a');
+    anchor.className = 'heading-anchor';
+    anchor.href = `#${encodeURIComponent(heading.id)}`;
+    anchor.textContent = '#';
+    anchor.setAttribute('aria-label', 'Copy section link');
+    anchor.setAttribute('title', 'Copy link to section');
+    let resetTimer;
+    anchor.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const targetHref = anchor.getAttribute('href');
+      try {
+        history.replaceState(null, '', targetHref);
+      } catch (error) {}
+      const fullUrl = new URL(targetHref, window.location.href).href;
+      try {
+        await copyText(fullUrl);
+        anchor.textContent = '✓';
+        anchor.classList.add('is-copied');
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+          anchor.textContent = '#';
+          anchor.classList.remove('is-copied');
+        }, 1600);
+      } catch (error) {
+        window.location.hash = targetHref;
+      }
+    });
+    heading.appendChild(anchor);
+  });
+
+  /* ---------------- table wrapper ---------------- */
+
+  doc.querySelectorAll('.post-content > table, .markdown-body > table, .post-content .callout-body > table').forEach((table) => {
+    if (table.closest('figure.highlight')) return;
+    if (table.parentElement && table.parentElement.classList.contains('table-wrap')) return;
+    const wrap = doc.createElement('div');
+    wrap.className = 'table-wrap';
+    table.parentNode.insertBefore(wrap, table);
+    wrap.appendChild(table);
+  });
+
+  /* ---------------- image captions & lightbox ---------------- */
+
+  doc.querySelectorAll('.post-content p > img[alt]').forEach((img) => {
+    if (img.closest('figure')) return;
+    const alt = (img.getAttribute('alt') || '').trim();
+    if (!alt) return;
+    const parent = img.parentElement;
+    if (!parent || parent.tagName !== 'P') return;
+    const hasExtraContent = Array.from(parent.childNodes).some((node) => {
+      if (node === img) return false;
+      if (node.nodeType === Node.TEXT_NODE) return node.textContent.trim().length > 0;
+      if (node.nodeType === Node.ELEMENT_NODE) return node.tagName !== 'BR';
+      return false;
+    });
+    if (hasExtraContent) return;
+    if (img.nextElementSibling && img.nextElementSibling.classList.contains('img-caption')) return;
+    const caption = doc.createElement('span');
+    caption.className = 'img-caption mono';
+    caption.textContent = alt;
+    img.insertAdjacentElement('afterend', caption);
+  });
+
+  let lightboxEl = null;
+  let lightboxImg = null;
+  let lightboxCaption = null;
+  let lightboxCloseBtn = null;
+  let lightboxOpen = false;
+  let lightboxLastFocus = null;
+  let lightboxCloseTimer;
+
+  const ensureLightbox = () => {
+    if (lightboxEl) return;
+    lightboxEl = doc.createElement('div');
+    lightboxEl.className = 'image-lightbox';
+    lightboxEl.hidden = true;
+    lightboxEl.setAttribute('role', 'dialog');
+    lightboxEl.setAttribute('aria-modal', 'true');
+    lightboxEl.setAttribute('aria-label', 'Image preview');
+    lightboxEl.innerHTML = `
+      <div class="image-lightbox-backdrop" data-lightbox-close></div>
+      <figure class="image-lightbox-frame">
+        <button type="button" class="image-lightbox-close" data-lightbox-close aria-label="Close image preview">×</button>
+        <img class="image-lightbox-img" alt="">
+        <figcaption class="image-lightbox-caption mono"></figcaption>
+      </figure>
+    `;
+    doc.body.appendChild(lightboxEl);
+    lightboxImg = lightboxEl.querySelector('.image-lightbox-img');
+    lightboxCaption = lightboxEl.querySelector('.image-lightbox-caption');
+    lightboxCloseBtn = lightboxEl.querySelector('.image-lightbox-close');
+    lightboxEl.querySelectorAll('[data-lightbox-close]').forEach((node) => {
+      node.addEventListener('click', closeLightbox);
+    });
+  };
+
+  const openLightbox = (img) => {
+    const src = img.currentSrc || img.getAttribute('src');
+    if (!src) return;
+    ensureLightbox();
+    clearTimeout(lightboxCloseTimer);
+    lightboxLastFocus = doc.activeElement;
+    const alt = (img.getAttribute('alt') || '').trim();
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightboxCaption.textContent = alt;
+    lightboxEl.hidden = false;
+    lightboxOpen = true;
+    requestAnimationFrame(() => lightboxEl.classList.add('is-open'));
+    setTimeout(() => {
+      if (lightboxCloseBtn) lightboxCloseBtn.focus();
+    }, 30);
+  };
+
+  const closeLightbox = () => {
+    if (!lightboxEl || !lightboxOpen) return;
+    lightboxOpen = false;
+    lightboxEl.classList.remove('is-open');
+    lightboxCloseTimer = setTimeout(() => {
+      if (!lightboxOpen) {
+        lightboxEl.hidden = true;
+        if (lightboxImg) lightboxImg.removeAttribute('src');
+        if (lightboxLastFocus && typeof lightboxLastFocus.focus === 'function') lightboxLastFocus.focus();
+      }
+    }, 180);
+  };
+
+  doc.querySelectorAll('.post-content img').forEach((img) => {
+    if (img.closest('a')) return;
+    img.addEventListener('click', () => openLightbox(img));
+  });
+
+  /* ---------------- global keyboard shortcuts ---------------- */
+
   doc.addEventListener('keydown', (event) => {
+    if (lightboxOpen) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeLightbox();
+      }
+      return;
+    }
+
     const target = event.target;
     const editable = target && (
       target.tagName === 'INPUT' ||
@@ -355,134 +778,92 @@
     }
   });
 
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(loadIndex, { timeout: 2600 });
-  } else {
-    setTimeout(loadIndex, 1600);
-  }
-
-  /* ---------------- code copy ---------------- */
-
-  const languageNames = {
-    bash: 'Shell',
-    sh: 'Shell',
-    shell: 'Shell',
-    css: 'CSS',
-    html: 'HTML',
-    js: 'JavaScript',
-    javascript: 'JavaScript',
-    json: 'JSON',
-    md: 'Markdown',
-    markdown: 'Markdown',
-    lean: 'Lean 4',
-    lean4: 'Lean 4',
-    py: 'Python',
-    python: 'Python',
-    rs: 'Rust',
-    rust: 'Rust',
-    ts: 'TypeScript',
-    typescript: 'TypeScript',
-    xml: 'XML',
-    yaml: 'YAML',
-    yml: 'YAML',
-    plain: 'Text'
-  };
-
-  doc.querySelectorAll('.post-content figure.highlight, .markdown-body figure.highlight').forEach((figure) => {
-    const code = figure.querySelector('td.code pre') || figure.querySelector('pre');
-    if (!code) return;
-    const languageClass = Array.from(figure.classList).find((name) => !['highlight', 'plain'].includes(name));
-    const language = languageNames[languageClass] || (languageClass ? languageClass.charAt(0).toUpperCase() + languageClass.slice(1) : 'Code');
-    const toolbar = doc.createElement('div');
-    const label = doc.createElement('span');
-    const button = doc.createElement('button');
-    toolbar.className = 'code-toolbar';
-    label.className = 'code-lang';
-    label.textContent = language;
-    button.type = 'button';
-    button.className = 'code-copy';
-    button.textContent = 'Copy';
-    button.setAttribute('aria-label', `Copy ${language} code`);
-    toolbar.append(label, button);
-    figure.insertBefore(toolbar, figure.firstChild);
-
-    button.addEventListener('click', async () => {
-      const text = code.textContent.replace(/\n$/, '');
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(text);
-        } else {
-          const area = doc.createElement('textarea');
-          area.value = text;
-          area.setAttribute('readonly', '');
-          area.style.position = 'fixed';
-          area.style.opacity = '0';
-          doc.body.appendChild(area);
-          area.select();
-          doc.execCommand('copy');
-          area.remove();
-        }
-        button.textContent = 'Copied';
-        button.classList.add('is-copied');
-        setTimeout(() => {
-          button.textContent = 'Copy';
-          button.classList.remove('is-copied');
-        }, 1600);
-      } catch (error) {
-        button.textContent = 'Press ⌘C';
-        setTimeout(() => { button.textContent = 'Copy'; }, 1600);
-      }
-    });
-  });
-
-  /* ---------------- reading progress ---------------- */
+  /* ---------------- reading progress & TOC highlight ---------------- */
 
   const article = doc.querySelector('.post-content');
   const progress = doc.querySelector('.reading-progress');
-  if (article && progress) {
-    let ticking = false;
-    const updateProgress = () => {
+  const percentEl = doc.querySelector('[data-reading-percent]');
+  const aside = doc.querySelector('.post-aside');
+
+  const collectTocItems = (selector) => Array.from(doc.querySelectorAll(selector)).map((link) => {
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#')) return null;
+    const id = decodeURIComponent(href.slice(1));
+    const heading = doc.getElementById(id);
+    return heading ? { heading, link } : null;
+  }).filter(Boolean);
+
+  const asideTocItems = collectTocItems('.post-aside .toc a');
+  const mobileTocItems = collectTocItems('.post-toc-mobile-body .toc a');
+
+  const updateReadingState = () => {
+    if (article && (progress || percentEl)) {
       const top = article.getBoundingClientRect().top + window.scrollY;
       const distance = article.offsetHeight - window.innerHeight;
-      const fraction = distance <= 0 ? 1 : Math.max(0, Math.min(1, (window.scrollY - top) / distance));
-      progress.style.transform = `scaleX(${fraction})`;
-      ticking = false;
-    };
-    window.addEventListener('scroll', () => {
-      if (reducedMotion.matches) return;
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateProgress);
+      let fraction = distance <= 0 ? 1 : Math.max(0, Math.min(1, (window.scrollY - top) / distance));
+      if (window.scrollY + window.innerHeight >= doc.documentElement.scrollHeight - 2) {
+        fraction = 1;
       }
-    }, { passive: true });
-    window.addEventListener('resize', updateProgress, { passive: true });
-    updateProgress();
-  }
-
-  /* ---------------- table of contents ---------------- */
-
-  const tocLinks = Array.from(doc.querySelectorAll('.post-aside .toc a'));
-  if (tocLinks.length) {
-    const linkMap = new Map();
-    tocLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (!href || !href.startsWith('#')) return;
-      const id = decodeURIComponent(href.slice(1));
-      const heading = doc.getElementById(id);
-      if (heading) linkMap.set(heading, link);
-    });
-
-    if (linkMap.size && 'IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          tocLinks.forEach((link) => link.classList.remove('is-active'));
-          const active = linkMap.get(entry.target);
-          if (active) active.classList.add('is-active');
-        });
-      }, { rootMargin: '-12% 0px -72% 0px', threshold: 0 });
-      linkMap.forEach((link, heading) => observer.observe(heading));
+      if (progress && !reducedMotion.matches) {
+        progress.style.transform = `scaleX(${fraction})`;
+      }
+      if (percentEl) {
+        percentEl.textContent = `${String(Math.round(fraction * 100)).padStart(2, '0')}%`;
+      }
     }
+
+    if (asideTocItems.length || mobileTocItems.length) {
+      const items = asideTocItems.length ? asideTocItems : mobileTocItems;
+      const atBottom = window.scrollY + window.innerHeight >= doc.documentElement.scrollHeight - 4;
+      let activeIndex = 0;
+
+      if (atBottom) {
+        activeIndex = items.length - 1;
+      } else {
+        const threshold = 136;
+        for (let i = 0; i < items.length; i += 1) {
+          if (items[i].heading.getBoundingClientRect().top <= threshold) {
+            activeIndex = i;
+          } else {
+            break;
+          }
+        }
+      }
+
+      const activeHeading = items[activeIndex].heading;
+      [asideTocItems, mobileTocItems].forEach((group) => {
+        group.forEach(({ heading, link }) => {
+          link.classList.toggle('is-active', heading === activeHeading);
+        });
+      });
+
+      if (aside && aside.scrollHeight > aside.clientHeight && asideTocItems[activeIndex]) {
+        const activeLink = asideTocItems[activeIndex].link;
+        const linkTop = activeLink.offsetTop;
+        const linkBottom = linkTop + activeLink.offsetHeight;
+        if (linkTop < aside.scrollTop + 24) {
+          aside.scrollTop = Math.max(0, linkTop - 24);
+        } else if (linkBottom > aside.scrollTop + aside.clientHeight - 24) {
+          aside.scrollTop = linkBottom - aside.clientHeight + 24;
+        }
+      }
+    }
+  };
+
+  if ((article && (progress || percentEl)) || asideTocItems.length || mobileTocItems.length) {
+    let readingTicking = false;
+    const scheduleReadingUpdate = () => {
+      if (!readingTicking) {
+        readingTicking = true;
+        requestAnimationFrame(() => {
+          readingTicking = false;
+          updateReadingState();
+        });
+      }
+    };
+    window.addEventListener('scroll', scheduleReadingUpdate, { passive: true });
+    window.addEventListener('resize', scheduleReadingUpdate, { passive: true });
+    updateReadingState();
   }
 
   /* ---------------- friend avatars ---------------- */

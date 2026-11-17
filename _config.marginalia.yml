@@ -6,6 +6,10 @@ menu:
     path: /posts/
   - name: Archive
     path: /archives/
+  - name: Categories
+    path: /categories/
+  - name: Tags
+    path: /tags/
   - name: Friends
     path: /friends/
   - name: About

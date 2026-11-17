@@ -1,7 +1,10 @@
 extends _partial/base.pug
 include _partial/icons
 block content
-  - var posts = page.posts.toArray()
+  - var rawPosts = page.posts ? page.posts.toArray() : []
+  - var posts = (typeof valid_posts === 'function' ? valid_posts(rawPosts) : rawPosts).filter(function (post) { return post && post.published !== false && post.title && String(post.title).trim(); })
+  - var rawSitePosts = site.posts && typeof site.posts.sort === 'function' ? site.posts.sort('-date') : site.posts
+  - var totalCount = (typeof valid_posts === 'function' ? valid_posts(rawSitePosts) : (rawSitePosts ? rawSitePosts.toArray() : [])).filter(function (post) { return post && post.published !== false && post.title && String(post.title).trim(); }).length
   -
     var groups = [];
     posts.forEach(function (post) {
@@ -24,18 +27,23 @@ block content
           em= theme.archive.heading_em
         p.page-lede= theme.archive.lede
         .page-head-meta
-          span #{site.posts.length} #{site.posts.length === 1 ? 'note' : 'notes'}
+          span #{totalCount} #{totalCount === 1 ? 'note' : 'notes'}
           span Since #{theme.footer.since || 2026}
       if groups.length
         .archive
           each group in groups
             section.archive-year
-              h2.archive-year-label= group.year
+              .archive-year-head
+                h2.archive-year-label= group.year
+                span.archive-year-count.mono #{String(group.posts.length).padStart(2, '0')} #{group.posts.length === 1 ? 'note' : 'notes'}
               .archive-year-list
                 each post in group.posts
+                  - var postCats = post.categories ? post.categories.toArray() : []
                   a.archive-item(href=url_for(post.path))
                     time.archive-item-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM.DD')
                     span.archive-item-title= post.title
+                    if postCats.length
+                      span.archive-item-cat.mono= postCats[0].name
                     span.archive-item-read #{reading_time(post.content)} min
                     span.archive-item-arrow
                       +icon('arrow', 16)

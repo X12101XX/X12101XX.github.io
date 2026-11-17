@@ -5,6 +5,11 @@
     display: none;
   }
 
+  .post-toc-mobile {
+    display: block;
+    grid-column: 1 / span 8;
+  }
+
   .post-head,
   .post-content,
   .post-end {
@@ -37,6 +42,28 @@
 
   .home-title {
     font-size: clamp(52px, 8vw, 88px);
+  }
+
+  .home-index-inner {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-index a {
+    padding: 16px;
+    border-right: 1px solid var(--line);
+  }
+
+  .home-index a:nth-child(3n + 1) {
+    padding-left: 0;
+  }
+
+  .home-index a:nth-child(3n) {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .home-index a:nth-child(n + 4) {
+    border-top: 1px solid var(--line);
   }
 
   .category-card,
@@ -95,8 +122,10 @@
     grid-column: 1;
   }
 
-  .home-latest-date {
+  .home-latest-meta {
     grid-column: 2;
+    justify-content: flex-end;
+    flex-wrap: wrap;
   }
 
   .home-latest-title {
@@ -108,32 +137,24 @@
     display: none;
   }
 
-  .home-index-inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .home-recent-grid {
+    grid-template-columns: 1fr;
   }
 
-  .home-index a {
-    padding: 16px;
-    border-right: 1px solid var(--line);
-  }
-
-  .home-index a:nth-child(odd) {
-    padding-left: 0;
-  }
-
-  .home-index a:nth-child(even) {
-    padding-right: 0;
+  .home-recent-card {
     border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
-  .home-index a:nth-child(n + 3) {
-    border-top: 1px solid var(--line);
+  .home-recent-card:last-child {
+    border-bottom: 0;
   }
 
   .post-row {
     grid-template-columns: minmax(0, 1fr) 36px;
     gap: 16px;
-    padding: 24px 0;
+    margin-left: 0;
+    padding: 24px 0 24px 12px;
   }
 
   .post-row-side {
@@ -163,6 +184,7 @@
   }
 
   .post-head,
+  .post-toc-mobile,
   .post-content,
   .post-end {
     grid-column: 1;
@@ -214,12 +236,22 @@
     gap: 20px;
   }
 
+  .archive-year-head {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
   .archive-year-label {
     font-size: clamp(56px, 14vw, 96px);
   }
 
   .archive-item {
-    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .archive-item-date {
+    width: 48px;
   }
 
   .archive-item-read {
@@ -244,7 +276,8 @@
     justify-content: center;
   }
 
-  .search-trigger-label {
+  .search-trigger-label,
+  .search-kbd {
     display: none;
   }
 
@@ -302,8 +335,53 @@
     font-size: 16px;
   }
 
+  .home-recent {
+    padding: 32px 0 40px;
+  }
+
+  .home-recent-card {
+    padding: 18px;
+  }
+
+  .home-index-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .home-index a {
+    padding: 16px;
+    border-right: 1px solid var(--line);
     font-size: 13px;
+  }
+
+  .home-index a:nth-child(odd) {
+    padding-left: 0;
+    padding-right: 16px;
+    border-right: 1px solid var(--line);
+  }
+
+  .home-index a:nth-child(even) {
+    padding-left: 16px;
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .home-index a:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .journal-taxonomies {
+    padding: 16px 0;
+    gap: 10px;
+  }
+
+  .journal-tax-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .journal-tax-label {
+    min-width: 0;
   }
 
   .post-row-title {
@@ -357,7 +435,7 @@
   }
 
   .archive-item {
-    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 10px;
   }
 
   .archive-item-arrow {
@@ -408,11 +486,26 @@
 
   .footer-links {
     justify-self: start;
-    gap: 14px;
+    justify-content: flex-start;
+    gap: 8px 14px;
+  }
+
+  .image-lightbox {
+    padding: 12px;
+  }
+
+  .image-lightbox-frame {
+    max-width: 100%;
+    padding: 8px;
   }
 
   .search-bar input {
     font-size: 24px;
+  }
+
+  .search-foot {
+    margin-top: 24px;
+    gap: 8px 14px;
   }
 
   .search-result-title {

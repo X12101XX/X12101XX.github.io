@@ -17,6 +17,9 @@ block content
             if categories.length
               span.sep /
             time(datetime=date(page.date, 'YYYY-MM-DD'))= date(page.date, 'YYYY.MM.DD')
+            if typeof word_count === 'function'
+              span.sep /
+              span #{word_count(page.content)} chars
             span.sep /
             span #{reading_time(page.content)} min read
           h1.post-title= page.title
@@ -29,11 +32,18 @@ block content
               span Updated #{date(page.updated, 'YYYY.MM.DD')}
             else
               span Filed #{date(page.date, 'YYYY')}
+        if tocHtml
+          details.post-toc-mobile
+            summary.mono Contents / 目录
+            .post-toc-mobile-body!= tocHtml
         article.post-content.markdown-body!= page.content
         if tocHtml
           aside.post-aside(aria-label='On this page')
-            p.post-aside-label Contents
+            .post-aside-head
+              p.post-aside-label Contents
+              span.post-aside-progress.dot-num(data-reading-percent) 00%
             != tocHtml
+            a.post-aside-top.mono(href='#top') Top ↑
         footer.post-end
           .post-filed
             if categories.length

@@ -96,8 +96,8 @@ a {
   text-decoration: none;
 }
 
-em,
-i {
+.page-title em,
+.error-title em {
   font-style: normal;
 }
 
@@ -198,6 +198,12 @@ button {
   z-index: 50;
   background: var(--bg);
   border-bottom: 1px solid var(--line-soft);
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--line);
+  background: rgba(0, 0, 0, 0.94);
 }
 
 .header-inner {
@@ -292,6 +298,22 @@ button {
 .search-trigger:hover {
   background: var(--ink);
   border-color: var(--ink);
+  color: #000000;
+}
+
+.search-kbd {
+  display: inline-block;
+  padding: 2px 5px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1;
+  transition: border-color 0.15s var(--ease), color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.search-trigger:hover .search-kbd {
+  border-color: rgba(0, 0, 0, 0.4);
   color: #000000;
 }
 
@@ -640,8 +662,10 @@ button {
 
 .footer-links {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 18px;
+  justify-content: flex-end;
+  gap: 8px 18px;
   justify-self: end;
 }
 

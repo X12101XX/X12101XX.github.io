@@ -1,6 +1,7 @@
 include icons
+- var rowPosts = (typeof valid_posts === 'function' ? valid_posts(posts) : (posts || [])).filter(function (post) { return post && post.published !== false && post.title && String(post.title).trim(); })
 .post-list
-  each post, index in posts
+  each post, index in rowPosts
     - var tags = post.tags ? post.tags.toArray().slice(0, 2) : []
     - var categories = post.categories ? post.categories.toArray() : []
     - var number = String((startIndex || 0) + index + 1).padStart(2, '0')
@@ -19,7 +20,7 @@ include icons
           if categories.length
             span.post-row-category= categories[0].name
             span.dot ·
-          span #{reading_time(post.content)} min read
+          span #{typeof word_count === 'function' ? word_count(post.content) + ' chars · ' : ''}#{reading_time(post.content)} min read
           if tags.length
             span.dot ·
             each tag in tags

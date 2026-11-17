@@ -12,6 +12,13 @@
   border-bottom: 1px solid var(--line);
 }
 
+.archive-year-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
 .archive-year-label {
   margin: 0;
   color: var(--muted);
@@ -22,16 +29,22 @@
   line-height: 0.8;
 }
 
+.archive-year-count {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
 .archive-year-list {
   display: flex;
   flex-direction: column;
 }
 
 .archive-item {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) auto 20px;
-  gap: 16px;
+  display: flex;
   align-items: baseline;
+  gap: 16px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line-soft);
 }
@@ -41,6 +54,8 @@
 }
 
 .archive-item-date {
+  flex: none;
+  width: 56px;
   color: var(--faint);
   font-family: var(--mono);
   font-size: 10px;
@@ -48,6 +63,8 @@
 }
 
 .archive-item-title {
+  flex: 1 1 auto;
+  min-width: 0;
   color: var(--ink);
   font-size: 19px;
   font-weight: 500;
@@ -61,7 +78,19 @@
   text-underline-offset: 4px;
 }
 
+.archive-item-cat {
+  flex: none;
+  padding: 2px 6px;
+  border: 1px solid var(--line-soft);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .archive-item-read {
+  flex: none;
   color: var(--faint);
   font-family: var(--mono);
   font-size: 9.5px;
@@ -70,6 +99,8 @@
 }
 
 .archive-item-arrow {
+  flex: none;
+  width: 20px;
   color: var(--faint);
   transition: color 0.15s var(--ease);
 }
