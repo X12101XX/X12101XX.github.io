@@ -1,6 +1,6 @@
 /* =========================================================
-   X12101XX — Typora Companion Theme (Swiss International Style)
-   Matches https://x12101xx.github.io/ (Gallery Paper #F4F1EA).
+   X12101XX — Typora Companion Theme (Swiss × Windows 8 Metro)
+   Matches https://x12101xx.github.io/ (#FFFFFF / #000000 / #FF0000).
    Install with: npm run typora:theme
    Enable in Typora: Themes -> Marginalia
    ========================================================= */
@@ -10,62 +10,62 @@
 :root {
   color-scheme: light;
 
-  /* Gallery Paper & Vermilion signal palette (matches website light default) */
-  --bg: #F4F1EA;
-  --bg-elevated: #ECE8DF;
-  --surface: #EAE5DB;
-  --surface-2: #E2DDD2;
-  --ink: #111111;
-  --ink-2: #222220;
-  --muted: #57554F;
-  --faint: #85827A;
-  --line: rgba(17, 17, 17, 0.22);
-  --line-soft: rgba(17, 17, 17, 0.11);
-  --line-strong: #111111;
-  --accent: #E02B20;
+  /* Pure White, Pure Black, Blazing Signal Red (matches website default) */
+  --bg: #FFFFFF;
+  --bg-elevated: #F3F3F3;
+  --surface: #EAEAEA;
+  --surface-2: #DCDCDC;
+  --ink: #000000;
+  --ink-2: #111111;
+  --muted: #4D4D4D;
+  --faint: #7A7A7A;
+  --line: rgba(0, 0, 0, 0.24);
+  --line-soft: rgba(0, 0, 0, 0.12);
+  --line-strong: #000000;
+  --accent: #FF0000;
   --accent-ink: #FFFFFF;
-  --accent-soft: rgba(224, 43, 32, 0.09);
+  --accent-soft: rgba(255, 0, 0, 0.10);
 
   /* Callout semantic tones */
   --tip-color: #166534;
   --warn-color: #B45309;
-  --caution-color: #B91C1C;
+  --caution-color: #FF0000;
 
   /* Code surface & syntax palette */
-  --code-bg: #EBE6DC;
-  --code-ink: #1A1A18;
-  --code-kw: #C81E1E;
+  --code-bg: #F3F3F3;
+  --code-ink: #000000;
+  --code-kw: #D90000;
   --code-str: #0F5132;
-  --code-type: #1D4ED8;
-  --code-num: #9A3412;
-  --code-fn: #111111;
-  --code-cmt: #737068;
+  --code-type: #0044CC;
+  --code-num: #B45309;
+  --code-fn: #000000;
+  --code-cmt: #666666;
 
   /* Swiss typography stacks */
   --sans: 'Archivo', 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', sans-serif;
   --mono: 'IBM Plex Mono', 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
 
   /* Typora core variables */
-  --bg-color: #F4F1EA;
-  --text-color: #222220;
-  --md-char-color: #E02B20;
-  --meta-content-color: #57554F;
-  --select-text-bg-color: rgba(224, 43, 32, 0.18);
-  --select-text-font-color: #111111;
-  --primary-color: #E02B20;
-  --primary-btn-border-color: #111111;
+  --bg-color: #FFFFFF;
+  --text-color: #111111;
+  --md-char-color: #FF0000;
+  --meta-content-color: #4D4D4D;
+  --select-text-bg-color: rgba(255, 0, 0, 0.18);
+  --select-text-font-color: #000000;
+  --primary-color: #FF0000;
+  --primary-btn-border-color: #000000;
   --primary-btn-text-color: #FFFFFF;
-  --side-bar-bg-color: #ECE8DF;
-  --control-text-color: #222220;
-  --control-text-hover-color: #111111;
-  --window-border: 1px solid rgba(17, 17, 17, 0.22);
-  --active-file-bg-color: #E2DDD2;
-  --active-file-text-color: #111111;
-  --active-file-border-color: #E02B20;
-  --focus-ring-color: rgba(224, 43, 32, 0.3);
-  --item-hover-bg-color: #E2DDD2;
-  --item-hover-text-color: #111111;
-  --search-select-bg-color: #E02B20;
+  --side-bar-bg-color: #F3F3F3;
+  --control-text-color: #111111;
+  --control-text-hover-color: #000000;
+  --window-border: 1px solid rgba(0, 0, 0, 0.24);
+  --active-file-bg-color: #000000;
+  --active-file-text-color: #FFFFFF;
+  --active-file-border-color: #FF0000;
+  --focus-ring-color: rgba(255, 0, 0, 0.35);
+  --item-hover-bg-color: #EAEAEA;
+  --item-hover-text-color: #000000;
+  --search-select-bg-color: #FF0000;
   --search-select-text-color: #FFFFFF;
   --monospace: var(--mono);
   --mermaid-theme: default;
@@ -152,10 +152,12 @@ body {
 #write h2::before {
   content: counter(section, decimal-leading-zero);
   flex: none;
-  color: var(--accent);
+  padding: 3px 9px;
+  background: var(--accent);
+  color: #FFFFFF;
   font-family: var(--mono);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.08em;
 }
 
@@ -500,7 +502,7 @@ body {
 .CodeMirror-selected,
 .CodeMirror-focused .CodeMirror-selected,
 .cm-s-inner div.CodeMirror-selected {
-  background: rgba(224, 43, 32, 0.16);
+  background: rgba(255, 0, 0, 0.16);
 }
 
 /* CodeMirror syntax palette: Swiss Gallery Paper high-contrast tokens */
@@ -595,7 +597,7 @@ body {
   font-weight: 700;
   color: var(--accent);
   background: var(--accent-soft);
-  border: 1px solid rgba(224, 43, 32, 0.35);
+  border: 1px solid rgba(255, 0, 0, 0.45);
 }
 
 #write .md-footnote > a {

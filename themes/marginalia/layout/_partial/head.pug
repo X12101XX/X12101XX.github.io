@@ -12,7 +12,7 @@
 meta(charset='utf-8')
 meta(name='viewport', content='width=device-width, initial-scale=1')
 meta(name='color-scheme', content='light dark')
-meta(name='theme-color', content='#F4F1EA')
+meta(name='theme-color', content='#FFFFFF')
 title= docTitle
 meta(name='description', content=description)
 meta(name='author', content=theme.author.name || config.author)
@@ -42,8 +42,8 @@ meta(name='twitter:title', content=docTitle)
 meta(name='twitter:description', content=description)
 meta(name='twitter:image', content=shareImage)
 style.
-  html { background: #F4F1EA; color-scheme: light; }
-  html[data-theme='dark'] { background: #0E0E0D; color-scheme: dark; }
+  html { background: #FFFFFF; color-scheme: light; }
+  html[data-theme='dark'] { background: #000000; color-scheme: dark; }
 script.
   (function () {
     try {
@@ -51,7 +51,7 @@ script.
       var theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
       document.documentElement.dataset.theme = theme;
       var meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0E0E0D' : '#F4F1EA');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#000000' : '#FFFFFF');
     } catch (error) {}
     try {
       var key = 'page-transition';

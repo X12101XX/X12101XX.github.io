@@ -13,174 +13,174 @@ block content
   - var secondary = landing.secondary || { label: '关于作者', path: '/about/' }
   - var noteCount = String(validPosts.length).padStart(2, '0')
   - var topicCount = String((site.categories ? site.categories.length : 0) + (site.tags ? site.tags.length : 0)).padStart(2, '0')
-  - var allCats = site.categories ? site.categories.toArray().filter(function (c) { return c.length > 0; }).slice(0, 4) : []
-  - var allTags = site.tags ? site.tags.toArray().filter(function (t) { return t.length > 0; }).slice(0, 6) : []
   main#main.home
-    .shell
-      .swiss-issue-bar.mono
-        span ISSUE № #{since}
-        span.sep /
-        span ZÜRICH · SHANGHAI
-        span.sep /
-        span 12-COLUMN SWISS GRID
-        span.swiss-issue-right= landing.kicker || 'Type Systems · Modern C++ · Lean 4'
-        span.swiss-telemetry.mono(data-live-telemetry) XY 0.50, 0.50 · SCROLL 00%
-      section.home-hero
-        .home-copy
+    .metro-ticker.mono
+      span.metro-ticker-badge SWISS // METRO EDITION
+      span ISSUE № #{since}
+      span.sep /
+      span 12-COL POSTER SYSTEM
+      span.swiss-issue-right= landing.kicker || 'Type Systems · Modern C++ · Lean 4'
+      span.swiss-telemetry.mono(data-live-telemetry) XY 0.50, 0.50 · SCROLL 00%
+    section.metro-wall(aria-label='瑞士国际主义海报矩阵')
+      .metro-tile.tile--poster
+        .swiss-poster-bar.mono
+          .poster-mode-group(role='tablist', aria-label='几何构成动效模式')
+            button.poster-mode-btn.is-active(type='button', data-kinetic-mode='0', aria-pressed='true') 01 · 谐振环
+            button.poster-mode-btn(type='button', data-kinetic-mode='1', aria-pressed='false') 02 · 向量场
+            button.poster-mode-btn(type='button', data-kinetic-mode='2', aria-pressed='false') 03 · 超立方
+          .poster-bar-right
+            span.poster-coords(data-kinetic-coords) Φ 1.618
+            span.poster-fps(data-kinetic-telemetry) MODE 01 · 60 FPS
+        .swiss-poster-stage
+          canvas#swiss-kinetic-canvas(width='900', height='700', role='img', aria-label='瑞士国际主义交互式生成艺术画布')
+          svg.swiss-poster-svg.swiss-poster-fallback(viewBox='0 0 400 400', aria-hidden='true')
+            g(stroke='currentColor', stroke-opacity='0.14', stroke-width='1')
+              line(x1='80', y1='0', x2='80', y2='400')
+              line(x1='160', y1='0', x2='160', y2='400')
+              line(x1='240', y1='0', x2='240', y2='400')
+              line(x1='320', y1='0', x2='320', y2='400')
+              line(x1='0', y1='80', x2='400', y2='80')
+              line(x1='0', y1='160', x2='400', y2='160')
+              line(x1='0', y1='240', x2='400', y2='240')
+              line(x1='0', y1='320', x2='400', y2='320')
+            line(x1='247', y1='0', x2='247', y2='400', stroke='currentColor', stroke-opacity='0.45', stroke-width='1.5')
+            line(x1='0', y1='247', x2='400', y2='247', stroke='currentColor', stroke-opacity='0.45', stroke-width='1.5')
+            path(d='M 90 247 A 157 157 0 0 1 247 90', fill='none', stroke='currentColor', stroke-width='26')
+            path(d='M 140 247 A 107 107 0 0 1 247 140', fill='none', stroke='currentColor', stroke-width='12')
+            path(d='M 247 345 A 98 98 0 0 0 345 247', fill='none', stroke='currentColor', stroke-width='20')
+            circle(cx='138', cy='138', r='54', fill='var(--accent)')
+            rect(x='247', y='247', width='42', height='42', fill='currentColor')
+        .poster-overlay
           p.home-kicker.mono
             span.kicker-square(aria-hidden='true')
-            span(data-scramble) 00 // 个人技术与形式化笔记档案
+            span(data-scramble) 00 // SWISS KINETIC POSTER SYSTEM
           h1.home-title
             span.title-line-mask
-              span.title-line-inner(style='--line-i: 0')= landing.title_prefix || 'X12101XX 的'
+              span.title-line-inner(style='--line-i: 0')= landing.title_prefix || 'X12101XX'
             span.title-line-mask
-              span.title-line-inner.home-title-accent(style='--line-i: 1')= landing.title_gradient || '代码与思考笔记'
+              span.title-line-inner.home-title-sub(style='--line-i: 1') CODE & FORMALISM
+            span.title-line-mask
+              span.title-line-inner.home-title-accent(style='--line-i: 2')= landing.title_gradient || '代码与思考笔记'
           p.home-lede= config.description
           .home-actions
-            a.btn.btn--solid(href=url_for(primary.path))
+            a.btn.btn--red(href=url_for(primary.path))
               span= primary.label
               +icon('arrow-right', 16)
-            a.btn.btn--line(href=url_for(secondary.path))
+            a.btn.btn--solid(href=url_for(secondary.path))
               span= secondary.label
               +icon('arrow', 15)
-          if allCats.length || allTags.length
-            .home-quick-topics
-              each cat in allCats
-                a.topic-pill(href=url_for(cat.path))
-                  span.mono [分类]
-                  span= cat.name
-              each tag in allTags
-                a.topic-pill(href=url_for(tag.path))
-                  span # #{tag.name}
-          nav.home-socials(aria-label='外部链接')
-            each item in socials
-              - var isExternal = item.url && /^https?:\/\//i.test(item.url)
-              a(href=url_for(item.url), target=isExternal ? '_blank' : false, rel=isExternal ? 'noopener noreferrer' : false)
-                span= item.name
-                +icon('arrow', 13)
-        aside.home-poster-col
-          figure.swiss-poster
-            .swiss-poster-bar.mono
-              .poster-mode-group(role='tablist', aria-label='几何构成动效模式')
-                button.poster-mode-btn.is-active(type='button', data-kinetic-mode='0', aria-pressed='true') 01 · 谐振环
-                button.poster-mode-btn(type='button', data-kinetic-mode='1', aria-pressed='false') 02 · 向量场
-                button.poster-mode-btn(type='button', data-kinetic-mode='2', aria-pressed='false') 03 · 超立方
-              span.poster-coords(data-kinetic-coords) Φ 1.618
-            .swiss-poster-stage
-              canvas#swiss-kinetic-canvas(width='520', height='520', role='img', aria-label='瑞士国际主义交互式生成艺术画布')
-              svg.swiss-poster-svg.swiss-poster-fallback(viewBox='0 0 400 400', aria-hidden='true')
-                g(stroke='currentColor', stroke-opacity='0.14', stroke-width='1')
-                  line(x1='80', y1='0', x2='80', y2='400')
-                  line(x1='160', y1='0', x2='160', y2='400')
-                  line(x1='240', y1='0', x2='240', y2='400')
-                  line(x1='320', y1='0', x2='320', y2='400')
-                  line(x1='0', y1='80', x2='400', y2='80')
-                  line(x1='0', y1='160', x2='400', y2='160')
-                  line(x1='0', y1='240', x2='400', y2='240')
-                  line(x1='0', y1='320', x2='400', y2='320')
-                line(x1='247', y1='0', x2='247', y2='400', stroke='currentColor', stroke-opacity='0.38', stroke-width='1.5')
-                line(x1='0', y1='247', x2='400', y2='247', stroke='currentColor', stroke-opacity='0.38', stroke-width='1.5')
-                line(x1='36', y1='364', x2='364', y2='36', stroke='currentColor', stroke-opacity='0.28', stroke-width='1')
-                path(d='M 90 247 A 157 157 0 0 1 247 90', fill='none', stroke='currentColor', stroke-width='26')
-                path(d='M 140 247 A 107 107 0 0 1 247 140', fill='none', stroke='currentColor', stroke-width='12')
-                path(d='M 247 345 A 98 98 0 0 0 345 247', fill='none', stroke='currentColor', stroke-width='20')
-                circle(cx='138', cy='138', r='54', fill='var(--accent)')
-                rect(x='247', y='247', width='42', height='42', fill='currentColor')
-                circle(cx='247', cy='247', r='5', fill='var(--bg)')
-                text(x='16', y='28', fill='currentColor', font-family='IBM Plex Mono, monospace', font-size='12', font-weight='600') 01 // CONSTRUCT
-                text(x='260', y='28', fill='currentColor', font-family='IBM Plex Mono, monospace', font-size='12', opacity='0.72') Φ = 1.618
-                text(x='16', y='382', fill='currentColor', font-family='IBM Plex Mono, monospace', font-size='12', opacity='0.72') PROPORTION 1 : √2
-                text(x='312', y='382', fill='var(--accent)', font-family='IBM Plex Mono, monospace', font-size='12', font-weight='700') № #{since}
-            figcaption.swiss-poster-caption.mono
-              span FIG. 01 — INTERACTIVE CONSTRUCTIVISM (CLICK / DRAG)
-              span(data-kinetic-telemetry) MODE 01 · 60 FPS
-          .home-stats-grid
-            a.stat-card(href=url_for('/posts/'))
-              span.stat-num.mono(data-scramble) 01
-              strong.stat-value= noteCount
-              span.stat-label 篇文章
-            a.stat-card(href=url_for('/tags/'))
-              span.stat-num.mono(data-scramble) 02
-              strong.stat-value= topicCount
-              span.stat-label 主题节点
-            a.stat-card(href=url_for('/archives/'))
-              span.stat-num.mono(data-scramble) 03
-              strong.stat-value= latest ? date(latest.date, 'MM.DD') : '—'
-              span.stat-label 最近更新
-      .swiss-marquee(aria-hidden='true', data-swiss-marquee)
-        .swiss-marquee-track
-          span.swiss-marquee-group.mono DEPENDENT TYPES · Π(x:A) // CURRY–HOWARD ISOMORPHISM // MODERN C++ // LEAN 4 PROOFS // SWISS KINETIC GRID // NEUE GRAFIK CONSTRUCTIVISM //&nbsp;
-          span.swiss-marquee-group.mono DEPENDENT TYPES · Π(x:A) // CURRY–HOWARD ISOMORPHISM // MODERN C++ // LEAN 4 PROOFS // SWISS KINETIC GRID // NEUE GRAFIK CONSTRUCTIVISM //&nbsp;
-      if latest
-        section.home-latest(aria-label='精选最新文章')
-          a.home-latest-inner(href=url_for(latest.path))
-            .home-latest-aside
-              span.home-latest-tag.mono(data-scramble) ● 01 / FEATURED
-              span.home-latest-issue № 01
-            .home-latest-main
-              .home-latest-meta.mono
-                if latestCats.length
-                  span.home-latest-cat= latestCats[0].name
-                  span.sep /
-                time(datetime=date(latest.date, 'YYYY-MM-DD'))= date(latest.date, 'YYYY.MM.DD')
-                span.sep /
-                span #{reading_time(latest.content)} 分钟阅读
-              h2.home-latest-title= latest.title
-              if post_excerpt(latest, 150)
-                p.home-latest-excerpt= post_excerpt(latest, 150)
-            .home-latest-cta
-              span 阅读全文
-              +icon('arrow-right', 18)
+          if socials.length
+            nav.home-socials(aria-label='外部链接')
+              each item in socials
+                - var isExternal = item.url && /^https?:\/\//i.test(item.url)
+                a(href=url_for(item.url), target=isExternal ? '_blank' : false, rel=isExternal ? 'noopener noreferrer' : false)
+                  span= item.name
+                  +icon('arrow', 13)
+      a.metro-tile.tile--red(href=url_for(latest ? latest.path : '/posts/'))
+        .tile-top-row
+          span.tile-kicker.mono(data-scramble) 01 // FEATURED LIVE TILE
+          span.tile-giant-num.mono №01
+        .tile-bottom
+          if latestCats.length
+            span.tile-cat.mono= latestCats[0].name
+          h2.tile-featured-title= latest ? latest.title : '浏览全部文章'
+          if latest && post_excerpt(latest, 110)
+            p.tile-featured-excerpt= post_excerpt(latest, 110)
+          .tile-action-bar.mono
+            span READ ESSAY
+            +icon('arrow-right', 16)
+      a.metro-tile.tile--black(href=url_for('/posts/'))
+        span.tile-kicker.mono(data-scramble) 02 // ARCHIVE METRIC
+        .tile-metric-foot
+          strong.stat-value.mono= noteCount
+          span.stat-label PUBLISHED ESSAYS / 已发布文章
+      a.metro-tile.tile--ink-invert(href=url_for('/tags/'))
+        span.tile-kicker.mono(data-scramble) 03 // KNOWLEDGE NODES
+        .tile-metric-foot
+          strong.stat-value.mono= topicCount
+          span.stat-label CATEGORIES & TAGS / 分类与标签
+      button.metro-tile.tile--search(type='button', data-search-open, aria-label='全站即时检索')
+        span.tile-search-kbd.mono ⌘K
+        +icon('search', 24)
+        span.tile-search-label.mono FULL-SITE INDEX // 全站即时检索
+    .swiss-marquee(aria-hidden='true', data-swiss-marquee)
+      .swiss-marquee-track
+        span.swiss-marquee-group.mono DEPENDENT TYPES · Π(x:A) // CURRY–HOWARD ISOMORPHISM // MODERN C++ // LEAN 4 PROOFS // SWISS INTERNATIONAL STYLE // WINDOWS 8 METRO BLOCKS //&nbsp;
+        span.swiss-marquee-group.mono DEPENDENT TYPES · Π(x:A) // CURRY–HOWARD ISOMORPHISM // MODERN C++ // LEAN 4 PROOFS // SWISS INTERNATIONAL STYLE // WINDOWS 8 METRO BLOCKS //&nbsp;
+    .shell.metro-body
       if recentPosts.length
-        section.home-recent(aria-label='近期文章目录')
+        section.home-recent(aria-label='近期文章色块矩阵')
           .home-recent-head
             .home-recent-head-left
-              span.mono(data-scramble) 02 // INDEX OF ESSAYS
-              h2.home-recent-label 近期文章目录
+              span.metro-section-badge.mono(data-scramble) 02 // ESSAY MATRIX
+              h2.home-recent-label 近期文章色块矩阵
             a(href=url_for('/posts/'))
               span 浏览全部文章
               +icon('arrow-right', 15)
-          .home-recent-table
+          .metro-essay-grid
             each post, index in recentPosts
               - var postCats = post.categories ? post.categories.toArray() : []
               - var charText = typeof word_count === 'function' ? word_count(post.content) : ''
               - var rowNo = String(index + 1).padStart(2, '0')
-              a.home-recent-row(href=url_for(post.path))
-                span.recent-col-num.mono= rowNo
-                span.recent-col-meta.mono
+              - var accentVariant = ['red', 'black', 'white'][index % 3]
+              a.home-recent-row(href=url_for(post.path), class='tile-accent-' + accentVariant)
+                .recent-row-top
+                  span.recent-col-num.mono(data-scramble)= rowNo
+                  span.recent-col-arrow
+                    +icon('arrow', 18)
+                .recent-col-meta.mono
                   time(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY.MM.DD')
                   if postCats.length
                     span.recent-cat= postCats[0].name
                 .recent-col-main
                   h3.home-recent-title= post.title
-                  if post_excerpt(post, 125)
-                    p.home-recent-excerpt= post_excerpt(post, 125)
+                  if post_excerpt(post, 120)
+                    p.home-recent-excerpt= post_excerpt(post, 120)
                 span.recent-col-read.mono #{charText ? '约 ' + charText + ' 字 · ' : ''}#{reading_time(post.content)} MIN
-                span.recent-col-arrow
-                  +icon('arrow', 18)
-      nav.home-index(aria-label='全站目录导航')
+      nav.home-index(aria-label='Windows 8 Metro 导航色块')
+        .home-index-head
+          span.metro-section-badge.mono(data-scramble) 03 // START DIRECTORY
+          h2.home-recent-label 全站功能色块矩阵
         .home-index-inner
-          a.home-index-card(href=url_for('/posts/'))
-            span.home-index-num.mono(data-scramble) 01
-            span.home-index-name 文章列表
-            span.home-index-desc 全部笔记与长文
-          a.home-index-card(href=url_for('/archives/'))
-            span.home-index-num.mono(data-scramble) 02
-            span.home-index-name 时间归档
-            span.home-index-desc 按年份梳理时间线
-          a.home-index-card(href=url_for('/categories/'))
-            span.home-index-num.mono(data-scramble) 03
-            span.home-index-name 主题分类
-            span.home-index-desc 知识领域与专题
-          a.home-index-card(href=url_for('/tags/'))
-            span.home-index-num.mono(data-scramble) 04
-            span.home-index-name 标签索引
-            span.home-index-desc 细粒度关键词线索
-          a.home-index-card(href=url_for('/friends/'))
-            span.home-index-num.mono(data-scramble) 05
-            span.home-index-name 友情链接
-            span.home-index-desc 同样认真写作的小站
-          a.home-index-card(href=url_for('/about/'))
-            span.home-index-num.mono(data-scramble) 06
-            span.home-index-name 关于作者
-            span.home-index-desc 站点说明与写作初衷
+          a.home-index-card.home-index-card--red(href=url_for('/posts/'))
+            .home-index-top
+              span.home-index-num.mono(data-scramble) 01
+              +icon('arrow', 18)
+            .home-index-foot
+              span.home-index-name 文章列表
+              span.home-index-desc 全部笔记与长文
+          a.home-index-card.home-index-card--black(href=url_for('/archives/'))
+            .home-index-top
+              span.home-index-num.mono(data-scramble) 02
+              +icon('arrow', 18)
+            .home-index-foot
+              span.home-index-name 时间归档
+              span.home-index-desc 按年份梳理时间线
+          a.home-index-card.home-index-card--white(href=url_for('/categories/'))
+            .home-index-top
+              span.home-index-num.mono(data-scramble) 03
+              +icon('arrow', 18)
+            .home-index-foot
+              span.home-index-name 主题分类
+              span.home-index-desc 知识领域与专题
+          a.home-index-card.home-index-card--black(href=url_for('/tags/'))
+            .home-index-top
+              span.home-index-num.mono(data-scramble) 04
+              +icon('arrow', 18)
+            .home-index-foot
+              span.home-index-name 标签索引
+              span.home-index-desc 细粒度关键词线索
+          a.home-index-card.home-index-card--red(href=url_for('/friends/'))
+            .home-index-top
+              span.home-index-num.mono(data-scramble) 05
+              +icon('arrow', 18)
+            .home-index-foot
+              span.home-index-name 友情链接
+              span.home-index-desc 同样认真写作的小站
+          a.home-index-card.home-index-card--white(href=url_for('/about/'))
+            .home-index-top
+              span.home-index-num.mono(data-scramble) 06
+              +icon('arrow', 18)
+            .home-index-foot
+              span.home-index-name 关于作者
+              span.home-index-desc 站点说明与写作初衷

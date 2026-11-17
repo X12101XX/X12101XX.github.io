@@ -53,7 +53,7 @@
     const next = theme === 'dark' ? 'dark' : 'light';
     root.dataset.theme = next;
     if (themeMeta) {
-      themeMeta.setAttribute('content', next === 'dark' ? '#0E0E0D' : '#F4F1EA');
+      themeMeta.setAttribute('content', next === 'dark' ? '#000000' : '#FFFFFF');
     }
     doc.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
       btn.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
@@ -867,15 +867,16 @@
     } catch (error) {}
   });
 
-  /* ---------------- Swiss Kinetic Homepage Engine ---------------- */
+  /* ---------------- Swiss Kinetic & Site-Wide Ambient Poster Engine ---------------- */
 
   const kineticCanvas = doc.getElementById('swiss-kinetic-canvas');
+  const ambientCanvas = doc.getElementById('swiss-ambient-canvas');
   const marqueeRoot = doc.querySelector('[data-swiss-marquee]');
   const scrambleEls = doc.querySelectorAll('[data-scramble]');
   const liveTelemetryEl = doc.querySelector('[data-live-telemetry]');
   const finePointer = window.matchMedia('(pointer: fine)');
 
-  if (!reducedMotion.matches && (kineticCanvas || marqueeRoot || scrambleEls.length || liveTelemetryEl)) {
+  if (!reducedMotion.matches && (kineticCanvas || ambientCanvas || marqueeRoot || scrambleEls.length || liveTelemetryEl)) {
     /* 1. Formal-Symbol Glyph Decoder */
     const GLYPHS = 'ΠΣλ∀⊢≡0123456789/#';
     const triggerScramble = (el) => {
@@ -916,7 +917,7 @@
     if (scrambleEls.length) {
       scrambleEls.forEach((el) => {
         el.dataset.scrambleText = el.textContent;
-        const host = el.closest('.stat-card, .home-index-card, .home-latest-inner') || el;
+        const host = el.closest('.metro-tile, .home-recent-row, .home-index-card') || el;
         host.addEventListener('mouseenter', () => triggerScramble(el));
       });
 
@@ -1089,13 +1090,13 @@
 
         let paletteTheme = '';
         let palette = {
-          bg: '#ECE8DF',
-          ink: '#111111',
-          muted: '#57554F',
-          line: 'rgba(17, 17, 17, 0.22)',
-          lineSoft: 'rgba(17, 17, 17, 0.11)',
-          accent: '#E02B20',
-          inkSoft: 'rgba(17, 17, 17, 0.28)'
+          bg: '#FFFFFF',
+          ink: '#000000',
+          muted: '#4D4D4D',
+          line: 'rgba(0, 0, 0, 0.24)',
+          lineSoft: 'rgba(0, 0, 0, 0.12)',
+          accent: '#FF0000',
+          inkSoft: 'rgba(0, 0, 0, 0.28)'
         };
 
         const syncPalette = () => {
@@ -1105,13 +1106,13 @@
           const styles = getComputedStyle(root);
           const pick = (name, fallback) => styles.getPropertyValue(name).trim() || fallback;
           palette = {
-            bg: pick('--bg-elevated', current === 'dark' ? '#161614' : '#ECE8DF'),
-            ink: pick('--ink', current === 'dark' ? '#F2EFE9' : '#111111'),
-            muted: pick('--muted', current === 'dark' ? '#9E9A91' : '#57554F'),
-            line: pick('--line', current === 'dark' ? 'rgba(242, 239, 233, 0.2)' : 'rgba(17, 17, 17, 0.22)'),
-            lineSoft: pick('--line-soft', current === 'dark' ? 'rgba(242, 239, 233, 0.1)' : 'rgba(17, 17, 17, 0.11)'),
-            accent: pick('--accent', current === 'dark' ? '#FF3B30' : '#E02B20'),
-            inkSoft: current === 'dark' ? 'rgba(242, 239, 233, 0.3)' : 'rgba(17, 17, 17, 0.28)'
+            bg: pick('--bg', current === 'dark' ? '#000000' : '#FFFFFF'),
+            ink: pick('--ink', current === 'dark' ? '#FFFFFF' : '#000000'),
+            muted: pick('--muted', current === 'dark' ? '#A3A3A3' : '#4D4D4D'),
+            line: pick('--line', current === 'dark' ? 'rgba(255, 255, 255, 0.28)' : 'rgba(0, 0, 0, 0.24)'),
+            lineSoft: pick('--line-soft', current === 'dark' ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.12)'),
+            accent: pick('--accent', '#FF0000'),
+            inkSoft: current === 'dark' ? 'rgba(255, 255, 255, 0.32)' : 'rgba(0, 0, 0, 0.28)'
           };
         };
 
@@ -1481,6 +1482,112 @@
         }
 
         startCanvas();
+      }
+    }
+
+    /* 5. Site-Wide Ambient Swiss Constructivist Poster Canvas */
+    if (ambientCanvas) {
+      const actx = ambientCanvas.getContext('2d');
+      if (actx) {
+        let aw = window.innerWidth;
+        let ah = window.innerHeight;
+        let adpr = Math.min(window.devicePixelRatio || 1, 2);
+        let ax = 0.618;
+        let ay = 0.382;
+        let atx = 0.618;
+        let aty = 0.382;
+        let ambientRaf = 0;
+        const t0 = performance.now();
+
+        const resizeAmbient = () => {
+          aw = window.innerWidth;
+          ah = window.innerHeight;
+          adpr = Math.min(window.devicePixelRatio || 1, 2);
+          ambientCanvas.width = Math.round(aw * adpr);
+          ambientCanvas.height = Math.round(ah * adpr);
+        };
+
+        window.addEventListener('resize', resizeAmbient, { passive: true });
+        resizeAmbient();
+
+        if (finePointer.matches) {
+          window.addEventListener(
+            'pointermove',
+            (event) => {
+              atx = Math.min(1, Math.max(0, event.clientX / Math.max(1, aw)));
+              aty = Math.min(1, Math.max(0, event.clientY / Math.max(1, ah)));
+            },
+            { passive: true }
+          );
+        }
+
+        const drawAmbient = (now) => {
+          if (doc.hidden) {
+            ambientRaf = 0;
+            return;
+          }
+          const t = (now - t0) * 0.001;
+          const isDark = root.dataset.theme === 'dark';
+          const ink = isDark ? 'rgba(255, 255, 255, 0.32)' : 'rgba(0, 0, 0, 0.22)';
+          const soft = isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.10)';
+          const accent = '#FF0000';
+
+          const scrollRatio = window.scrollY / Math.max(1, doc.documentElement.scrollHeight - ah);
+          ax += ((finePointer.matches ? atx : 0.618 + Math.sin(t * 0.3) * 0.12) - ax) * 0.05;
+          ay += ((finePointer.matches ? aty : 0.382 + Math.cos(t * 0.25) * 0.12) - ay) * 0.05;
+
+          const size = Math.max(aw, ah);
+          const ox = aw * 0.86 + (ax - 0.5) * 44;
+          const oy = ah * 0.24 + (ay - 0.5) * 44 - scrollRatio * 90;
+
+          actx.setTransform(adpr, 0, 0, adpr, 0, 0);
+          actx.clearRect(0, 0, aw, ah);
+
+          /* Orthogonal Swiss golden crosshairs */
+          actx.strokeStyle = soft;
+          actx.lineWidth = 1;
+          actx.beginPath();
+          actx.moveTo(aw * ax, 0);
+          actx.lineTo(aw * ax, ah);
+          actx.moveTo(0, ah * ay);
+          actx.lineTo(aw, ah * ay);
+          actx.moveTo(0, ah);
+          actx.lineTo(aw, 0);
+          actx.stroke();
+
+          /* Oversized constructivist Müller-Brockmann arcs */
+          const spin = t * 0.18 + scrollRatio * Math.PI * 0.7;
+          actx.strokeStyle = ink;
+          actx.lineWidth = 24;
+          actx.beginPath();
+          actx.arc(ox, oy, size * 0.32, spin, spin + Math.PI * 0.68);
+          actx.stroke();
+
+          actx.lineWidth = 8;
+          actx.beginPath();
+          actx.arc(ox, oy, size * 0.23, -spin * 1.4, -spin * 1.4 + Math.PI * 0.85);
+          actx.stroke();
+
+          /* Orbiting red signal geometry */
+          const rx = ox + Math.cos(spin * 1.2) * size * 0.16;
+          const ry = oy + Math.sin(spin * 1.2) * size * 0.16;
+          actx.fillStyle = accent;
+          actx.beginPath();
+          actx.arc(rx, ry, Math.max(18, size * 0.025), 0, Math.PI * 2);
+          actx.fill();
+
+          ambientRaf = requestAnimationFrame(drawAmbient);
+        };
+
+        const startAmbient = () => {
+          if (!ambientRaf && !doc.hidden) ambientRaf = requestAnimationFrame(drawAmbient);
+        };
+
+        doc.addEventListener('visibilitychange', () => {
+          if (!doc.hidden) startAmbient();
+        });
+
+        startAmbient();
       }
     }
   }
