@@ -4,77 +4,83 @@ block content
   - var categories = page.categories ? page.categories.toArray() : []
   - var tags = page.tags ? page.tags.toArray() : []
   - var tocHtml = toc(page.content, { list_number: false, min_depth: theme.toc.min_depth, max_depth: theme.toc.max_depth })
+  - var charText = typeof word_count === 'function' ? word_count(page.content) : ''
   .reading-progress(aria-hidden='true')
   main#main.site-main.post-page
     .shell.post-shell
+      header.post-head
+        .post-spec-grid.mono
+          .post-spec-cell
+            span.post-spec-label 01 / 主题分类
+            span.post-spec-value
+              if categories.length
+                each category, index in categories
+                  a.post-kicker-link(href=url_for(category.path))= category.name
+                  if index < categories.length - 1
+                    span.sep  / 
+              else
+                | 未分类
+          .post-spec-cell
+            span.post-spec-label 02 / 发布日期
+            time.post-spec-value(datetime=date(page.date, 'YYYY-MM-DD'))= date(page.date, 'YYYY.MM.DD')
+          .post-spec-cell
+            span.post-spec-label 03 / 篇幅字数
+            span.post-spec-value #{charText ? '约 ' + charText + ' 字' : '—'}
+          .post-spec-cell
+            span.post-spec-label 04 / 阅读时长
+            span.post-spec-value #{reading_time(page.content)} 分钟
+        h1.post-title= page.title
+        if page.description
+          p.post-lede= page.description
+        .post-byline.mono
+          span AUTHOR // #{(theme.author && theme.author.name) || config.author}
+          span.byline-rule
+          if page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')
+            span UPDATED #{date(page.updated, 'YYYY.MM.DD')}
+          else
+            span FILED #{date(page.date, 'YYYY.MM.DD')}
       .post-frame
-        header.post-head
-          .post-kicker
-            a.post-kicker-home(href=url_for('/posts/')) 文章
-            span.sep /
-            each category, index in categories
-              a.post-kicker-link(href=url_for(category.path))= category.name
-              if index < categories.length - 1
-                span.sep /
-            if categories.length
-              span.sep /
-            time(datetime=date(page.date, 'YYYY-MM-DD'))= date(page.date, 'YYYY-MM-DD')
-            if typeof word_count === 'function'
-              span.sep /
-              span 约 #{word_count(page.content)} 字
-            span.sep /
-            span #{reading_time(page.content)} 分钟阅读
-          h1.post-title= page.title
-          if page.description
-            p.post-lede= page.description
-          .post-byline
-            span 作者：#{(theme.author && theme.author.name) || config.author}
-            span.byline-rule
-            if page.updated && date(page.updated, 'YYYY-MM-DD') !== date(page.date, 'YYYY-MM-DD')
-              span 更新于 #{date(page.updated, 'YYYY-MM-DD')}
-            else
-              span 发布于 #{date(page.date, 'YYYY-MM-DD')}
         if tocHtml
           details.post-toc-mobile
             summary
-              span 文章目录
+              span 00 // 文章目录
             .post-toc-mobile-body!= tocHtml
         article.post-content.markdown-body!= page.content
         if tocHtml
           aside.post-aside(aria-label='文章目录')
             .post-aside-head
-              p.post-aside-label 文章目录
-              span.post-aside-progress(data-reading-percent) 0%
+              p.post-aside-label.mono INDEX // 目录
+              span.post-aside-progress.mono(data-reading-percent) 0%
             != tocHtml
-            a.post-aside-top(href='#top') 返回顶部 ↑
+            a.post-aside-top.mono(href='#top') ↑ 返回顶部
         footer.post-end
           .post-filed
             if categories.length
               .post-filed-group
-                span.post-filed-label 所属分类
+                span.post-filed-label.mono 所属分类
                 each category in categories
                   a.chip.chip--solid(href=url_for(category.path))= category.name
             if tags.length
               .post-filed-group
-                span.post-filed-label 文章标签
+                span.post-filed-label.mono 文章标签
                 each tag in tags
                   a.chip(href=url_for(tag.path)) # #{tag.name}
           if page.prev || page.next
             nav.post-nav(aria-label='上下篇导航')
               if page.prev
-                a.post-nav-link.post-nav-link--prev.spotlight-card(href=url_for(page.prev.path))
-                  span.post-nav-label
-                    +icon('arrow-left', 12)
+                a.post-nav-link.post-nav-link--prev(href=url_for(page.prev.path))
+                  span.post-nav-label.mono
+                    +icon('arrow-left', 13)
                     span 上一篇
                   span.post-nav-title= page.prev.title
               else
                 span.post-nav-link.is-empty
               if page.next
-                a.post-nav-link.post-nav-link--next.spotlight-card(href=url_for(page.next.path))
-                  span.post-nav-label
+                a.post-nav-link.post-nav-link--next(href=url_for(page.next.path))
+                  span.post-nav-label.mono
                     span 下一篇
-                    +icon('arrow-right', 12)
+                    +icon('arrow-right', 13)
                   span.post-nav-title= page.next.title
           a.post-return(href=url_for('/posts/'))
-            +icon('arrow-left', 14)
-            span 返回文章列表
+            +icon('arrow-left', 15)
+            span 返回全部文章列表

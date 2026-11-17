@@ -19,10 +19,10 @@ block content
             p “写下来，是为了把一个问题真正想清楚。”
             cite — 写给自己的备忘
         aside.about-aside
-          .about-card.spotlight-card
+          .about-card
             img.about-avatar(src=url_for(theme.author.avatar || '/images/avatar.jpg'), alt=theme.author.name || config.author, width='240', height='240', loading='lazy')
             p.about-name= theme.author.name || config.author
-            p.about-role= config.subtitle || 'Code & Quiet Things'
+            p.about-role.mono= config.subtitle || 'Code & Quiet Things'
             .about-facts
               .about-fact
                 span.about-fact-label 建站年份
@@ -34,10 +34,10 @@ block content
                 span.about-fact-label 开源主页
                 a.about-fact-value(href=theme.author.github, target='_blank', rel='noopener noreferrer')
                   span GitHub
-                  +icon('arrow', 12)
+                  +icon('arrow', 13)
             a.about-card-link(href=url_for('/posts/'))
               span 阅读全部文章
-              +icon('arrow-right', 14)
-          .about-card.about-card--quiet.spotlight-card
-            p.about-card-kicker 站点说明
-            p 基于 Hexo 静态构建，本地支持 KaTeX 数学公式、Lean 4 高亮与 Typora 无缝写作。
+              +icon('arrow-right', 15)
+          .about-card.about-card--quiet
+            p.about-card-kicker.mono COLOPHON // 版式说明
+            p 采用瑞士国际主义网格系统（Swiss International Style），基于 Hexo 静态构建，本地支持 KaTeX 数学公式、Lean 4 高亮与 Typora 写作。

@@ -8,17 +8,17 @@ include icons
         - var mobileActive = is_active_nav(item.path, page.path)
         - var mobileIndex = String(index + 1).padStart(2, '0')
         a(href=url_for(item.path), class=mobileActive ? 'is-active' : '', data-menu-close)
-          span.mobile-nav-index= mobileIndex
+          span.mobile-nav-index.mono= mobileIndex
           span.mobile-nav-name= item.name
-          +icon('arrow', 16)
+          +icon('arrow', 18)
     .mobile-menu-foot
       .mobile-socials
         each item in socials
           a.social-link(href=url_for(item.url), aria-label=item.name, target=item.url.startsWith('http') ? '_blank' : false, rel=item.url.startsWith('http') ? 'noopener noreferrer' : false)
-            +icon(item.icon, 16)
-        button.social-link.theme-toggle(type='button', data-theme-toggle, aria-label='切换明暗主题')
-          +icon('sun', 16)
-          +icon('moon', 16)
-      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='搜索文章')
-        +icon('search', 14)
-        span 搜索文章
+            +icon(item.icon, 17)
+        button.social-link.theme-toggle(type='button', data-theme-toggle, aria-label='切换纸本与暗房配色')
+          +icon('moon', 17)
+          +icon('sun', 17)
+      button.search-trigger.search-trigger--mobile(type='button', data-search-open, data-menu-close, aria-label='检索文章')
+        +icon('search', 15)
+        span 检索文章

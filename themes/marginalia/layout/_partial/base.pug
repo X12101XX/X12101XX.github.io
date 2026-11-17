@@ -1,14 +1,11 @@
 - var layoutName = page.layout || (is_post() ? 'post' : (is_home() ? 'index' : (is_archive() ? 'archive' : (is_tag() ? 'tag' : (is_category() ? 'category' : 'page')))))
 - var assetVersion = date(new Date(), 'YYYYMMDDHHmmss')
 doctype html
-html(lang='zh-CN', data-theme='dark')
+html(lang='zh-CN', data-theme='light')
   head
     include head
   body(id='top', class='page-' + layoutName)
-    .ambient-canvas(aria-hidden='true')
-      .ambient-orb.ambient-orb--violet
-      .ambient-orb.ambient-orb--cyan
-      .ambient-grid
+    .swiss-grid-guide(aria-hidden='true')
     .page-veil(aria-hidden='true')
     a.skip-link(href='#main') 跳至正文
     include header

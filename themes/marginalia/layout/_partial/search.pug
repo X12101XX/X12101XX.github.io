@@ -3,19 +3,17 @@ include icons
   .search-backdrop(data-search-close)
   .search-panel(role='dialog', aria-modal='true', aria-labelledby='search-label')
     .search-head
-      p.search-kicker
-        +icon('sparkles', 14)
-        span 全站检索
+      p.search-kicker.mono INDEX // 全站检索
       button.search-close(type='button', data-search-close, aria-label='关闭搜索')
-        +icon('close', 16)
+        +icon('close', 18)
     .search-bar
-      +icon('search', 18)
-      label.sr-only(id='search-label') 搜索文章
-      input#search-input(type='search', placeholder='搜索文章标题、标签或正文...', autocomplete='off', spellcheck='false', aria-controls='search-results')
+      +icon('search', 20)
+      label.sr-only(id='search-label') 检索文章
+      input#search-input(type='search', placeholder='输入文章标题、标签或正文关键词...', autocomplete='off', spellcheck='false', aria-controls='search-results')
     .search-body
-      p.search-status(id='search-status') 输入关键词开始检索（支持空格分词）
+      p.search-status.mono(id='search-status') 输入关键词开始检索（支持空格多词匹配）
       ul.search-results(id='search-results')
-    .search-foot
+    .search-foot.mono
       span
         kbd ↑
         kbd ↓

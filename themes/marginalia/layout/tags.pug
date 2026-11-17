@@ -16,20 +16,20 @@ block content
           span 共 #{tags.length} 个标签
           a.page-head-link(href=url_for('/categories/'))
             span 浏览主题分类
-            +icon('arrow-right', 13)
+            +icon('arrow-right', 14)
       if tags.length
         .tag-cloud
           each tag in tags
-            a.tag-pill.spotlight-card(href=url_for(tag.path))
-              span.tag-pill-hash #
+            a.tag-pill(href=url_for(tag.path))
+              span.tag-pill-hash.mono #
               span.tag-pill-name= tag.name
-              span.tag-pill-count= tag.length
+              span.tag-pill-count.mono= String(tag.length).padStart(2, '0')
         .tags-foot
           p 每一个标签都是一条线索，顺着它可以串起不同的思考片段。
           a.journal-tail-link(href=url_for('/archives/'))
             span 查看完整时间线
-            +icon('arrow-right', 15)
+            +icon('arrow-right', 16)
       else
         .empty-state
           h2 暂无标签
-          p 随着文章增多，标签网络会自动长出来。
+          p 随着文章增多，标签索引会自动完善。

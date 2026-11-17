@@ -4,27 +4,29 @@ include icons
     - var tags = post.tags ? post.tags.toArray().slice(0, 3) : []
     - var categories = post.categories ? post.categories.toArray() : []
     - var charText = typeof word_count === 'function' ? word_count(post.content) : ''
-    article.post-row.spotlight-card
+    - var rowNumber = String((startIndex || 0) + index + 1).padStart(2, '0')
+    article.post-row
+      .post-row-side
+        span.post-row-number.mono= rowNumber
+        time.post-row-date.mono(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY.MM.DD')
       .post-row-body
         .post-row-top
           if featured && index === 0
-            span.post-row-flag 最新文章
-          time.post-row-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY-MM-DD')
+            span.post-row-flag ● 最新文章
           if categories.length
-            span.dot ·
             span.post-row-category= categories[0].name
+            span.dot /
           if charText
-            span.dot ·
             span 约 #{charText} 字
-          span.dot ·
+            span.dot /
           span #{reading_time(post.content)} 分钟阅读
         h2.post-row-title
           a(href=url_for(post.path))= post.title
-        if post_excerpt(post, 175)
-          p.post-row-excerpt= post_excerpt(post, 175)
+        if post_excerpt(post, 180)
+          p.post-row-excerpt= post_excerpt(post, 180)
         if tags.length
           .post-row-tags
             each tag in tags
               a.chip(href=url_for(tag.path)) # #{tag.name}
       a.post-row-arrow(href=url_for(post.path), aria-label='阅读 ' + post.title)
-        +icon('arrow', 18)
+        +icon('arrow', 20)

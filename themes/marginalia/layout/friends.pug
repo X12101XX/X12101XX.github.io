@@ -19,21 +19,22 @@ block content
           if theme.author.github
             a.page-head-link(href=theme.author.github, target='_blank', rel='noopener noreferrer')
               span 提交友链申请
-              +icon('arrow', 13)
+              +icon('arrow', 14)
       if friends.length
         .friends-grid
           each friend, index in friends
-            a.friend-card.spotlight-card(href=friend.url, target='_blank', rel='noopener noreferrer')
+            a.friend-card(href=friend.url, target='_blank', rel='noopener noreferrer')
               span.friend-avatar
                 if friend.avatar
-                  img(src=url_for(friend.avatar), alt='', loading='lazy', width='50', height='50', data-friend-avatar)
+                  img(src=url_for(friend.avatar), alt='', loading='lazy', width='56', height='56', data-friend-avatar)
                 span.friend-avatar-fallback= initials(friend.name)
               span.friend-body
                 span.friend-top
                   span.friend-name= friend.name
-                  +icon('arrow', 16)
-                span.friend-domain= domain_of(friend.url)
+                  +icon('arrow', 18)
+                span.friend-domain.mono= domain_of(friend.url)
                 span.friend-description= friend.description
+              span.friend-index.mono= String(index + 1).padStart(2, '0')
       else
         .empty-state
           h2 虚位以待
@@ -48,8 +49,8 @@ block content
           if theme.author.github
             a.btn.btn--solid(href=theme.author.github, target='_blank', rel='noopener noreferrer')
               span 前往 GitHub 联系
-              +icon('arrow', 15)
-        .friend-site-card.spotlight-card
+              +icon('arrow', 16)
+        .friend-site-card
           p.friend-site-kicker 本站信息
           dl.friend-site-facts
             div

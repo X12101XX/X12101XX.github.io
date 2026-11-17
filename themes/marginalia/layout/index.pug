@@ -25,15 +25,15 @@ block content
         .page-head-meta
           span 共 #{total} 篇文章
           if latest
-            span 最近更新 #{date(latest.date, 'YYYY-MM-DD')}
+            span 最近更新 #{date(latest.date, 'YYYY.MM.DD')}
           a.page-head-link(href=url_for('/archives/'))
             span 查看时间归档
-            +icon('arrow-right', 13)
+            +icon('arrow-right', 14)
       if allCategories.length || topTags.length
         section.journal-taxonomies(aria-label='主题与标签筛选')
           if allCategories.length
             .journal-tax-group
-              span.journal-tax-label 分类
+              span.journal-tax-label.mono 01 / 分类
               .journal-tax-list
                 each cat in allCategories
                   a.chip.chip--solid(href=url_for(cat.path))
@@ -41,7 +41,7 @@ block content
                     span.chip-count= cat.length
           if topTags.length
             .journal-tax-group
-              span.journal-tax-label 标签
+              span.journal-tax-label.mono 02 / 标签
               .journal-tax-list
                 each tag in topTags
                   a.chip(href=url_for(tag.path))
@@ -54,7 +54,7 @@ block content
           p.journal-tail-note 持续记录，不断打磨，每一篇笔记都源于一个真实的问题。
           a.journal-tail-link(href=url_for('/archives/'))
             span 浏览完整时间线
-            +icon('arrow-right', 15)
+            +icon('arrow-right', 16)
       else
         .empty-state
           h2 暂无文章

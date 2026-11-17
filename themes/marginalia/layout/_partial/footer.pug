@@ -5,7 +5,9 @@ include icons
 footer.site-footer
   .shell.footer-inner
     .footer-brand
+      span.footer-mark(aria-hidden='true')
       p.footer-copy © #{years} #{(theme.author && theme.author.name) || config.author}
+      span.footer-sep.mono /
       p.footer-note= (theme.footer && theme.footer.note) || '缓慢地写，诚实地写'
     nav.footer-links(aria-label='页脚导航')
       a(href=url_for('/posts/')) 文章
@@ -17,4 +19,4 @@ footer.site-footer
       if theme.author && theme.author.github
         a(href=theme.author.github, target='_blank', rel='noopener noreferrer') GitHub
       a(href=url_for('/atom.xml')) RSS
-      a(href='#top') 返回顶部 ↑
+      a.footer-top(href='#top') ↑ TOP

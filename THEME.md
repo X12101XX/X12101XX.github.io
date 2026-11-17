@@ -1,77 +1,40 @@
-# Marginalia
+# Marginalia — Swiss International Style Theme
 
-`themes/marginalia` 是为这个网站写的原创 Hexo 主题。现已全面重构为 **Aurora & Glassmorphism 现代技术博客设计**，参考 Linear / Vercel / Raycast 的视觉体验，提供炫酷而舒适的深浅双模式界面；配套的 Typora 编辑器主题 [`typora/marginalia.css`](typora/marginalia.css) 延续相同的星夜深色配色与排版风格。
+Custom Hexo theme crafted in **Swiss International Typographic Style** (Josef Müller-Brockmann / Neue Grafik inspired): exposed 12-column structural grid, zero border-radius, high-contrast Gallery Paper (`#F4F1EA`) default with a toggleable Darkroom (`#0E0E0D`) theme, Vermilion signal accents (`#E02B20` / `#FF3B30`), and large-scale typography.
 
-核心特性包括：极光环境光晕与微网格背景（`.ambient-canvas`）、鼠标跟随聚光灯微光卡片（`.spotlight-card`）、毛玻璃胶囊顶栏、支持一键切换的深邃星夜暗色（`#07080d`）与清爽纸感浅色（`#f8fafc`）双模式、交互式代码终端演示、macOS 风格代码块以及居中 Command-K 检索面板。
+## Layout & Aesthetics
 
-## 页面结构
+- **Default Light Mode (Gallery Paper)**: `#F4F1EA` background, `#111111` ink, `#E02B20` Vermilion signal, crisp `1px` / `2px` architectural grid rules.
+- **Toggleable Dark Mode (Darkroom Film)**: `#0E0E0D` background, `#F2EFE9` ink, `#FF3B30` signal (`localStorage['marginalia-theme']` `'light'` / `'dark'`).
+- **Typographic Scale**: `19px` global base font size, `20px` article body prose, `clamp(48px, 6.8vw, 92px)` landing display headline, `clamp(36px, 4.8vw, 60px)` article titles, `15.5px` monospace code blocks, `1.12em` KaTeX equations.
+- **Zero-Radius Discipline**: Strict `border-radius: 0` across every container, pill, badge, button, code frame, modal, and avatar.
 
-- **入口 `/`**：左栏展示动态发光胶囊、渐变主标题、简介、快速主题标签与动作按钮；右栏展示可切换 `DepTypes.lean` / `Template.cpp` 的交互式代码终端窗口与 3 张 Bento 统计卡片；下方依次为 `NEW` 脉冲精选大卡、`近期文章` 三列 Bento 矩阵与六格图标入口。
-- **文章 `/posts/`**：顶部分类与标签筛选栏（`.journal-taxonomies`），下方为带有鼠标聚光灯效果的现代文章卡片。
-- **文章 `/posts/:title/`**：清爽面包屑元信息（分类、日期、字数与阅读时长）、左栏舒适正文排版（`h2` 渐变竖条装饰、macOS 代码块、KaTeX 独立公式衬底、Callouts、高亮、脚注、行内 `[TOC]`、标题 `#` 复制锚点、横向滚动表格与灯箱预览）以及右栏粘性毛玻璃目录（含实时阅读百分比与 `返回顶部 ↑`）。
-- **归档 / 分类 / 标签 / 友链 / 关于 / 404**：纵向时间线归档、Bento 分类卡、标签胶囊云、友链卡片与互换信息卡、个人名片及渐变 404 页面。
+## Templates & Modular CSS
 
-## 文件结构
+| File | Responsibility |
+| --- | --- |
+| `themes/marginalia/layout/_partial/base.pug` | Page shell, 12-column grid guide overlay, skip link, footer, script entrypoint |
+| `themes/marginalia/layout/landing.pug` | Exhibition hero with Müller-Brockmann SVG poster, featured issue spread, recent index rows, 6-column directory |
+| `themes/marginalia/layout/index.pug` | Numbered article index with category/tag filter strips and pagination |
+| `themes/marginalia/layout/post.pug` | 4-cell spec grid header, 12-column article + sticky right outline, callouts, footnotes, lightbox |
+| `themes/marginalia/layout/archive.pug` | Year-grouped chronological archive rows |
+| `themes/marginalia/layout/categories.pug` | 2-column exposed cell category matrix |
+| `themes/marginalia/layout/tags.pug` | Architectural bordered tag pills with padded counts |
+| `themes/marginalia/layout/friends.pug` | 2-column independent blogroll matrix and site specification card |
+| `themes/marginalia/layout/about.pug` | 12-column biography layout and editorial colophon |
+| `themes/marginalia/source/css/base.css` | Design tokens, fonts, Swiss grid guide, masthead, buttons, footer |
+| `themes/marginalia/source/css/landing.css` | Home exhibition layout and 404 spread |
+| `themes/marginalia/source/css/article.css` | Post index rows, spec grid, editorial typography, KaTeX, code frames, highlight tokens, lightbox |
+| `themes/marginalia/source/css/pages.css` | Archives, categories, tags, friends, about |
+| `themes/marginalia/source/css/search.css` | Full-site search overlay dialog |
+| `themes/marginalia/source/css/responsive.css` | Breakpoints at `1100px`, `960px`, `820px`, `640px`, `380px` |
 
+## Companion Typora Theme
+
+`typora/marginalia.css` mirrors the website's Gallery Paper `#F4F1EA` surface, `20px` reading typography, numbered `#write h2::before` Swiss section counters, crisp `15.5px` CodeMirror blocks, GFM callouts (`.md-alert` / `.md-Alert`), tables, and KaTeX styling.
+
+Install directly into `~/.config/Typora/themes` via:
+
+```bash
+npm run typora:theme
 ```
-.
-├── .nojekyll                # 防止 GitHub Pages 误用 Jekyll 构建
-├── scripts/
-│   ├── markdown.js          # KaTeX / Lean 4、Typora 语法扩展、标题去重与路径改写
-│   └── typora-helper.cjs    # 新建文章/草稿与 Typora 主题安装 CLI
-├── scaffolds/
-│   ├── post.md              # 文章脚手架（含 typora-root-url 等字段）
-│   └── draft.md             # 草稿脚手架
-├── typora/
-│   └── marginalia.css       # 配套 Typora 现代星夜主题
-└── themes/marginalia/
-    ├── _config.yml          # 主题默认值
-    ├── layout/
-    │   ├── _partial/
-    │   │   ├── base.pug         # 页面外壳（含极光背景层）
-    │   │   ├── head.pug         # title、meta、主题防闪烁脚本与样式
-    │   │   ├── header.pug       # 悬浮毛玻璃胶囊导航、搜索按钮与主题切换
-    │   │   ├── mobile-menu.pug  # 移动端全屏菜单
-    │   │   ├── footer.pug       # 页脚
-    │   │   ├── icons.pug        # 内联 SVG 图标
-    │   │   ├── post-rows.pug    # 文章列表卡片
-    │   │   ├── pagination.pug
-    │   │   └── search.pug       # Command-K 居中检索面板
-    │   ├── landing.pug
-    │   ├── index.pug
-    │   ├── post.pug
-    │   ├── archive.pug
-    │   ├── categories.pug
-    │   ├── category.pug
-    │   ├── tags.pug
-    │   ├── tag.pug
-    │   ├── about.pug
-    │   ├── friends.pug
-    │   ├── page.pug
-    │   └── 404.pug
-    ├── scripts/helpers.js   # 阅读时间、字数统计、摘要、有效文章过滤、导航状态、域名、文字头像
-    └── source/
-        ├── css/             # base / landing / article / pages / search / responsive
-        ├── js/main.js       # 主题切换、鼠标聚光灯、终端切换、菜单、搜索、代码复制、进度、目录、锚点、灯箱
-        └── fonts/           # Archivo / IBM Plex Mono 与 OFL 许可证
-```
-
-站点级设置写在根目录的 `_config.marginalia.yml`，会覆盖主题 `_config.yml` 中的同名配置。
-
-## 设计变量
-
-颜色与变量集中在 `themes/marginalia/source/css/base.css` 的 `:root` 与 `html[data-theme='light']`：
-
-- **深色模式（默认）**：`--bg: #07080d`、`--surface: rgba(16, 19, 29, 0.78)`、`--accent: #8b5cf6`、`--accent-bright: #c084fc`、`--cyan: #38bdf8`。
-- **浅色模式**：`--bg: #f8fafc`、`--surface: rgba(255, 255, 255, 0.86)`、`--accent: #7c3aed`、`--cyan: #0284c7`。
-- **字体**：正文与标题使用自托管 `Archivo` 搭配系统中文黑体；代码与元数据使用 `IBM Plex Mono`。
-
-## 交互
-
-`themes/marginalia/source/js/main.js` 不依赖框架：
-
-- **明暗主题切换**：右上角按钮实时切换深色/浅色并持久化到 `localStorage`。
-- **鼠标聚光灯**：悬浮在 `.spotlight-card` 卡片上时，径向微光实时跟随指针移动。
-- **首页代码终端**：支持在 `DepTypes.lean` 与 `Template.cpp` 示例之间即时切换。
-- **Command-K 搜索**：点击搜索按钮、按 `/` 或 `Ctrl/Cmd + K` 打开居中搜索面板，支持多词分词、方向键选择与回车跳转。
-- **文章阅读辅助**：顶部渐变阅读进度条、侧边栏百分比与目录高亮、macOS 代码块复制、标题 `#` 锚点复制、宽表格横向滚动与图片毛玻璃灯箱。

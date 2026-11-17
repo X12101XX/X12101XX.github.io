@@ -16,30 +16,34 @@ block content
           span 共 #{categories.length} 个分类
           a.page-head-link(href=url_for('/tags/'))
             span 浏览所有标签
-            +icon('arrow-right', 13)
+            +icon('arrow-right', 14)
       .category-grid
-        each category in categories
-          section.category-card.spotlight-card
+        each category, index in categories
+          section.category-card
             header.category-card-head
-              h2.category-card-title
-                a(href=url_for(category.path))= category.name
-              span.category-card-count #{category.length} 篇
+              .category-card-title-wrap
+                span.category-card-num.mono= String(index + 1).padStart(2, '0')
+                h2.category-card-title
+                  a(href=url_for(category.path))= category.name
+              span.category-card-count.mono #{String(category.length).padStart(2, '0')} 篇
             ul.category-card-list
               each post in category.posts.toArray().slice(0, 4)
                 li
                   a(href=url_for(post.path))
-                    time(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY-MM-DD')
+                    time.mono(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'YYYY.MM.DD')
                     span= post.title
             a.category-card-link(href=url_for(category.path))
               span 查看全部文章
-              +icon('arrow-right', 14)
-        a.category-card.category-card--index.spotlight-card(href=url_for('/archives/'))
-          h2.category-card-title 全部时间归档
+              +icon('arrow-right', 15)
+        a.category-card.category-card--index(href=url_for('/archives/'))
+          .category-card-title-wrap
+            span.category-card-num.mono ∞
+            h2.category-card-title 全部时间归档
           p 按创作顺序回溯每一篇笔记与思考。
           span.category-card-link
             span 进入时间线
-            +icon('arrow-right', 14)
+            +icon('arrow-right', 15)
       if !categories.length
         .empty-state
           h2 暂无分类
-          p 文章积累后，这里会自动展示分类卡片。
+          p 文章积累后，这里会自动展示分类矩阵。

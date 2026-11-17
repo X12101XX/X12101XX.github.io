@@ -3,18 +3,18 @@ if page.total > 1
   nav.pagination(aria-label='分页导航')
     if page.prev
       a.pagination-step(href=url_for(page.prev_link))
-        +icon('arrow-left', 14)
+        +icon('arrow-left', 15)
         span 上一页
     else
       span.pagination-step.is-disabled
-        +icon('arrow-left', 14)
+        +icon('arrow-left', 15)
         span 上一页
-    p.pagination-count 第 #{page.current} 页 / 共 #{page.total} 页
+    p.pagination-count.mono PAGE #{String(page.current).padStart(2, '0')} / #{String(page.total).padStart(2, '0')}
     if page.next
       a.pagination-step(href=url_for(page.next_link))
         span 下一页
-        +icon('arrow-right', 14)
+        +icon('arrow-right', 15)
     else
       span.pagination-step.is-disabled
         span 下一页
-        +icon('arrow-right', 14)
+        +icon('arrow-right', 15)

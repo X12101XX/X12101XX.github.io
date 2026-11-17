@@ -1,9 +1,59 @@
-/* ---------- 1100 ---------- */
+/* =========================================================
+   Swiss Responsive Grid Breakpoints
+   ========================================================= */
 
 @media (max-width: 1100px) {
+  .site-nav a {
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-copy {
+    grid-column: 1 / -1;
+    padding: 36px 0 32px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .home-poster-col {
+    grid-column: 1 / -1;
+    padding: 28px 0;
+  }
+
+  .home-index-inner {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-index-card {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-spec-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .post-spec-cell:nth-child(1),
+  .post-spec-cell:nth-child(2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-spec-cell:nth-child(2n) {
+    border-right: 0;
+  }
+
   .post-frame {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .post-content,
+  .post-end {
+    grid-column: 1 / -1;
+    max-width: none;
   }
 
   .post-aside {
@@ -14,17 +64,28 @@
     display: block;
   }
 
-  .post-head,
-  .post-content,
-  .post-end {
-    max-width: 100%;
+  .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .about-main,
+  .about-aside {
+    grid-column: 1 / -1;
   }
 }
 
-/* ---------- 960 ---------- */
-
 @media (max-width: 960px) {
-  .site-nav {
+  .swiss-grid-guide {
+    background-size: calc(100% / 6) 100%;
+  }
+
+  .header-inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .site-nav,
+  .brand-sub {
     display: none;
   }
 
@@ -32,214 +93,259 @@
     display: grid;
   }
 
-  .header-inner {
-    grid-template-columns: 1fr auto;
-  }
-
-  .home-hero {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding-block: 44px 40px;
-  }
-
-  .home-recent-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .home-index-inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .friend-invite {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ---------- 820 ---------- */
-
-@media (max-width: 820px) {
   .home-latest-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding: 28px 0;
   }
 
-  .home-latest-cta {
-    grid-column: 1;
-    grid-row: auto;
-    justify-self: flex-start;
-    margin-top: 8px;
-  }
-
-  .home-recent-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .category-grid,
-  .friends-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .archive-year {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .archive-year-head {
+  .home-latest-aside {
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
+    padding-right: 0;
+    padding-bottom: 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
-  .archive-item-read {
-    display: none;
+  .home-recent-row {
+    grid-template-columns: 48px minmax(0, 1fr) 28px;
+    gap: 8px 14px;
+    padding: 22px 12px;
+  }
+
+  .recent-col-meta,
+  .recent-col-main,
+  .recent-col-read {
+    grid-column: 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .recent-col-arrow {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+
+  .journal-taxonomies {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .category-grid,
+  .friends-grid,
+  .friend-invite {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .friend-invite {
+    padding: 28px 24px;
+    gap: 24px;
   }
 }
 
-/* ---------- 640 ---------- */
-
-@media (max-width: 640px) {
-  :root {
-    --header: 58px;
-  }
-
-  .brand-badge,
-  .icon-btn {
-    display: none;
-  }
-
-  .search-trigger {
-    width: 36px;
-    padding: 0;
-    justify-content: center;
-  }
-
-  .search-trigger-label,
-  .search-kbd {
-    display: none;
-  }
-
-  .site-main {
-    padding: 32px 0 64px;
-  }
-
-  .page-head {
-    padding-bottom: 24px;
-  }
-
-  .page-head-link {
-    margin-left: 0;
-  }
-
-  .home-hero {
-    padding-block: 32px 36px;
-  }
-
-  .home-stats-grid {
-    gap: 8px;
-  }
-
-  .stat-card {
-    padding: 12px;
-  }
-
-  .stat-value {
-    font-size: 20px;
-  }
-
-  .home-index-inner {
-    grid-template-columns: 1fr;
-  }
-
-  .terminal-bar {
-    flex-wrap: wrap;
-    padding: 10px 12px;
-  }
-
-  .terminal-badge {
-    display: none;
-  }
-
+@media (max-width: 820px) {
   .post-row {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 20px;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    gap: 14px;
+    padding: 26px 0;
+  }
+
+  .post-row-side {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 16px;
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .post-row-body {
+    grid-column: 1;
   }
 
   .post-row-arrow {
-    display: none;
+    grid-column: 2;
+    align-self: start;
   }
 
   .post-nav {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .post-nav-link:first-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
   }
 
   .post-nav-link--next {
     text-align: left;
   }
 
-  .post-nav-link--next .post-nav-label {
-    justify-content: flex-start;
-  }
-
-  .archive-year-list {
-    padding-left: 14px;
-  }
-
-  .archive-dot {
-    left: -19px;
-  }
-
   .archive-item {
-    gap: 10px;
-    padding: 12px 14px;
+    grid-template-columns: 78px minmax(0, 1fr) 28px;
+    gap: 8px 14px;
+    padding: 18px 10px;
+  }
+
+  .archive-item-cat,
+  .archive-item-read {
+    grid-column: 2;
+    justify-self: start;
   }
 
   .archive-item-arrow {
+    grid-column: 3;
+    grid-row: 1 / span 3;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header: 62px;
+  }
+
+  body {
+    font-size: 17.5px;
+  }
+
+  .swiss-grid-guide {
+    background-size: calc(100% / 4) 100%;
+  }
+
+  .search-trigger-label,
+  .search-kbd,
+  .theme-toggle-text {
     display: none;
+  }
+
+  .search-trigger,
+  .theme-toggle {
+    padding: 0 16px;
+  }
+
+  .swiss-issue-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px 0;
+  }
+
+  .home-stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stat-card {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stat-card:last-child {
+    border-bottom: 0;
+  }
+
+  .home-index-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-recent-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-spec-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .post-spec-cell {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-spec-cell:last-child {
+    border-bottom: 0;
+  }
+
+  .post-content,
+  .markdown-body {
+    font-size: 18px;
+    line-height: 1.78;
+  }
+
+  .post-content pre {
+    padding: 18px 16px;
+    font-size: 14px;
+  }
+
+  .post-content .table-wrap table,
+  .markdown-body table {
+    font-size: 15px;
+  }
+
+  .category-card {
+    padding: 24px 20px;
+  }
+
+  .category-card-list a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .friend-card {
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: 14px;
+    padding: 22px 18px;
+  }
+
+  .friend-avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .friend-site-facts > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .search-overlay {
+    padding: 0;
+  }
+
+  .search-panel {
+    width: 100%;
+    max-height: 100dvh;
+    height: 100dvh;
+    border: 0;
+  }
+
+  #search-input {
+    font-size: 19px;
+  }
+
+  .search-result-top {
+    flex-direction: column;
+    gap: 4px;
   }
 
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .image-lightbox {
-    padding: 12px;
-  }
-
-  .image-lightbox-frame {
-    max-width: 100%;
-    padding: 10px;
-  }
-
-  .search-overlay {
-    padding: 16px 12px;
-  }
-
-  .search-panel {
-    padding: 16px;
-  }
-
-  .search-bar input {
-    font-size: 17px;
-  }
-
-  .mobile-nav-name {
-    font-size: 17px;
-  }
 }
 
-/* ---------- 380 ---------- */
-
 @media (max-width: 380px) {
-  .home-actions {
-    flex-direction: column;
-    align-items: stretch;
+  .brand-text {
+    font-size: 16px;
   }
 
-  .home-actions .btn {
-    width: 100%;
+  .home-title {
+    font-size: 38px;
+  }
+
+  .home-index-inner {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

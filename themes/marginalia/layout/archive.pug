@@ -35,19 +35,18 @@ block content
             section.archive-year
               .archive-year-head
                 h2.archive-year-label= group.year
-                span.archive-year-count #{group.posts.length} 篇
+                span.archive-year-count.mono #{String(group.posts.length).padStart(2, '0')} 篇
               .archive-year-list
                 each post in group.posts
                   - var postCats = post.categories ? post.categories.toArray() : []
-                  a.archive-item.spotlight-card(href=url_for(post.path))
-                    span.archive-dot(aria-hidden='true')
-                    time.archive-item-date(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM-DD')
+                  a.archive-item(href=url_for(post.path))
+                    time.archive-item-date.mono(datetime=date(post.date, 'YYYY-MM-DD'))= date(post.date, 'MM.DD')
                     span.archive-item-title= post.title
                     if postCats.length
                       span.archive-item-cat= postCats[0].name
-                    span.archive-item-read #{reading_time(post.content)} min
+                    span.archive-item-read.mono #{reading_time(post.content)} MIN
                     span.archive-item-arrow
-                      +icon('arrow', 15)
+                      +icon('arrow', 16)
         include _partial/pagination
       else
         .empty-state
