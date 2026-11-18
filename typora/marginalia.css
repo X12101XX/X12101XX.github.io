@@ -939,6 +939,18 @@ body.typora-export,
     page-break-after: avoid;
     break-inside: avoid;
     page-break-inside: avoid;
+    /* CJK serif ink overflows a tight line box; when a heading lands at the
+       top of a new page the overflow is clipped by the page edge. Keep the
+       glyphs inside the box with a roomier line-height and real padding
+       (margins are truncated at page breaks, padding is not). */
+    line-height: 1.6 !important;
+    padding-top: 0.45em !important;
+    overflow: visible !important;
+  }
+
+  #write p,
+  #write li {
+    padding-top: 0.08em;
   }
 
   #write h1,
@@ -951,12 +963,12 @@ body.typora-export,
 
   #write h2 {
     font-size: 19px !important;
-    margin: 22px 0 10px !important;
+    margin: 18px 0 8px !important;
   }
 
   #write h3 {
     font-size: 16px !important;
-    margin: 16px 0 6px !important;
+    margin: 12px 0 4px !important;
   }
 
   #write p,
