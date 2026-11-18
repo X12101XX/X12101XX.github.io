@@ -874,8 +874,14 @@ header,
 
 /* ---------- PDF export & print pagination ---------- */
 
+/* Only the side margins are set here. Typora (Linux/Windows) prints the content
+   with its own top/bottom margins (Preferences -> Export -> PDF, default 16mm)
+   and then stamps its header/footer pages — painted with the document
+   background — over those bands. A smaller CSS top/bottom margin would let
+   text flow into the bands, where it gets wiped (sliced headings at page tops). */
 @page {
-  margin: 14mm 12mm;
+  margin-left: 12mm;
+  margin-right: 12mm;
   background: #FFFFFF;
 }
 
